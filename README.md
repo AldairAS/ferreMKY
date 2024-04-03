@@ -1,3 +1,19 @@
+## Pasos trabajar con las incidencias; para crear la rama, bajar y ubicarse en la nueva rama, subir cambios a la rama y realizar el pull request
+
+ 1. Crear la rama en base a la incidencia seleccionada.
+    Dirigirse al Issue y crear la nueva rama en el apartado de Development (La rama debe crearse en base a la rama dev)
+ 3. Bajar la rama al repositorio local y ubicarse en ella.
+    Al crear la rama se mostraran los comandos que deben ejecutarse en tu terminal para poder trabajar en ella
+ 5. Subir los cambios a la rama.
+    Para subir los cambios a tu rama remota se debe hacer lo siguiente:
+    - git add .
+    - git commit -m "Comentario de la rama"
+    - git push origin NOMBRE-DE-LA-RAMA-CREADA
+ 7. Realizar el pull request.
+    - Dirigirse al apartado de pull request y crear un nuevo pull request
+    - Seleccionar como rama base a "dev" y como rama compara a "NOMBRE-DE-LA-RAMA-CREADA", dar un comentario sobre el pull request y esperar a la confirmación para el merging a la rama dev.
+    
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
