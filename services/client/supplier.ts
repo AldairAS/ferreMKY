@@ -20,6 +20,6 @@ export async function addSupplierClient(
   if (!data || errorMessage) {
     return { message: errorMessage ? errorMessage : "Ha ocurrido un error" };
   }
-  console.log("Proveedor Añadido");
+  console.log("Proveedor añadido");
   await revalidateSupplier();
 }

@@ -19,7 +19,7 @@ export default function AddSupplierForm() {
           type="text"
           id="contact"
           name="contact"
-          placeholder="contacto del proveedor"
+          placeholder="Contacto del proveedor"
         />
         <br />
         <input
