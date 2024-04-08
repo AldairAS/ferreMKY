@@ -1,3 +1,4 @@
+"use client";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -38,8 +39,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import FerreMYKLogo from "/public/icon.png";
+import { useRouter } from "next/navigation";
 
 export default function NavigationMenu() {
+  const router = useRouter();
+
   return (
     <div>
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
@@ -243,7 +247,12 @@ export default function NavigationMenu() {
               <DropdownMenuItem>Configuración</DropdownMenuItem>
               <DropdownMenuItem>Soporte</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-red-500 ">
+              <DropdownMenuItem
+                onClick={() => {
+                  router.push("/");
+                }}
+                className="text-red-500 "
+              >
                 <LogOut className="h-4 w-4 mr-1" />
                 Salir
               </DropdownMenuItem>
