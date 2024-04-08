@@ -36,16 +36,16 @@ export default function AddQuantityForm({
           type="text"
           id="pricePurchase"
           name="pricePurchase"
-          placeholder="Precio de compra"
+          placeholder="Ingrese el precio de costo por unidad al comprar el producto."
         />
         <br />
         <input
           type="text"
           id="quantity"
           name="quantity"
-          placeholder="Ingrese la cantidad adquirida"
+          placeholder="Ingrese la cantidad adquirida al proveedor."
         />
-        <button type="submit">Añadir nuevo tipo de producto</button>
+        <button type="submit">Añadir nueva cantidad de producto</button>
         <p>
           {formState?.errors && formState.errors.idProduct}
           {formState?.errors && formState.errors.idSupplier}

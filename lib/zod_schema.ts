@@ -55,8 +55,10 @@ export const FormProductSchema = z.object({
   storageCost: z.coerce
     .number({ invalid_type_error: "El costo de almacenamiento debe ser un número" })
     .gt(0, { message: "Por favor, ingrese un precio mayor a 0" }),
-  unit: z.coerce
-    .number({ invalid_type_error: "La unidad debe ser un número" }),
+  unit: z
+    .string()
+    .trim()
+    .min(1, {message: "La unidad del producto es requerida"}),
   quantity: z.coerce
     .number({ invalid_type_error: "La cantidad debe ser un número" })
     .int({message: "La cantidad debe ser un número entero"})

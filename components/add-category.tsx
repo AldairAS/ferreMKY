@@ -12,14 +12,14 @@ export default function AddCategoryForm() {
           type="text"
           id="name"
           name="name"
-          placeholder="Nombre de la nueva categoría"
+          placeholder="Ingrese el nombre de la nueva categoría."
         />
         <br />
         <input
           type="text"
           id="description"
           name="description"
-          placeholder="Descripción de la nueva categoría"
+          placeholder="Ingrese la descripción de la nueva categoría."
         />
         <button type="submit">Añadir nueva categoría</button>
         <p>

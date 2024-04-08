@@ -15,7 +15,7 @@ export async function addProduct(
   priceSale: number,
   storageCost: number,
   quantity: number,
-  unit: number
+  unit: string
 ) {
   const { data, error } = await supabase
     .from("product")

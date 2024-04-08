@@ -25,43 +25,43 @@ export default function AddProductForm({
           type="text"
           id="code"
           name="code"
-          placeholder="Código del nuevo producto"
+          placeholder="Ingrese el código del nuevo producto."
         />
         <br />
         <input
           type="text"
           id="description"
           name="description"
-          placeholder="Descripción del nuevo producto"
+          placeholder="Ingrese la descripción del nuevo producto."
         />
         <input
           type="text"
           id="priceSale"
           name="priceSale"
-          placeholder="Ingrese un precio de venta"
+          placeholder="Ingrese el precio de venta del producto."
         />
         <br />
         <input
           type="text"
           id="storageCost"
           name="storageCost"
-          placeholder="Ingrese un costo de almacenamiento"
+          placeholder="Ingrese el costo por almacenamiento del producto."
         />
         <br />
         <input
           type="text"
           id="unit"
           name="unit"
-          placeholder="Ingrese unidad"
+          placeholder="Ingrese la unidad del nuevo producto (metros, unidad, Kg, etc.)"
         />
         <br />
         <input
           type="text"
           id="quantity"
           name="quantity"
-          placeholder="Ingrese la cantidad"
+          placeholder="Ingrese la cantidad del nuevo producto."
         />
-        <button type="submit">Añadir nuevo tipo de producto</button>
+        <button type="submit">Añadir nuevo Producto</button>
         <p>
           {formState?.errors && formState.errors.idKind}
           {formState?.errors && formState.errors.code}

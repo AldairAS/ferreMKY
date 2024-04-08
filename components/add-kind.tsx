@@ -21,14 +21,14 @@ export default function AddKindForm({categories}:{categories: any | null}) {
           type="text"
           id="name"
           name="name"
-          placeholder="Nombre de la nueva categoría"
+          placeholder="Ingrese el nombre del nuevo tipo de producto."
         />
         <br />
         <input
           type="text"
           id="description"
           name="description"
-          placeholder="Descripción de la nueva categoría"
+          placeholder="Ingrese la descripción del nuevo tipo de producto."
         />
         <button type="submit">Añadir nuevo tipo de producto</button>
         <p>

@@ -35,7 +35,7 @@ export async function addProductClient(
     Number(priceSale),
     Number(storageCost),
     Number(quantity),
-    Number(unit)
+    unit
   );
   if (!data || errorMessage) {
     return { message: errorMessage ? errorMessage : "Ha ocurrido un error" };

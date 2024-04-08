@@ -12,21 +12,21 @@ export default function AddSupplierForm() {
           type="text"
           id="name"
           name="name"
-          placeholder="Nombre de la nueva categoría"
+          placeholder="Ingrese el nombre del proveedor."
         />
         <br />
         <input
           type="text"
           id="contact"
           name="contact"
-          placeholder="Contacto del proveedor"
+          placeholder="Ingrese el contacto del proveedor."
         />
         <br />
         <input
           type="text"
           id="description"
           name="description"
-          placeholder="Descripción de la nueva categoría"
+          placeholder="Ingrese una breve descripción del proveedor"
         />
         <button type="submit">Añadir nuevo proveedor</button>
         <p>
