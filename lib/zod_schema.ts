@@ -33,7 +33,7 @@ export const FormSupplierSchema = z.object({
   contact: z
     .string()
     .trim()
-    .min(1, { message: "El contacto del proveedor es requerido" }),
+    .min(6, { message: "El contacto del proveedor es requerido y como mínimo debe tener 6 dígitos (teléfono) o 9 dígitos (número de celular)." }),
   description: z
     .string()
     .trim()
