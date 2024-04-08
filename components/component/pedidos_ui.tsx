@@ -46,8 +46,8 @@ export function PedidosView() {
             <CardHeader className="pb-3">
               <CardTitle>Tus Pedidos</CardTitle>
               <CardDescription className="max-w-lg text-balance leading-relaxed">
-                La vista dinámica Panel de Control de Pedidos para una gestión
-                sin problemas y un análisis perspicaz.
+                Visualización de pedidos solicitados , utiliza los filtros para
+                su identifición rápida y accesible.
               </CardDescription>
             </CardHeader>
             <CardFooter>
@@ -65,7 +65,7 @@ export function PedidosView() {
               </div>
             </CardContent>
             <CardFooter>
-              <Progress aria-label="25% increase" value={25} />
+              <Progress aria-label="25% increase" value={30} />
             </CardFooter>
           </Card>
           <Card x-chunk="dashboard-05-chunk-2">
@@ -79,7 +79,7 @@ export function PedidosView() {
               </div>
             </CardContent>
             <CardFooter>
-              <Progress aria-label="12% increase" value={12} />
+              <Progress aria-label="12% increase" value={20} />
             </CardFooter>
           </Card>
         </div>
