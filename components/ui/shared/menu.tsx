@@ -24,9 +24,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useTheme } from "next-themes";
 import {
   HomeIcon,
+  LayoutDashboard,
+  Moon,
   LineChartIcon,
+  ListCollapse,
   LogOut,
   Package2Icon,
   PackageIcon,
@@ -34,15 +38,47 @@ import {
   SearchIcon,
   SettingsIcon,
   ShoppingCartIcon,
+  Sun,
   Users2Icon,
+  PcCase,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import FerreMYKLogo from "/public/icon.png";
-import { useRouter } from "next/navigation";
+
+const menuItems = [
+  {
+    icon: LayoutDashboard,
+    label: "Panel de Control",
+    href: "/",
+  },
+  {
+    icon: ShoppingCartIcon,
+    label: "Pedidos",
+    href: "/ferremyk/pedidos",
+  },
+  {
+    icon: PackageIcon,
+    label: "Inventario",
+    href: "/ferremyk/inventario",
+  },
+  {
+    icon: Users2Icon,
+    label: "Clientes",
+    href: "/ferremyk/clientes",
+  },
+  {
+    icon: LineChartIcon,
+    label: "Estadísticas",
+    href: "/ferremyk/estadisticas",
+  },
+];
 
 export default function NavigationMenu() {
   const router = useRouter();
+  const pathname = usePathname();
+  const { setTheme } = useTheme();
 
   return (
     <div>
@@ -59,83 +95,54 @@ export default function NavigationMenu() {
               />
               <span className="sr-only">Ferre MYK</span>
             </Link>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  href="#"
-                >
-                  <HomeIcon className="h-5 w-5" />
-                  <span className="sr-only">Panel de Control</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Panel de Control</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  href="/ferremyk/pedidos"
-                >
-                  <ShoppingCartIcon className="h-5 w-5" />
-                  <span className="sr-only">Pedidos</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Pedidos</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  href="/ferremyk/inventario"
-                >
-                  <PackageIcon className="h-5 w-5" />
-                  <span className="sr-only">Inventario</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Inventario</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  href="#"
-                >
-                  <Users2Icon className="h-5 w-5" />
-                  <span className="sr-only">Clientes</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Clientes</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  href="#"
-                >
-                  <LineChartIcon className="h-5 w-5" />
-                  <span className="sr-only">Estadísticas</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Estadísticas</TooltipContent>
-            </Tooltip>
+            {menuItems.map(({ icon: Icon, label, href }) => (
+              <Tooltip key={label}>
+                <TooltipTrigger asChild>
+                  <Link
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 ${
+                      pathname === href ? "bg-secondary" : ""
+                    }`}
+                    href={href}
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span className="sr-only">{label}</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">{label}</TooltipContent>
+              </Tooltip>
+            ))}
           </TooltipProvider>
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  href="#"
-                >
-                  <SettingsIcon className="h-5 w-5" />
-                  <span className="sr-only">Configuración</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Configuración</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div>
+                <SettingsIcon className="h-5 w-5" />
+                <span className="sr-only">Configuración</span>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="ml-5" align="center">
+              <DropdownMenuLabel>Apariencia</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                <Sun className="h-4 w-4 mr-1" />
+                Modo Claro
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                <Moon className="h-4 w-4 mr-1" />
+                Modo Oscuro
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                <PcCase className="h-4 w-4 mr-1" />
+                Modo del Sistema
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <ListCollapse className="h-4 w-4 mr-1" />
+                Collapsar
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
       </aside>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
