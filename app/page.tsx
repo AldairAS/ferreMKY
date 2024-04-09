@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import styles from './page.module.css'
-import DeleteItems from '@/components/DeleteItems'
 
 export default function Home() {
   return (
@@ -91,7 +90,6 @@ export default function Home() {
           </p>
         </a>
       </div>
-      <DeleteItems />
     </main>
   )
 }

@@ -11,12 +11,22 @@ export default function DeleteProduct() {
       alert('Por favor ingresa un ID de producto válido.');
       return;
     }
+    //Mensaje de confirmación
+    if (!confirm('Al eliminar el producto se eliminará también el product_supplier asociado. ¿Estás seguro de que deseas continuar')) {
+      return;
+    }
+
     try {
-        //Llama a la funcion deleteProduct para eliminar el producto
-      await deleteProduct(productId);
-      alert('Producto eliminado exitosamente.');
+      // Intenta eliminar el producto
+      const { error } = await deleteProduct(productId);
+
+      if (error) {
+        alert(`Error al eliminar el producto: ${error.message}`);
+      } else {
+        alert('Producto y product_supplier eliminados exitosamente.');
+      }
     } catch (error) {
-        //Manejo de errores
+      // Manejo de errores
       alert('Error al eliminar el producto. Por favor revisa la consola para más detalles.');
       console.error('Error al eliminar el producto:', error);
     }
