@@ -11,7 +11,9 @@ export async function deleteCategory(id : string) {
 
     if (error) {
         console.log('Error:', error.message);
+        return { error }
     } else {
         console.log('Categoria eliminada');
+        return { error: null }
     }
 }

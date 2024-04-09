@@ -2,16 +2,32 @@
 
 import { supabase } from "@/config/supabase";
 
-//funcion para eliminar proveedores de la tabla (supplier)
+//funcion para eliminar productos de la tabla (product)
 export async function deleteSupplier(id : string) {
-    const { error } = await supabase
+    //Elimina el registro relacionado con product_supplier
+    const { error: errorSupplier } = await supabase
+        .from('product_supplier')
+        .delete()
+        .eq('id_supplier', id);
+        
+    //Manejo de errores
+    if (errorSupplier) {
+        console.log('Error:', errorSupplier.message);
+        return { error: errorSupplier }
+    } 
+    //Eliminar el producto
+    const { error: errorProduct } = await supabase
         .from('supplier')
         .delete()
         .eq('id', id);
-
-    if (error) {
-        console.log('Error:', error.message);
-    } else {
-        console.log('Proveedor eliminado');
+    
+    //Manejo de errores
+    if (errorProduct) {
+        console.log('Error al eliminar el producto:', errorProduct.message);
+        return { error: errorProduct }
+    }else{
+        console.log('Producto eliminado exitosamente.');
+        return { error: null }
     }
+    
 }

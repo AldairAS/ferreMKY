@@ -11,7 +11,9 @@ export async function deleteTypeOfProduct(id : string) {
 
     if (error) {
         console.log('Error:', error.message);
+        return { error }
     } else {
         console.log('Tipo de producto eliminado');
+        return { error: null }
     }
 }
