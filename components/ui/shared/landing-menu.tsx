@@ -50,7 +50,7 @@ export default function LandingMenu() {
               />
               <span className="font-bold text-2xl mt-2">MYK Corp</span>
             </div>
-            <hr className="mb-6 mt-3 border-gray-200" />
+            <hr className="mb-4 mt-1 dark:border-gray-800 border-gray-200" />
             <nav className="grid gap-6 text-lg font-medium mt-10">
               {navigation.map((item) => (
                 <Link
@@ -62,7 +62,7 @@ export default function LandingMenu() {
                 </Link>
               ))}
             </nav>
-
+            <hr className="my-10 dark:border-gray-800 border-gray-200" />
             <div className="pt-5">
               <Link
                 href="/login"

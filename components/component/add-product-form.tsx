@@ -1,8 +1,12 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { addProductSchema } from "@/schemas";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,21 +18,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { addProductSchema } from "@/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import React from "react";
-import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
+import { Switch } from "../ui/switch";
+import { X, XCircle } from "lucide-react";
 
 export default function AddProductForm({
   formTrigger,
@@ -50,8 +48,11 @@ export default function AddProductForm({
       <AlertDialogTrigger>{formTrigger}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-2xl">
-            Agregar Producto
+          <AlertDialogTitle className="text-2xl flex justify-between items-center">
+            Agregar Producto{" "}
+            <AlertDialogCancel>
+              <X className="h-5 w-5" />
+            </AlertDialogCancel>
           </AlertDialogTitle>
         </AlertDialogHeader>
         <Form {...form}>

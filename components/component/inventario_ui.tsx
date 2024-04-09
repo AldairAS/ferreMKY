@@ -126,7 +126,7 @@ export function InventarioView() {
                         />
                       </TableCell>
                       <TableCell className="font-medium">
-                        {producto.nombre}
+                        {producto.nombre.slice(0, 8)}
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline">{producto.estado}</Badge>

@@ -2,6 +2,12 @@ import { Button } from "@/components/ui/button";
 import LandingLayout from "@/components/ui/shared/landing-layout";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
+import { Kalam } from "next/font/google";
+const kalam = Kalam({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  preload: false,
+});
 
 export default function LnadingView() {
   return (
@@ -18,7 +24,8 @@ export default function LnadingView() {
         </div>
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-            Software para el manejo de tu PYME
+            Software para el manejo de tu{" "}
+            <i className={kalam.className}>PYME</i>
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             MKY Corp es un sistema semi ERP para control de gestion de tiendas,

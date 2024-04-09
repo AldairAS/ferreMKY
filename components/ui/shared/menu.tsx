@@ -51,7 +51,7 @@ const menuItems = [
   {
     icon: LayoutDashboard,
     label: "Panel de Control",
-    href: "/",
+    href: "/ferremyk",
   },
   {
     icon: ShoppingCartIcon,
@@ -87,7 +87,7 @@ export default function NavigationMenu() {
           <TooltipProvider>
             <Link href="/ferremyk">
               <Image
-                className="transition-all group-hover:scale-110 rounded-lg"
+                className="transition-all group-hover:scale-110 rounded-sm"
                 src={FerreMYKLogo}
                 alt="FerreMYK"
                 height={60}
@@ -100,7 +100,9 @@ export default function NavigationMenu() {
                 <TooltipTrigger asChild>
                   <Link
                     className={`flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 ${
-                      pathname === href ? "bg-secondary" : ""
+                      pathname === href
+                        ? "bg-accent-foreground dark:hover:text-black dark:text-black text-white rounded-sm hover:text-white"
+                        : ""
                     }`}
                     href={href}
                   >
@@ -115,14 +117,14 @@ export default function NavigationMenu() {
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div>
+            <DropdownMenuTrigger className="px-2.5" asChild>
+              <Button variant="ghost">
                 <SettingsIcon className="h-5 w-5" />
                 <span className="sr-only">Configuración</span>
-              </div>
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="ml-5" align="center">
-              <DropdownMenuLabel>Apariencia</DropdownMenuLabel>
+              <DropdownMenuLabel>Preferencias</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setTheme("light")}>
                 <Sun className="h-4 w-4 mr-1" />
@@ -140,7 +142,6 @@ export default function NavigationMenu() {
                 <ListCollapse className="h-4 w-4 mr-1" />
                 Collapsar
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
             </DropdownMenuContent>
           </DropdownMenu>
         </nav>
@@ -156,48 +157,66 @@ export default function NavigationMenu() {
             </SheetTrigger>
             <SheetContent className="sm:max-w-xs" side="left">
               <nav className="grid gap-6 text-lg font-medium">
-                <Link
-                  className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
-                  href="#"
-                >
-                  <Package2Icon className="h-5 w-5 transition-all group-hover:scale-110" />
-                  <span className="sr-only">Acme Inc</span>
-                </Link>
-                <Link
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                  href="#"
-                >
-                  <HomeIcon className="h-5 w-5" />
-                  Panel de Control
-                </Link>
-                <Link
-                  className="flex items-center gap-4 px-2.5 text-foreground"
-                  href="#"
-                >
-                  <ShoppingCartIcon className="h-5 w-5" />
-                  Pedidos
-                </Link>
-                <Link
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                  href="/inventario"
-                >
-                  <PackageIcon className="h-5 w-5" />
-                  Inventario
-                </Link>
-                <Link
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                  href="#"
-                >
-                  <Users2Icon className="h-5 w-5" />
-                  Clientes
-                </Link>
-                <Link
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                  href="#"
-                >
-                  <LineChartIcon className="h-5 w-5" />
-                  Configuración
-                </Link>
+                <div className="flex items-end gap-2">
+                  <Image
+                    className=" w-auto rounded-sm"
+                    src="https://avatars.githubusercontent.com/u/83354843?s=200&v=4"
+                    alt="logo"
+                    width={32}
+                    height={32}
+                  />
+                  <span className="font-bold text-2xl mt-2">MYK Ferre</span>
+                </div>
+                <hr className="mb-4 mt-1 dark:border-gray-800 border-gray-200" />
+
+                {menuItems.map(({ icon: Icon, label, href }) => (
+                  <Link
+                    key={label}
+                    className={`flex gap-2  items-center rounded-lg text-muted-foreground transition-colors hover:text-foreground  ${
+                      pathname === href
+                        ? " dark:hover:text-white font-bold dark:text-white text-black rounded-sm hover:text-black"
+                        : ""
+                    }`}
+                    href={href}
+                  >
+                    <Icon className="h-5 w-5" />
+                    {label}
+                  </Link>
+                ))}
+              </nav>
+              <hr className="my-10 dark:border-gray-800 border-gray-200" />
+              <nav className="mt-auto flex   gap-4">
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    className="flex gap-2  items-center rounded-lg text-muted-foreground transition-colors hover:text-foreground"
+                    asChild
+                  >
+                    <Button variant="ghost" className="p-0 mt-10 text-lg">
+                      <SettingsIcon className="h-5 w-5" />
+                      <span>Configuración</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="ml-5 w-56" align="center">
+                    <DropdownMenuLabel>Preferencias</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => setTheme("light")}>
+                      <Sun className="h-4 w-4 mr-1" />
+                      Modo Claro
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setTheme("dark")}>
+                      <Moon className="h-4 w-4 mr-1" />
+                      Modo Oscuro
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setTheme("system")}>
+                      <PcCase className="h-4 w-4 mr-1" />
+                      Modo del Sistema
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <ListCollapse className="h-4 w-4 mr-1" />
+                      Collapsar
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </nav>
             </SheetContent>
           </Sheet>
