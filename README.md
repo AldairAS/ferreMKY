@@ -1,3 +1,30 @@
+## Pasos trabajar con las incidencias; para crear la rama, bajar y ubicarse en la nueva rama, subir cambios a la rama y realizar el pull request
+
+ 1. Crear la rama en base a la incidencia seleccionada.
+    Dirigirse al Issue y crear la nueva rama en el apartado de Development (La rama debe crearse en base a la rama dev)
+    ![img1](https://github.com/mky-corp/ferreMKY/assets/74320766/476915cf-98d0-4f89-921b-a90da69cead5)
+    ![img2](https://github.com/mky-corp/ferreMKY/assets/74320766/8afbb90a-365f-44ee-9b0b-0ad432c4740b)
+    
+ 3. Bajar la rama al repositorio local y ubicarse en ella.
+    Al crear la rama se mostraran los comandos que deben ejecutarse en tu terminal para poder trabajar en ella
+    ![img3](https://github.com/mky-corp/ferreMKY/assets/74320766/5173e165-735d-4a4d-9ac1-67bf848b29e9)
+
+ 5. Subir los cambios a la rama.
+    Para subir los cambios a tu rama remota se debe hacer lo siguiente:
+    ```bash
+    git add .
+    git commit -m "Comentario de la rama"
+    git push origin NOMBRE-DE-LA-RAMA-CREADA
+    ```
+
+ 7. Realizar el pull request.
+    - Dirigirse al apartado de pull request y crear un nuevo pull request
+      ![img4](https://github.com/mky-corp/ferreMKY/assets/74320766/da99d317-2015-4a0d-a759-471987824c51)
+    - Seleccionar como rama base a "dev" y como rama compara a "NOMBRE-DE-LA-RAMA-CREADA", dar un comentario sobre el pull request y esperar a la confirmación para el merging a la rama dev.
+      ![img5](https://github.com/mky-corp/ferreMKY/assets/74320766/ee505c4a-e8d6-414a-9ece-85a387872b9e)
+
+    
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
