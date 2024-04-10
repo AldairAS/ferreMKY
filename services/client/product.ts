@@ -28,6 +28,7 @@ export async function addProductClient(
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
+
   const { data, errorMessage } = await addProduct(
     idKind,
     code,
@@ -37,9 +38,11 @@ export async function addProductClient(
     Number(quantity),
     unit
   );
+
   if (!data || errorMessage) {
-    return { message: errorMessage ? errorMessage : "Ha ocurrido un error" };
+    return { message: errorMessage ?? "Ha ocurrido un error" };
   }
+
   console.log("Producto añadido");
   await revalidateProduct();
 }
