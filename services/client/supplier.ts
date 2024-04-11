@@ -1,5 +1,9 @@
 import { FormSupplierSchema } from '@/lib/zod_schema';
-import { addSupplier, editSupplier, revalidateSupplier } from '../server/supplier';
+import {
+  addSupplier,
+  editSupplier,
+  revalidateSupplier
+} from '../server/supplier';
 import { StateSupplier } from '@/lib/states';
 
 //Función para añadir la categoría y validación de campos
@@ -25,7 +29,6 @@ export async function addSupplierClient(
   const { data, errorMessage } = await addSupplier(name, description, contact);
   if (!data || errorMessage)
     return { message: errorMessage ?? 'Ha ocurrido un error' };
-  
 
   console.log('Proveedor añadido');
   await revalidateSupplier();
@@ -52,10 +55,14 @@ export async function editSupplierClient(
     };
   }
 
-  const { data, errorMessage } = await editSupplier(id, name, description, contact);
-  if (!data || errorMessage) {
+  const { data, errorMessage } = await editSupplier(
+    id,
+    name,
+    description,
+    contact
+  );
+  if (!data || errorMessage)
     return { message: errorMessage ?? 'Ha ocurrido un error' };
-  }
 
   console.log('Proveedor editado');
   await revalidateSupplier();
