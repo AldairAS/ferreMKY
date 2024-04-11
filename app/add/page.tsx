@@ -13,6 +13,7 @@ export default async function Add() {
   const kinds = await getAllKinds();
   const products = await getAllProducts();
   const suppliers = await getAllSuppliers();
+
   return (
     <div>
       <AddCategoryForm />

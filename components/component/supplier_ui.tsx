@@ -29,7 +29,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { productos } from '@/data';
 import Image from 'next/image';
 import { JSX, SVGProps } from 'react';
-import AddProductForm from './add-product-form';
+import AddSupplierForm from '../add-supplier';
+import EditSupplierForm from '../edit-supplier';
 
 export function SupplierView() {
   return (
@@ -70,15 +71,15 @@ export function SupplierView() {
                 Exportar
               </span>
             </Button>
-            <AddProductForm
-              formTrigger={
-                <Button className='h-8 gap-1' size='sm'>
-                  <PlusCircleIcon className='h-3.5 w-3.5' />
-                  <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
-                    Agregar Proveedor
-                  </span>
-                </Button>
-              }
+            <AddSupplierForm
+            // formTrigger={
+            //   <Button className='h-8 gap-1' size='sm'>
+            //     <PlusCircleIcon className='h-3.5 w-3.5' />
+            //     <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
+            //       Agregar Proveedor
+            //     </span>
+            //   </Button>
+            // }
             />
           </div>
         </div>
