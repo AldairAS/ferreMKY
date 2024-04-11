@@ -1,3 +1,4 @@
+'use client';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import {
@@ -26,13 +28,59 @@ import {
   TableRow
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { productos } from '@/data';
-import Image from 'next/image';
-import { JSX, SVGProps } from 'react';
-import AddSupplierForm from '../add-supplier';
-import EditSupplierForm from '../edit-supplier';
+//import { productos } from '@/data';
+//import Image from 'next/image';
+import { JSX, SVGProps, useState } from 'react';
+import { AddSupplierForm, EditSupplierForm } from './supplier-forms';
+
+const suppliers = [
+  {
+    id: '1',
+    name: 'Proveedor 1',
+    contact: '123456789',
+    description: 'Proveedor 1'
+  },
+  {
+    id: '2',
+    name: 'Proveedor 2',
+    contact: '987654321',
+    description: 'Proveedor 2'
+  },
+  {
+    id: '3',
+    name: 'Proveedor 3',
+    contact: '123456789',
+    description: 'Proveedor 3'
+  },
+  {
+    id: '4',
+    name: 'Proveedor 4',
+    contact: '987654321',
+    description: 'Proveedor 4'
+  },
+  {
+    id: '5',
+    name: 'Proveedor 5',
+    contact: '123456789',
+    description: 'Proveedor 5'
+  },
+  {
+    id: '6',
+    name: 'Proveedor 6',
+    contact: '987654321',
+    description: 'Proveedor 6'
+  },
+  {
+    id: '7',
+    name: 'Proveedor 7',
+    contact: '123456789',
+    description: 'Proveedor 7'
+  }
+];
 
 export function SupplierView() {
+  const [open, setOpen] = useState(false);
+
   return (
     <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
       <Tabs defaultValue='all'>
@@ -72,14 +120,14 @@ export function SupplierView() {
               </span>
             </Button>
             <AddSupplierForm
-            // formTrigger={
-            //   <Button className='h-8 gap-1' size='sm'>
-            //     <PlusCircleIcon className='h-3.5 w-3.5' />
-            //     <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
-            //       Agregar Proveedor
-            //     </span>
-            //   </Button>
-            // }
+              formTrigger={
+                <Button className='h-8 gap-1' size='sm'>
+                  <PlusCircleIcon className='h-3.5 w-3.5' />
+                  <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
+                    Agregar Proveedor
+                  </span>
+                </Button>
+              }
             />
           </div>
         </div>
@@ -95,19 +143,10 @@ export function SupplierView() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className='hidden w-[100px] sm:table-cell'>
-                      <span className='sr-only'>Imagen</span>
-                    </TableHead>
                     <TableHead>Nombre</TableHead>
-                    <TableHead>Estado</TableHead>
+                    <TableHead>Descripción</TableHead>
                     <TableHead className='hidden md:table-cell'>
-                      Precio
-                    </TableHead>
-                    <TableHead className='hidden md:table-cell'>
-                      Ventas Totales
-                    </TableHead>
-                    <TableHead className='hidden md:table-cell'>
-                      Creado en
+                      Contacto
                     </TableHead>
                     <TableHead>
                       <span className='sr-only'>Acciones</span>
@@ -115,31 +154,18 @@ export function SupplierView() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {productos.map((producto, index) => (
-                    <TableRow key={index}>
-                      <TableCell className='hidden sm:table-cell'>
-                        <Image
-                          alt='Product image'
-                          className='aspect-square rounded-md object-cover'
-                          height='64'
-                          src={producto.imagen}
-                          width='64'
-                        />
-                      </TableCell>
+                  {suppliers.map((supplier, idx) => (
+                    <TableRow key={idx}>
                       <TableCell className='font-medium'>
-                        {producto.nombre}
+                        {supplier.name}
                       </TableCell>
-                      <TableCell>
-                        <Badge variant='outline'>{producto.estado}</Badge>
-                      </TableCell>
+
                       <TableCell className='hidden md:table-cell'>
-                        S/. {producto.precio}
+                        {supplier.description}
                       </TableCell>
+
                       <TableCell className='hidden md:table-cell'>
-                        {producto.ventasTotal}
-                      </TableCell>
-                      <TableCell className='hidden md:table-cell'>
-                        {producto.creado}
+                        {supplier.contact}
                       </TableCell>
                       <TableCell>
                         <DropdownMenu>
@@ -153,8 +179,15 @@ export function SupplierView() {
                               <span className='sr-only'>Colapsar Menu</span>
                             </Button>
                           </DropdownMenuTrigger>
+
                           <DropdownMenuContent align='end'>
-                            <DropdownMenuItem>Editar</DropdownMenuItem>
+                            <EditSupplierForm supplier={supplier} open={open} />
+
+                            <DropdownMenuItem
+                              onClick={() => setOpen(() => !open)}
+                            >
+                              Editar
+                            </DropdownMenuItem>
                             <DropdownMenuItem className='text-red-500'>
                               Eliminar
                             </DropdownMenuItem>

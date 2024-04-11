@@ -44,7 +44,7 @@ export async function deleteTypeOfProduct(id : string) {
         console.log('Tipo de producto eliminado');
         return { error: null }
     }
-
+}
 //Función para traer las categorías
 export async function getAllKinds() {
   const { data: kinds } = await supabase.from('kind').select('*').order('name');

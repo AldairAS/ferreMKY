@@ -1,4 +1,4 @@
-import { FormProductSchema } from '@/lib/zod_schema';
+import { FormProductSchema } from '@/schemas/zod_schemas';
 import { addProduct, revalidateProduct } from '../server/product';
 import { StateProduct } from '@/lib/states';
 

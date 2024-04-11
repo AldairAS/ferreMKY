@@ -1,4 +1,4 @@
-import { FormKindSchema } from '@/lib/zod_schema';
+import { FormKindSchema } from '@/schemas/zod_schemas';
 import { addKind, revalidateKind } from '../server/kind';
 import { StateKind } from '@/lib/states';
 

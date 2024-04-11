@@ -1,4 +1,4 @@
-import { FormAddQuantitySchema } from '@/lib/zod_schema';
+import { FormAddQuantitySchema } from '@/schemas/zod_schemas';
 import { addQuantity, revalidateQuantity } from '../server/product_supplier';
 import { StateProductSupplier } from '@/lib/states';
 

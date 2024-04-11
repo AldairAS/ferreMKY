@@ -38,7 +38,7 @@ export async function deleteSupplier(id: string) {
 
   //Manejo de errores
   if (errorSupplier) {
-    console.log('Error:', errorSupplier.message);
+    console.error('Error:', errorSupplier.message);
     return { error: errorSupplier };
   }
   //Eliminar el producto
@@ -49,7 +49,7 @@ export async function deleteSupplier(id: string) {
 
   //Manejo de errores
   if (errorProduct) {
-    console.log('Error al eliminar el producto:', errorProduct.message);
+    console.error('Error al eliminar el producto:', errorProduct.message);
     return { error: errorProduct };
   } else {
     console.log('Producto eliminado exitosamente.');

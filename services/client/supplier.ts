@@ -1,4 +1,4 @@
-import { FormSupplierSchema } from '@/lib/zod_schema';
+import { FormSupplierSchema } from '@/schemas/zod_schemas';
 import {
   addSupplier,
   editSupplier,
