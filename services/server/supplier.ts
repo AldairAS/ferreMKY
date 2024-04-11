@@ -1,6 +1,33 @@
-'use server';
+"use server"
+import { supabase } from "@/config/supabase"
+import { revalidatePath } from "next/cache";
 
-import { supabase } from "@/config/supabase";
+
+//Revalidar la ruta
+export async function revalidateSupplier() {
+  revalidatePath("/add", "page");
+}
+
+//Función para añadir un nuevo proveedor
+export async function addSupplier(
+  name: String,
+  description: String,
+  contact: String
+) {
+  const { data, error } = await supabase
+    .from("supplier")
+    .insert([
+      {
+        name,
+        contact,
+        description,
+      },
+    ])
+    .select();
+  const errorMessage = error?.message;
+  console.log(data, errorMessage);
+  return { data, errorMessage };
+}
 
 //funcion para eliminar productos de la tabla (product)
 export async function deleteSupplier(id : string) {
@@ -30,4 +57,12 @@ export async function deleteSupplier(id : string) {
         return { error: null }
     }
     
+
+//Función para traer los proveedores
+export async function getAllSuppliers(){
+  const {data: supplier} = await supabase
+  .from("supplier")
+  .select("*")
+  .order("name");
+  return supplier;
 }
