@@ -25,6 +25,20 @@ export async function addCategory(name: String, description: String) {
   return { data, errorMessage };
 }
 
+export async function deleteCategory(id : string) {
+    const { error } = await supabase
+        .from('category')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        console.log('Error:', error.message);
+        return { error }
+    } else {
+        console.log('Categoria eliminada');
+        return { error: null }
+    }
+
 //Función para traer las categorías
 export async function getAllCategories() {
   const { data: categories } = await supabase
