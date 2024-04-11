@@ -31,7 +31,7 @@ import Image from 'next/image';
 import { JSX, SVGProps } from 'react';
 import AddProductForm from './add-product-form';
 
-export function InventarioView() {
+export function SupplierView() {
   return (
     <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
       <Tabs defaultValue='all'>
@@ -75,7 +75,7 @@ export function InventarioView() {
                 <Button className='h-8 gap-1' size='sm'>
                   <PlusCircleIcon className='h-3.5 w-3.5' />
                   <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
-                    Agregar Producto
+                    Agregar Proveedor
                   </span>
                 </Button>
               }
@@ -85,7 +85,7 @@ export function InventarioView() {
         <TabsContent value='all'>
           <Card x-chunk='dashboard-06-chunk-0'>
             <CardHeader>
-              <CardTitle>Productos</CardTitle>
+              <CardTitle>Proveedores</CardTitle>
               <CardDescription>
                 Administra tus productos y visualiza su desempeño de ventas
               </CardDescription>

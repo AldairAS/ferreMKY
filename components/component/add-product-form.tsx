@@ -138,7 +138,7 @@ export default function AddProductForm({
                     <div className="flex gap-2 items-center">
                       <Label htmlFor="stock">{field.value ? "Sí" : "No"}</Label>
                       <Switch
-                        checked={field.value}
+                        checked={Boolean(field.value)}
                         onCheckedChange={field.onChange}
                       />
                     </div>

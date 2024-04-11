@@ -1,3 +1,3 @@
-import { addProductSchema } from "./add-products";
+import { addProductSchema } from './add-products';
 
 export { addProductSchema };

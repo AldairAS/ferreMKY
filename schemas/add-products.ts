@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const addProductSchema = z.object({
   name: z.string(),
@@ -7,5 +7,5 @@ export const addProductSchema = z.object({
   category: z.string(),
   description: z.string(),
   quantity: z.number(),
-  image: z.string(),
+  image: z.string()
 });
