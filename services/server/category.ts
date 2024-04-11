@@ -36,7 +36,7 @@ export async function deleteCategory(id : string) {
         console.log('Categoria eliminada');
         return { error: null }
     }
-
+}
 //Función para traer las categorías
 export async function getAllCategories(){
   const {data: categories} = await supabase

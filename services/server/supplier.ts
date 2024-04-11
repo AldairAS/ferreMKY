@@ -56,7 +56,7 @@ export async function deleteSupplier(id : string) {
         console.log('Producto eliminado exitosamente.');
         return { error: null }
     }
-    
+}
 
 //Función para traer los proveedores
 export async function getAllSuppliers(){
