@@ -27,6 +27,21 @@ export async function addKind(
   return { data, errorMessage };
 }
 
+//funcion para eliminar un tipo de producto de la tabla (kind)
+export async function deleteTypeOfProduct(id : string) {
+    const { error } = await supabase
+        .from('kind')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        console.log('Error:', error.message);
+        return { error }
+    } else {
+        console.log('Tipo de producto eliminado');
+        return { error: null }
+    }
+
 //Función para traer las categorías
 export async function getAllKinds(){
   const {data: kinds} = await supabase
