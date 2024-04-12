@@ -1,4 +1,4 @@
-import { FormCategorySchema } from "@/lib/zod_schema";
+import { FormCategorySchema } from "@/schemas/zod_schemas";
 import { addCategory, revalidateCategory } from "../server/category";
 import { StateCategory } from "@/lib/states";
 

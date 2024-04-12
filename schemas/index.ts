@@ -1,3 +1,1 @@
-import { addProductSchema } from "./add-products";
-
-export { addProductSchema };
+export * from './zod_schemas';

@@ -1,9 +1,3 @@
-export type Product = {
-    id: string
-    code: string
-    description: string
-    price_sale: number
-    storage_cost: number
-    unit: number
-    quantity: number
-}
+export type * from './database';
+export type * from './definitions';
+export type * from './states';

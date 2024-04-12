@@ -1,11 +1,11 @@
-"use server";
-import { Product } from "@/lib/definitions";
-import { supabase } from "@/config/supabase";
-import { revalidatePath } from "next/cache";
+'use server';
+import { Product } from '@/lib/definitions';
+import { supabase } from '@/config/supabase';
+import { revalidatePath } from 'next/cache';
 
 //Revalidar la ruta
 export async function revalidateProduct() {
-  revalidatePath("/add", "page");
+  revalidatePath('/add', 'page');
 }
 //Función para añadir un nuevo producto
 export async function addProduct(
@@ -18,7 +18,7 @@ export async function addProduct(
   unit: string
 ) {
   const { data, error } = await supabase
-    .from("product")
+    .from('product')
     .insert([
       {
         id_kind: idKind,
@@ -27,12 +27,12 @@ export async function addProduct(
         price_sale: priceSale,
         storage_cost: storageCost,
         unit,
-        quantity,
-      },
+        quantity
+      }
     ])
     .select();
   const errorMessage = error?.message;
-  console.log(data, errorMessage);
+  console.error(data, errorMessage);
   return { data, errorMessage };
 }
   
@@ -66,11 +66,11 @@ export async function deleteProduct(id : string) {
     
 }
 //Función para traer los productos
-export async function getAllProducts(){
-  const {data: products} = await supabase
-  .from("product")
-  .select("*")
-  .order("code");
+export async function getAllProducts() {
+  const { data: products } = await supabase
+    .from('product')
+    .select('*')
+    .order('code');
   return products;
 }
 
@@ -83,8 +83,8 @@ export async function searchItemsInventory(
   const lastPosition = (rows ?? 10) * currentPage - 1;
 
   const { data: products } = await supabase
-    .rpc("get_products_kind_query", { query })
-    .select("id, code, unit, description, price_sale, quantity, name_kind")
+    .rpc('get_products_kind_query', { query })
+    .select('id, code, unit, description, price_sale, quantity, name_kind')
     .range(initialPosition, lastPosition);
 
   return products as Product[];

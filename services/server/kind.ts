@@ -1,11 +1,12 @@
-"use server"
-import { supabase } from "@/config/supabase"
-import { revalidatePath } from "next/cache";
+'use server';
+import { supabase } from '@/config/supabase';
+import { revalidatePath } from 'next/cache';
 
 //Revalidar la ruta
 export async function revalidateKind() {
-  revalidatePath("/add", "page");
+  revalidatePath('/add', 'page');
 }
+
 //Implementación para añadir un nuevo tipo de producto
 export async function addKind(
   idCategory: String,
@@ -13,17 +14,19 @@ export async function addKind(
   description: String
 ) {
   const { data, error } = await supabase
-    .from("kind")
+    .from('kind')
     .insert([
       {
         id_category: idCategory,
         name,
-        description,
-      },
+        description
+      }
     ])
     .select();
+
   const errorMessage = error?.message;
-  console.log(data, errorMessage);
+  console.error(data, errorMessage);
+
   return { data, errorMessage };
 }
 
@@ -43,10 +46,7 @@ export async function deleteTypeOfProduct(id : string) {
     }
 }
 //Función para traer las categorías
-export async function getAllKinds(){
-  const {data: kinds} = await supabase
-  .from("kind")
-  .select("*")
-  .order("name");
+export async function getAllKinds() {
+  const { data: kinds } = await supabase.from('kind').select('*').order('name');
   return kinds;
 }

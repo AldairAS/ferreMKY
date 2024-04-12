@@ -45,7 +45,6 @@ export type StateProduct =
     }
   | undefined;
 
-
 export type StateProductSupplier =
   | {
       errors?: {
@@ -57,4 +56,3 @@ export type StateProductSupplier =
       message?: string | null;
     }
   | undefined;
-
