@@ -1,6 +1,6 @@
 'use server';
-import { Product } from '@/models/types/definitions';
-import { supabase } from '@/config/supabase';
+import { Product } from '@models/types/definitions';
+import { supabase } from '@config/supabase';
 import { revalidatePath } from 'next/cache';
 
 //Revalidar la ruta

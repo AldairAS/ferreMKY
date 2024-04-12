@@ -6,8 +6,8 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
+} from "@components/ui/breadcrumb";
+import { Button } from "@components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,15 +15,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+} from "@components/ui/dropdown-menu";
+import { Input } from "@components/ui/input";
+import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@components/ui/tooltip";
 import { useTheme } from "next-themes";
 import {
   HomeIcon,
@@ -56,22 +56,22 @@ const menuItems = [
   {
     icon: ShoppingCartIcon,
     label: "Pedidos",
-    href: "/ferremyk/pedidos",
+    href: "/dashboard/pedidos",
   },
   {
     icon: PackageIcon,
     label: "Inventario",
-    href: "/ferremyk/inventario",
+    href: "/dashboard/inventario",
   },
   {
     icon: Users2Icon,
     label: "Clientes",
-    href: "/ferremyk/clientes",
+    href: "/dashboard/clientes",
   },
   {
     icon: LineChartIcon,
     label: "Estadísticas",
-    href: "/ferremyk/estadisticas",
+    href: "/dashboard/estadisticas",
   },
 ];
 
@@ -85,7 +85,7 @@ export default function NavigationMenu() {
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <TooltipProvider>
-            <Link href="/ferremyk">
+            <Link href="/dashboard">
               <Image
                 className="transition-all group-hover:scale-110 rounded-lg"
                 src={FerreMYKLogo}

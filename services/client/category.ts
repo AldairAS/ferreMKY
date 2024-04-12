@@ -1,6 +1,6 @@
-import { FormCategorySchema } from "@/models/schemas/zod_schemas";
+import { FormCategorySchema } from "@models/schemas/zod_schemas";
 import { addCategory, revalidateCategory } from "../server/category";
-import { StateCategory } from "@/models/types/states";
+import { StateCategory } from "@models/types/states";
 
 //Función para añadir la categoría y validación de campos
 export async function addCategoryClient(

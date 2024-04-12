@@ -3,7 +3,7 @@ import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
+import { Button } from '@components/ui/button';
 import {
   Form,
   FormControl,
@@ -12,19 +12,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@components/ui/form';
+import { Input } from '@components/ui/input';
 import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger
-} from '@/components/ui/alert-dialog';
+} from '@components/ui/alert-dialog';
 
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
-import { FormProductSchema } from '@/models/schemas';
+import { FormProductSchema } from '@models/schemas';
 
 export default function AddProductForm({
   formTrigger

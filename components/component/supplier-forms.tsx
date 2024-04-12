@@ -3,8 +3,8 @@ import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '@components/ui/button';
+import { Input } from '@components/ui/input';
 
 import {
   Form,
@@ -14,7 +14,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from '@/components/ui/form';
+} from '@components/ui/form';
 
 import {
   AlertDialog,
@@ -26,10 +26,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger
-} from '@/components/ui/alert-dialog';
+} from '@components/ui/alert-dialog';
 
-import { FormSupplierSchema } from '@/models/schemas';
-import { Supplier } from '@/models/types';
+import { FormSupplierSchema } from '@models/schemas';
+import { Supplier } from '@models/types';
 // import { Switch } from '../ui/switch';
 // import { Label } from '../ui/label';
 

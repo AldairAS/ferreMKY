@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import LandingMenu from "@/components/ui/shared/landing-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@components/ui/button";
+import LandingMenu from "@components/ui/shared/landing-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import { MenuIcon, MoveRight } from "lucide-react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";

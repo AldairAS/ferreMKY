@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import LandingLayout from '@/components/ui/shared/landing-layout';
+import { Button } from '@components/ui/button';
+import LandingLayout from '@components/ui/shared/landing-layout';
 import { MoveRight } from 'lucide-react';
 import Link from 'next/link';
 
@@ -29,7 +29,7 @@ export default function LnadingView() {
             <Link href='/login'>
               <Button size='lg'>Empezar</Button>
             </Link>
-            <Link href='/ferremyk' className='group'>
+            <Link href='/dashboard' className='group'>
               <Button variant='outline' size='lg'>
                 Probar Demo
                 <MoveRight className='h-4 w-4 ml-1.5 group-hover:translate-x-2 duration-300 ease-in-out' />

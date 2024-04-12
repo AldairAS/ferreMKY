@@ -1,5 +1,5 @@
-import Footer from "@/components/ui/shared/footer";
-import NavigationMenu from "@/components/ui/shared/menu";
+import Footer from "@components/ui/shared/footer";
+import NavigationMenu from "@components/ui/shared/menu";
 
 export default function FerreMKYLayout({
   children,

@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import { MenuIcon, MoveRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
