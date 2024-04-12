@@ -1,5 +1,5 @@
 'use server';
-import { Product } from '@/lib/definitions';
+import { Product } from '@/models/types/definitions';
 import { supabase } from '@/config/supabase';
 import { revalidatePath } from 'next/cache';
 

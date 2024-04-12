@@ -1,6 +1,6 @@
-import { FormProductSchema } from '@/schemas/zod_schemas';
+import { FormProductSchema } from '@/models/schemas/zod_schemas';
 import { addProduct, revalidateProduct } from '../server/product';
-import { StateProduct } from '@/lib/states';
+import { StateProduct } from '@/models/types/states';
 
 //Función para añadir la categoría y validación de campos
 export async function addProductClient(

@@ -1,6 +1,6 @@
-import { FormAddQuantitySchema } from '@/schemas/zod_schemas';
+import { FormAddQuantitySchema } from '@/models/schemas/zod_schemas';
 import { addQuantity, revalidateQuantity } from '../server/product_supplier';
-import { StateProductSupplier } from '@/lib/states';
+import { StateProductSupplier } from '@/models/types/states';
 
 //Función para añadir la categoría y validación de campos
 export async function addQuantityClient(

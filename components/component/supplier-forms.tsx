@@ -28,8 +28,8 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog';
 
-import { FormSupplierSchema } from '@/schemas';
-import { Supplier } from '@/lib';
+import { FormSupplierSchema } from '@/models/schemas';
+import { Supplier } from '@/models/types';
 // import { Switch } from '../ui/switch';
 // import { Label } from '../ui/label';
 
