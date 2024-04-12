@@ -1,10 +1,10 @@
-import { FormSupplierSchema } from '@/schemas/zod_schemas';
+import { FormSupplierSchema } from '@/models/schemas/zod_schemas';
 import {
   addSupplier,
   editSupplier,
   revalidateSupplier
 } from '../server/supplier';
-import { StateSupplier } from '@/lib/states';
+import { StateSupplier } from '@/models/types/states';
 
 //Función para añadir la categoría y validación de campos
 export async function addSupplierClient(

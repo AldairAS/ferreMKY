@@ -24,7 +24,7 @@ import {
 
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
-import { FormProductSchema } from '@/schemas';
+import { FormProductSchema } from '@/models/schemas';
 
 export default function AddProductForm({
   formTrigger
