@@ -1,5 +1,5 @@
 'use server';
-import { supabase } from '@/config/supabase';
+import { supabase } from '@config/supabase';
 import { revalidatePath } from 'next/cache';
 
 //Revalidar la ruta

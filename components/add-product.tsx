@@ -1,6 +1,6 @@
 'use client';
 import { useFormState } from 'react-dom';
-import { addProductClient } from '@/services/client/product';
+import { addProductClient } from '@client/product';
 
 export default function AddProductForm({ kinds }: { kinds: any | null }) {
   const [formState, formAction] = useFormState(addProductClient, undefined);

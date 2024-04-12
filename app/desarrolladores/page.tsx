@@ -1,13 +1,13 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import LandingLayout from '@/components/ui/shared/landing-layout';
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
+import { Button } from '@components/ui/button';
+import LandingLayout from '@components/ui/shared/landing-layout';
 import Image from 'next/image';
 import Link from 'next/link';
-import UNCPLogo from '@/assets/logos/uncp.webp';
-import TEKTONLogo from '@/assets/logos/tekton.webp';
-import ISOLogo from '@/assets/logos/iso.webp';
-import FISLogo from '@/assets/logos/fis.webp';
-import WORLDVIisionLogo from '@/assets/logos/worldvision.webp';
+import UNCPLogo from '@assets/logos/uncp.webp';
+import TEKTONLogo from '@assets/logos/tekton.webp';
+import ISOLogo from '@assets/logos/iso.webp';
+import FISLogo from '@assets/logos/fis.webp';
+import WORLDVIisionLogo from '@assets/logos/worldvision.webp';
 const people = [
   // FIXME: Add real profile images and url links
 

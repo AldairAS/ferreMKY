@@ -1,7 +1,7 @@
-import LandingLayout from '@/components/ui/shared/landing-layout';
+import LandingLayout from '@components/ui/shared/landing-layout';
 import { CloudUploadIcon, Fingerprint, Lock, RefreshCcw } from 'lucide-react';
 import Image from 'next/image';
-import FeaturesHero from '@/assets/images/features-hero.png';
+import FeaturesHero from '@assets/images/features-hero.png';
 
 const features = [
   {

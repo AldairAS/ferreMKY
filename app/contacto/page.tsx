@@ -1,4 +1,4 @@
-import LandingLayout from '@/components/ui/shared/landing-layout';
+import LandingLayout from '@components/ui/shared/landing-layout';
 import { CalendarDaysIcon, HandIcon } from 'lucide-react';
 
 export default function contactPage() {

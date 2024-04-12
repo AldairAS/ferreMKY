@@ -1,8 +1,8 @@
 // Componente para editar un supplier
 'use client';
 import { useFormState } from 'react-dom';
-import { editSupplierClient } from '@/services/client/supplier';
-import { Supplier } from '@/models/types/definitions';
+import { editSupplierClient } from '@client/supplier';
+import { Supplier } from '@models/types/definitions';
 
 export default function EditSupplierForm({
   kinds,

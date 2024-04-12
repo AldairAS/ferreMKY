@@ -1,6 +1,6 @@
 "use client";
 
-import { Product, searchItemsInventory } from "@/services/server/product";
+import { Product, searchItemsInventory } from "@server/product";
 import { useEffect, useState } from "react";
 
 const WAIT_BETWEEN_CHANCE = 300;

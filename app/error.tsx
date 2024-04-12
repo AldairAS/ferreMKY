@@ -1,6 +1,6 @@
 "use client";
-import NotFound from "@/assets/images/not-found.avif";
-import { Button } from "@/components/ui/button";
+import NotFound from "@assets/images/not-found.avif";
+import { Button } from "@components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

@@ -1,6 +1,6 @@
-import { FormKindSchema } from '@/models/schemas/zod_schemas';
+import { FormKindSchema } from '@models/schemas/zod_schemas';
 import { addKind, revalidateKind } from '../server/kind';
-import { StateKind } from '@/models/types/states';
+import { StateKind } from '@models/types/states';
 
 //Función para añadir la categoría y validación de campos
 export async function addKindClient(
