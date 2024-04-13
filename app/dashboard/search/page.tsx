@@ -1,6 +1,9 @@
+// FIXME: Para la funcionalidad de busqueda, seria ideal utilizar solo una ventana desplegable para seleccionar la accion a realizar, en lugar de tener una pagina dedicada a la busqueda de productos.
+
 "use client";
 
-import { Product, searchItemsInventory } from "@server/product";
+import { Product } from "@/models/types";
+import { searchItemsInventory } from "@server/product";
 import { useEffect, useState } from "react";
 
 const WAIT_BETWEEN_CHANCE = 300;
