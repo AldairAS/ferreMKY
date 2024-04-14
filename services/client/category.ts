@@ -10,15 +10,15 @@ export async function addCategoryClient(
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
   const validatedFields = FormCategorySchema.safeParse({ name, description });
-   if (!validatedFields.success) {
-     return {
-       errors: validatedFields.error.flatten().fieldErrors,
-     };
-   }
-   const {data, errorMessage} = await addCategory(name, description);
-   if (!data || errorMessage) {
-     return { message: errorMessage ? errorMessage : "Ha ocurrido un error" };
-   }
-   console.log("Categoría añadida");
-   await revalidateCategory();
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+  const { data, errorMessage } = await addCategory(name, description);
+  if (!data || errorMessage) {
+    return { message: errorMessage ? errorMessage : "Ha ocurrido un error" };
+  }
+  console.log("Categoría añadida");
+  await revalidateCategory();
 }

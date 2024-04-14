@@ -51,27 +51,27 @@ const menuItems = [
   {
     icon: LayoutDashboard,
     label: "Panel de Control",
-    href: "/",
+    href: "/dashboard",
   },
   {
     icon: ShoppingCartIcon,
     label: "Pedidos",
-    href: "/dashboard/pedidos",
+    href: "/dashboard/orders",
   },
   {
     icon: PackageIcon,
     label: "Inventario",
-    href: "/dashboard/inventario",
+    href: "/dashboard/inventory",
   },
   {
     icon: Users2Icon,
     label: "Clientes",
-    href: "/dashboard/clientes",
+    href: "/dashboard/clients",
   },
   {
     icon: LineChartIcon,
     label: "Estadísticas",
-    href: "/dashboard/estadisticas",
+    href: "/dashboard/statistics",
   },
 ];
 
