@@ -1,5 +1,5 @@
 'use client';
-import { Badge } from '@components/ui/badge';
+// import { Badge } from '@components/ui/badge';
 import { Button } from '@components/ui/button';
 import {
   Card,
@@ -16,7 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuSubTrigger,
+  // DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@components/ui/dropdown-menu';
 import {
@@ -32,6 +32,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs';
 //import Image from 'next/image';
 import { JSX, SVGProps, useState } from 'react';
 import { AddSupplierForm, EditSupplierForm } from './supplier-forms';
+import useModal from '../hooks/useModal';
 
 const suppliers = [
   {
@@ -79,7 +80,8 @@ const suppliers = [
 ];
 
 export function SupplierView() {
-  const [open, setOpen] = useState(false);
+  const [isOpenModal, openModal, closeModal] = useModal(false);
+  // const [open, setOpen] = useState(false);
 
   return (
     <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
@@ -119,15 +121,15 @@ export function SupplierView() {
                 Exportar
               </span>
             </Button>
+            <Button className='h-8 gap-1' size='sm' onClick={openModal}>
+              <PlusCircleIcon className='h-3.5 w-3.5' />
+              <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
+                Agregar Proveedor
+              </span>
+            </Button>
             <AddSupplierForm
-              formTrigger={
-                <Button className='h-8 gap-1' size='sm'>
-                  <PlusCircleIcon className='h-3.5 w-3.5' />
-                  <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
-                    Agregar Proveedor
-                  </span>
-                </Button>
-              }
+              isOpenModal={isOpenModal}
+              closeModal={closeModal}
             />
           </div>
         </div>
@@ -181,11 +183,7 @@ export function SupplierView() {
                           </DropdownMenuTrigger>
 
                           <DropdownMenuContent align='end'>
-                            <EditSupplierForm supplier={supplier} open={open} />
-
-                            <DropdownMenuItem
-                              onClick={() => setOpen(() => !open)}
-                            >
+                            <DropdownMenuItem onClick={openModal}>
                               Editar
                             </DropdownMenuItem>
                             <DropdownMenuItem className='text-red-500'>
@@ -193,6 +191,13 @@ export function SupplierView() {
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
+                        <EditSupplierForm
+                          supplier={supplier}
+                          isOpenModal={isOpenModal}
+                          closeModal={closeModal}
+                          // open={open}
+                          // setOpen={setOpen}
+                        />
                       </TableCell>
                     </TableRow>
                   ))}
