@@ -1,5 +1,14 @@
 import { z } from 'zod';
 
+export const FormAuthSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .min(1, { message: "Email is required" })
+    .email({ message: "Must be email account" }),
+  password: z.string().trim().min(1, { message: "Password is required" }),
+});
+
 export const FormCategorySchema = z.object({
   name: z
     .string()
@@ -82,3 +91,4 @@ export const FormAddQuantitySchema = z.object({
   idProduct: z.string().min(1, { message: 'Seleccione un producto' }),
   idSupplier: z.string().min(1, { message: 'Seleccione un proveedor' })
 });
+
