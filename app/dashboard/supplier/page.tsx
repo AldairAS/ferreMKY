@@ -1,5 +1,5 @@
-import React from 'react';
-import { SupplierView } from '@components/component/supplier_ui';
+import React from "react";
+import { SupplierView } from "@/components/blocks/supplier_ui";
 
 const SupplierPage = () => {
   return (
