@@ -7,8 +7,14 @@ export default function page() {
   const [formState, formAction] = useFormState(login, undefined);
   return (
     <div className={styles.loginBackground}>
+   
       <div className={styles.loginForm}>
+      <div className="flex flex-col ml-[50px]">
+        <div className={styles.textOneLogin}>ABRIENDO PUERTAS A TU </div>
+        <div  className={styles.textTwoLogin}>PROYECTO</div>
+      </div>
         <form className={styles.loginContainer} action={formAction}>
+          
           <div className="flex items-center flex-col">
             <div className={styles.loginLogo}></div>
             <div className={styles.loginLogoText}>HARDWARE STORE</div>

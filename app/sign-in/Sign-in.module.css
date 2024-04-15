@@ -1,5 +1,8 @@
 /* Login.module.css */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jersey+15&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 
 .loginBackground {
     position: relative;
@@ -9,6 +12,25 @@
     background-size: cover;
 }
 
+.textOneLogin{
+    color: #FFF;
+    font-family: "Poppins", sans-serif;
+    font-size: 38px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: 6.72px;
+}
+
+.textTwoLogin{
+    color: #FF6F1E;
+font-family:  "Jersey 15", sans-serif;
+font-size: 95px;
+font-style: normal;
+font-weight: 200;
+line-height: normal;
+letter-spacing: 17.92px;
+}
 
 .loginLogo {
     width:79px;           
@@ -30,7 +52,7 @@
 
 .loginForm {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 40px;
     align-items: center;
     height: 100%;
@@ -38,6 +60,7 @@
 
 
 .loginContainer {
+    margin-right: 60px;
     display: flex;
     flex-direction: column;
     justify-content: center;
