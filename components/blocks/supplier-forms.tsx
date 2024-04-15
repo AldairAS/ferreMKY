@@ -16,24 +16,9 @@ import {
   FormMessage
 } from '@components/ui/form';
 
-// import {
-//   AlertDialog,
-//   AlertDialogAction,
-//   AlertDialogCancel,
-//   AlertDialogContent,
-//   AlertDialogDescription,
-//   AlertDialogFooter,
-//   AlertDialogHeader,
-//   AlertDialogTitle,
-//   AlertDialogTrigger
-// } from '@components/ui/alert-dialog';
-
 import { FormSupplierSchema } from '@models/schemas';
 import { Supplier } from '@models/types';
 import Modal from '../ui/modal';
-// import useModal from '../hooks/useModal';
-// import { Switch } from '../ui/switch';
-// import { Label } from '../ui/label';
 
 export function AddSupplierForm({
   // formTrigger
@@ -81,7 +66,7 @@ export function AddSupplierForm({
             name='description'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Descripcion</FormLabel>
+                <FormLabel>Descripción del Proveedor</FormLabel>
                 <FormControl>
                   <Input placeholder='Descripcion ...' {...field} />
                 </FormControl>
@@ -108,7 +93,7 @@ export function AddSupplierForm({
             )}
           />
           <div className='flex justify-between w-full'>
-            <Button type='submit'>Crear Producto</Button>
+            <Button type='submit'>Crear Proveedor</Button>
             <Button
               type='reset'
               onClick={() => form.reset()}
@@ -187,7 +172,7 @@ export function EditSupplierForm({
             name='description'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Descripcion</FormLabel>
+                <FormLabel>Descripcion del Proveedor</FormLabel>
                 <FormControl>
                   <Input placeholder='Descripcion ...' {...field} />
                 </FormControl>
@@ -204,7 +189,7 @@ export function EditSupplierForm({
             name='contact'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Contacto</FormLabel>
+                <FormLabel>Contacto del Proveedor</FormLabel>
                 <FormControl>
                   <Input placeholder='Contacto ...' {...field} />
                 </FormControl>
@@ -216,7 +201,7 @@ export function EditSupplierForm({
             )}
           />
           <div className='flex justify-between w-full'>
-            <Button type='submit'>Crear Producto</Button>
+            <Button type='submit'>Editar Producto</Button>
             <Button
               type='reset'
               onClick={() => form.reset()}

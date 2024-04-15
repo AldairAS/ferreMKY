@@ -80,7 +80,8 @@ const suppliers = [
 ];
 
 export function SupplierView() {
-  const [isOpenModal, openModal, closeModal] = useModal(false);
+  const [isOpenAddModal, openAddModal, closeAddModal] = useModal(false);
+  const [isOpenEditModal, openEditModal, closeEditModal] = useModal(false);
   // const [open, setOpen] = useState(false);
 
   return (
@@ -121,15 +122,15 @@ export function SupplierView() {
                 Exportar
               </span>
             </Button>
-            <Button className='h-8 gap-1' size='sm' onClick={openModal}>
+            <Button className='h-8 gap-1' size='sm' onClick={openAddModal}>
               <PlusCircleIcon className='h-3.5 w-3.5' />
               <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
                 Agregar Proveedor
               </span>
             </Button>
             <AddSupplierForm
-              isOpenModal={isOpenModal}
-              closeModal={closeModal}
+              isOpenModal={isOpenAddModal}
+              closeModal={closeAddModal}
             />
           </div>
         </div>
@@ -183,7 +184,7 @@ export function SupplierView() {
                           </DropdownMenuTrigger>
 
                           <DropdownMenuContent align='end'>
-                            <DropdownMenuItem onClick={openModal}>
+                            <DropdownMenuItem onClick={openEditModal}>
                               Editar
                             </DropdownMenuItem>
                             <DropdownMenuItem className='text-red-500'>
@@ -193,8 +194,8 @@ export function SupplierView() {
                         </DropdownMenu>
                         <EditSupplierForm
                           supplier={supplier}
-                          isOpenModal={isOpenModal}
-                          closeModal={closeModal}
+                          isOpenModal={isOpenEditModal}
+                          closeModal={closeEditModal}
                           // open={open}
                           // setOpen={setOpen}
                         />
