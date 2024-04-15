@@ -45,8 +45,39 @@ export async function deleteTypeOfProduct(id : string) {
         return { error: null }
     }
 }
-//Función para traer las categorías
+
+
+// Función para actualizar una categoría
+export async function updateKind(id: string, name: string, description: string, id_category: string) {
+  const { data, error } = await supabase
+    .from("kind")
+    .update({ name, description, id_category })
+    .eq("id", id)
+    .single();
+
+  const errorMessage = error?.message;
+
+  if (errorMessage) {
+    console.error("Error al actualizar el tipo de categoría:", errorMessage);
+    return { data: null, errorMessage };
+  }
+
+  // Devuelve un objeto con data y errorMessage
+  return { data: data || {}, errorMessage: undefined };
+}
+// Función para traer las categorías
 export async function getAllKinds() {
-  const { data: kinds } = await supabase.from('kind').select('*').order('name');
-  return kinds;
+  const { data: kinds, error } = await supabase
+    .from("kind")
+    .select("*")
+    .order("name");
+
+  const errorMessage = error?.message;
+
+  if (errorMessage) {
+    console.error("Error al obtener el tipo de categorías:", errorMessage);
+    return [];
+  }
+
+  return kinds || [];
 }
