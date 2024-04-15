@@ -45,7 +45,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import FerreMYKLogo from "/public/icon.png";
+import Logo from "@assets/logos/logo.svg";
 import ProfileSheet from "@/components/profile-config-sheet";
 import { useEffect, useState } from "react";
 
@@ -91,8 +91,10 @@ export default function NavigationMenu() {
 
   useEffect(() => {
     if (router) {
-      const linkPath = pathname.split("/").filter((path) => path !== "");
-      linkPath.shift();
+      const linkPath = pathname
+        .split("/")
+        .filter((path) => path !== "/dashboard")
+        .slice(1);
 
       const pathArray = linkPath.map((path, index) => {
         return {
@@ -101,8 +103,8 @@ export default function NavigationMenu() {
         };
       });
 
-      setBreadcrumbs(pathArray as []);
-      setActivePage(linkPath[linkPath.length - 1]);
+      setBreadcrumbs(pathArray);
+      setActivePage(linkPath.pop() || "/dashboard");
     }
   }, [router, pathname]);
 
@@ -112,12 +114,12 @@ export default function NavigationMenu() {
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <TooltipProvider>
             <Link href="/dashboard">
-              <Image
+              <img
                 className="transition-all group-hover:scale-110 rounded-lg"
-                src={FerreMYKLogo}
+                src={Logo.src}
                 alt="FerreMYK"
-                height={60}
-                width={60}
+                height={50}
+                width={50}
               />
               <span className="sr-only">Ferre MYK</span>
             </Link>
@@ -228,24 +230,27 @@ export default function NavigationMenu() {
           </Sheet>
           <Breadcrumb className="hidden md:flex">
             <BreadcrumbList>
-              {breadcrumbs.map((breadcrumb, i) => (
-                <BreadcrumbItem key={i}>
-                  <BreadcrumbLink asChild>
-                    <Link
-                      href={breadcrumb.href}
-                      onClick={() => setActivePage(breadcrumb.label)}
-                    >
-                      {breadcrumb.href === "/dashboard"
-                        ? "Panel de Control"
-                        : breadcrumb.label}
-                    </Link>
-                  </BreadcrumbLink>
-                  {i < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
-                </BreadcrumbItem>
-              ))}
-              <BreadcrumbSeparator />
+              {breadcrumbs.map(
+                (breadcrumb, i) =>
+                  i !== breadcrumbs.length - 1 && (
+                    <BreadcrumbItem key={i}>
+                      <BreadcrumbLink asChild>
+                        <Link
+                          href={breadcrumb.href}
+                          onClick={() => setActivePage(breadcrumb.label)}
+                        >
+                          {breadcrumb.label}
+                        </Link>
+                      </BreadcrumbLink>
+                      {i < breadcrumbs.length - 2 && <BreadcrumbSeparator />}
+                    </BreadcrumbItem>
+                  )
+              )}
+              {breadcrumbs.length > 1 && <BreadcrumbSeparator />}
               <BreadcrumbItem>
-                <BreadcrumbPage>{activePage}</BreadcrumbPage>
+                <BreadcrumbPage className="capitalize">
+                  {activePage}
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
