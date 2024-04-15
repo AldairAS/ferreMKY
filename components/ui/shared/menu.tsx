@@ -47,6 +47,9 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import FerreMYKLogo from "/public/icon.png";
 
+import { logout } from "@/services/client/auth";
+import { useFormState, useFormStatus } from "react-dom";
+
 const menuItems = [
   {
     icon: LayoutDashboard,
@@ -79,6 +82,8 @@ export default function NavigationMenu() {
   const router = useRouter();
   const pathname = usePathname();
   const { setTheme } = useTheme();
+  const [formState, formAction] = useFormState(logout, undefined);
+
 
   return (
     <div>
@@ -254,10 +259,11 @@ export default function NavigationMenu() {
               <DropdownMenuItem>Configuración</DropdownMenuItem>
               <DropdownMenuItem>Soporte</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => {
-                  router.push("/");
-                }}
+              <DropdownMenuItem 
+                  onClick={() => {
+                    formAction(); // Llama a la función formAction en el onClick
+                    router.push("/");
+                  }}
                 className="text-red-500 "
               >
                 <LogOut className="h-4 w-4 mr-1" />

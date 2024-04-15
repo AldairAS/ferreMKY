@@ -15,9 +15,9 @@ export default function page() {
           </div>
 
           <div className={styles.TabsList}>
-            <div className="w-[20px] border-b-[1px] border-white h-[30px]"></div>
-            <div className="w-[20%] border-t-[1px] border-x-[1px] border-white h-[100%] flex justify-center items-center rounded-t-[10px]  ">Sign-in</div>
-            <div className="w-[80%] border-b-[1px] border-white h-[30px]"></div>
+            <div className="w-[20px] border-b-[1px] border-r-[1px] border-white h-[30px] rounded-br mr-[-1px]"></div>
+            <div className="w-[20%] border-t-[1px] border-x-[1px] border-white h-[90%] mb-[4px] flex justify-center items-center rounded-t-[10px]  ">Sign-in</div>
+  <div className="flex-grow border-b-[1px] border-l-[1px] border-white h-[30px] rounded-bl ml-[-1px]"></div>
           </div>
           <div className="flex flex-col gap-[30px]">
             <div className="flex flex-col gap-[10px]">
