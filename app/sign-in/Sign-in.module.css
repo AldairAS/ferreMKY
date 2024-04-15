@@ -1,0 +1,96 @@
+/* Login.module.css */
+
+.loginBackground {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(219deg, rgba(11, 9, 9, 0.4) 26.69%, rgba(0, 84, 94, 0.4) 85.58%), url(../../assets/images/login_bg.jpg);
+    background-size: cover;
+}
+
+
+.loginLogo {
+    width: 120px;           
+    height: 100px;
+    position: relative;
+    background: url(../../assets/logos/logo_f.png);
+    background-size: cover;
+}
+
+.loginLogoText {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 44px;
+    letter-spacing: 0.16em;
+
+}
+
+.loginForm {
+    display: flex;
+    justify-content: flex-end;
+    padding: 40px;
+    align-items: center;
+    height: 100%;
+}
+
+
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 39px 50px;
+    gap: 15px;
+    max-width: 553px;
+max-height: 600px;
+    background: rgba(14, 11, 11, 0.4);
+    backdrop-filter: blur(5.1px);
+    border-radius: 32px;
+}
+
+.inputField {
+    box-sizing: border-box;
+    width: 433px;
+    height: 38px;
+    padding: 10px 20px;
+    color: black;
+    background: #FFFFFF;
+    border: 1px solid var(--color-primary);
+    border-radius: 17px;
+}
+
+.submitButton {
+    width: 200px;
+    height: 41px;
+    background: var(--color-secondary);
+    border-radius: 10px;
+}
+
+
+.TabsList {
+    display: flex;
+    
+    flex-grow: 1;
+    color: #FFFFFF;
+    background-color: rgba(14, 11, 11, 0);
+    align-items: flex-end;
+    justify-content: center;
+    height: 50px;
+    width: 100%;
+}
+
+.TabBtn {
+    display: flex;
+    border-radius: 8px;
+    border-color: #FEFEFE;
+    
+    width: 170px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+

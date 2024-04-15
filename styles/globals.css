@@ -4,6 +4,13 @@
 
 @layer base {
   :root {
+
+    --color-primary: #FEFEFE; 
+    --color-secondary: #08ADB8; 
+    --color-tertiary: #717171;
+    --color-quaternary: #232323; 
+    --color-quinary: #717171; 
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
