@@ -21,7 +21,7 @@ const Modal = ({
 
   return (
     <div
-      className={`fixed overflow-auto z-50 top-0 left-0 w-full min-h-screen justify-center items-center inset-0 bg-neutral-800 bg-opacity-10 ${
+      className={`fixed overflow-auto z-50 top-0 left-0 w-full min-h-screen justify-center items-center inset-0 bg-neutral-900 bg-opacity-20 ${
         isOpen ? `flex` : `hidden`
       }`}
       onClick={handleClose}

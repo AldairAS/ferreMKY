@@ -123,10 +123,6 @@ export function SupplierView() {
                 Agregar Proveedor
               </span>
             </Button>
-            <AddSupplierForm
-              isOpenModal={isOpenAddModal}
-              closeModal={closeAddModal}
-            />
           </div>
         </div>
         <TabsContent value='all'>
@@ -191,6 +187,10 @@ export function SupplierView() {
                           supplier={supplier}
                           isOpenModal={isOpenEditModal}
                           closeModal={closeEditModal}
+                        />
+                        <AddSupplierForm
+                          isOpenModal={isOpenAddModal}
+                          closeModal={closeAddModal}
                         />
                       </TableCell>
                     </TableRow>

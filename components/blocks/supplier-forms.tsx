@@ -25,13 +25,11 @@ import {
 } from '@/services/client/supplier';
 
 export function AddSupplierForm({
-  // formTrigger
   isOpenModal,
   closeModal
 }: {
   isOpenModal: boolean;
   closeModal: () => void;
-  // formTrigger: React.ReactNode;
 }) {
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
