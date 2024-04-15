@@ -14,20 +14,16 @@ export default function page() {
             <div className={styles.loginLogoText}>HARDWARE STORE</div>
           </div>
 
-          <div className={styles.TabsList}>
-            <div className="w-[20px] border-b-[1px] border-r-[1px] border-white h-[30px] rounded-br mr-[-1px]"></div>
-            <div className="w-[20%] border-t-[1px] border-x-[1px] border-white h-[90%] mb-[4px] flex justify-center items-center rounded-t-[10px]  ">Sign-in</div>
-  <div className="flex-grow border-b-[1px] border-l-[1px] border-white h-[30px] rounded-bl ml-[-1px]"></div>
-          </div>
-          <div className="flex flex-col gap-[30px]">
-            <div className="flex flex-col gap-[10px]">
+          <div className="flex flex-col gap-[50px]">
+            <div className="flex flex-col gap-[5px]">
+                          <div className="flex flex-col gap-[3px]">
               <label htmlFor="email" className="align-text-left w-[100%]">
                 Email
               </label>
               <input name="email" className={styles.inputField} />
             </div>
 
-            <div className="flex flex-col gap-[10px]">
+            <div className="flex flex-col gap-[3px]">
               <label htmlFor="password" className="align-text-left w-[100%] ">
                 Password
               </label>
@@ -37,9 +33,11 @@ export default function page() {
                 className={styles.inputField}
               />
             </div>
+            </div>
+
 
             <div className="w-[100%] flex justify-center">
-              <button className={styles.submitButton}>Sign In</button>
+              <button className={styles.submitButton}>ACCEDER</button>
             </div>
           </div>
         </form>

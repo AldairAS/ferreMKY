@@ -5,14 +5,14 @@
     position: relative;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(219deg, rgba(11, 9, 9, 0.4) 26.69%, rgba(0, 84, 94, 0.4) 85.58%), url(../../assets/images/login_bg.jpg);
+    background: linear-gradient(219deg, rgba(11, 9, 9, 0.4) 26.69%, rgba(0, 84, 94, 0.4) 85.58%), url(../../assets/images/login_bg.png);
     background-size: cover;
 }
 
 
 .loginLogo {
-    width: 120px;           
-    height: 100px;
+    width:79px;           
+    height: 65px;
     position: relative;
     background: url(../../assets/logos/logo_f.png);
     background-size: cover;
@@ -22,7 +22,7 @@
     font-family: "Montserrat", sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 14px;
     line-height: 44px;
     letter-spacing: 0.16em;
 
@@ -42,31 +42,39 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 25px 50px;
+    padding: 50px 25px 40px 25px;
     gap: 15px;
     max-width: 553px;
 max-height: 600px;
-    background: rgba(14, 11, 11, 0.4);
+    background: rgba(14, 11, 11, 0.2);
     backdrop-filter: blur(5.1px);
-    border-radius: 32px;
+    border-radius: 10px;
 }
 
 .inputField {
     box-sizing: border-box;
-    width: 433px;
-    height: 38px;
+    width: 333px;
+    height: 45px;
     padding: 10px 20px;
     color: black;
     background: #FFFFFF;
     border: 1px solid var(--color-primary);
-    border-radius: 17px;
+    border-radius: 5px;
 }
 
 .submitButton {
-    width: 200px;
-    height: 41px;
+    width: 100%;
+    height: 45px;
     background: var(--color-secondary);
-    border-radius: 10px;
+    border-radius: 5px;
+    color: var(--PrimaryColor, #FEFEFE);
+text-align: center;
+font-family: "Montserrat", sans-serif;
+font-size: 10px;
+font-style: normal;
+font-weight: 500;
+line-height: 120%; /* 22.4px */
+letter-spacing: 4.2px;
 }
 
 
