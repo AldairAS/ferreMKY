@@ -46,6 +46,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import FerreMYKLogo from "/public/icon.png";
+import ProfileSheet from "@/components/profile-config-sheet";
 
 const menuItems = [
   {
@@ -251,7 +252,9 @@ export default function NavigationMenu() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Configuración</DropdownMenuItem>
+              <DropdownMenuItem>
+                <ProfileSheet />
+              </DropdownMenuItem>
               <DropdownMenuItem>Soporte</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
