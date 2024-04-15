@@ -19,6 +19,10 @@ import {
 import { FormSupplierSchema } from '@models/schemas';
 import { Supplier } from '@models/types';
 import Modal from '../ui/modal';
+import {
+  addSupplierClient,
+  editSupplierClient
+} from '@/services/client/supplier';
 
 export function AddSupplierForm({
   // formTrigger
@@ -38,8 +42,15 @@ export function AddSupplierForm({
     }
   });
 
-  function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('contact', values.contact);
+    formData.append('description', values.description);
+
+    // FIXME: para manejar el mensaje de si se agrego o no el proveedor esta función no debería retornar algo?
+    const res = await addSupplierClient(undefined, formData);
+    // console.log(res);
   }
 
   return (
@@ -109,15 +120,10 @@ export function AddSupplierForm({
 }
 
 export function EditSupplierForm({
-  // open,
-  // setOpen,
   supplier,
   isOpenModal,
   closeModal
 }: {
-  //formTrigger: React.ReactNode;
-  // open: boolean;
-  // setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isOpenModal: boolean;
   closeModal: () => void;
   supplier: Supplier;
@@ -129,24 +135,18 @@ export function EditSupplierForm({
     }
   });
 
-  function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
+    const formData = new FormData();
+    formData.append('id', supplier.id);
+    formData.append('name', values.name);
+    formData.append('contact', values.contact);
+    formData.append('description', values.description);
+
+    // FIXME: para manejar el mensaje de si se agrego o no el proveedor esta función no debería retornar algo?
+    const res = await editSupplierClient(undefined, formData);
+    // console.log(res);
   }
   return (
-    // <AlertDialog open={open}>
-    //   {/*<AlertDialogTrigger>{formTrigger}</AlertDialogTrigger>*/}
-    //   <AlertDialogContent>
-    //     <AlertDialogHeader className='flex-row justify-between'>
-    //       <AlertDialogTitle className='text-2xl'>
-    //         Editar Provedor
-    //       </AlertDialogTitle>
-    //       <AlertDialogCancel
-    //         onClick={() => setOpen(() => !open)}
-    //         className='bg-red-500 rounded-full text-white'
-    //       >
-    //         X
-    //       </AlertDialogCancel>
-    //     </AlertDialogHeader>
     <Modal isOpen={isOpenModal} handleClose={closeModal}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
@@ -213,7 +213,5 @@ export function EditSupplierForm({
         </form>
       </Form>
     </Modal>
-    //   </AlertDialogContent>
-    // </AlertDialog>
   );
 }
