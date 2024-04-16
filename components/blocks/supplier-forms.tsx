@@ -52,7 +52,11 @@ export function AddSupplierForm({
   }
 
   return (
-    <Modal isOpen={isOpenModal} handleClose={closeModal}>
+    <Modal
+      isOpen={isOpenModal}
+      handleClose={closeModal}
+      title='Agregar Proveedor'
+    >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <FormField
@@ -145,7 +149,11 @@ export function EditSupplierForm({
     // console.log(res);
   }
   return (
-    <Modal isOpen={isOpenModal} handleClose={closeModal}>
+    <Modal
+      isOpen={isOpenModal}
+      handleClose={closeModal}
+      title='Editar Proveedor'
+    >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <FormField
