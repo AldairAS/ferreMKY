@@ -50,7 +50,7 @@ export default function page() {
                 </label>
                 <input name="email" placeholder="user@mail.com" className={styles.inputField} />
                 {formState?.errors && formState.errors.email && (
-                  <span className={styles.error}>{formState.errors.email}</span>
+                  <p className={styles.error}>{formState.errors.email}</p>
                 )}
               </div>
 
@@ -68,17 +68,18 @@ export default function page() {
                   className={styles.inputField}
                 />
                 {formState?.errors && formState.errors.password && (
-                  <span className={styles.error}>{formState.errors.password}</span>
+                  <p className={styles.error}>{formState.errors.password}</p>
                 )}
               </div>
             </div>
 
-            <div className="w-[100%] flex justify-center">
+            <div className="w-[100%] flex justify-center flex-col">
               <button className={styles.submitButton}>ACCEDER</button>
-            </div>
-            <p className="text-red-400 text-right">
+              <p className="text-red-400 text-right pt-[5px]">
               {formState?.message && formState.message}
             </p>
+            </div>
+       
           </div>
         </form>
       </div>
