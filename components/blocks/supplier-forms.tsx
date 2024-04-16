@@ -19,10 +19,7 @@ import {
 import { FormSupplierSchema } from '@models/schemas';
 import { Supplier } from '@models/types';
 import Modal from '../ui/modal';
-import {
-  addSupplierClient,
-  editSupplierClient
-} from '@/services/client/supplier';
+import { addSupplierClient, editSupplierClient } from '@client/supplier';
 
 export function AddSupplierForm({
   isOpenModal,
@@ -130,10 +127,13 @@ export function EditSupplierForm({
   closeModal: () => void;
   supplier: Supplier;
 }) {
-
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
-    defaultValues: supplier
+    defaultValues: {
+      name: '',
+      contact: '',
+      description: ''
+    }
   });
 
   async function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
@@ -145,11 +145,25 @@ export function EditSupplierForm({
 
     // FIXME: para manejar el mensaje de si se agrego o no el proveedor esta función no debería retornar algo?
     const res = await editSupplierClient(undefined, formData);
-    // console.log(res);
+    // console.log(values, supplier.id);
   }
 
   useEffect(() => {
-    form.reset(supplier);
+    // console.log(supplier);
+    // form.reset(supplier);
+
+    form.setValue('name', supplier.name, {
+      shouldDirty: true,
+      shouldValidate: true
+    });
+    form.setValue('description', supplier.description, {
+      shouldDirty: true,
+      shouldValidate: true
+    });
+    form.setValue('contact', supplier.contact, {
+      shouldDirty: true,
+      shouldValidate: true
+    });
   }, [supplier]);
 
   // console.log(form.formState.defaultValues, supplier);
