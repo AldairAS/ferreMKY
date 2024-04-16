@@ -40,5 +40,5 @@ export async function logout(prevState: FormAuthState): Promise<FormAuthState> {
   if (error) {
     return { message: error };
   }
-  redirect("/sign-in");
+  redirect("/");
 }

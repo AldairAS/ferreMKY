@@ -48,7 +48,8 @@ import { usePathname, useRouter } from "next/navigation";
 import Logo from "@assets/logos/logo.svg";
 import ProfileSheet from "@/components/profile-config-sheet";
 import { useEffect, useState } from "react";
-
+import { useFormState, useFormStatus } from "react-dom";
+import { logout } from "@/services/client/auth";
 const menuItems = [
   {
     icon: LayoutDashboard,
@@ -88,7 +89,7 @@ export default function NavigationMenu() {
   const { setTheme } = useTheme();
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
-
+  const [formState, formAction] = useFormState(logout, undefined);
   useEffect(() => {
     if (router) {
       const linkPath = pathname
@@ -310,8 +311,7 @@ export default function NavigationMenu() {
               <DropdownMenuSeparator />
               <DropdownMenuItem 
                   onClick={() => {
-                    formAction(); // Llama a la función formAction en el onClick
-                    router.push("/");
+                    formAction();
                   }}
                 className="text-red-500 "
               >
