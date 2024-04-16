@@ -26,9 +26,10 @@ import {
   TableRow
 } from '@components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs';
-import { JSX, SVGProps } from 'react';
+import { JSX, SVGProps, useState } from 'react';
 import { AddSupplierForm, EditSupplierForm } from './supplier-forms';
 import useModal from '../hooks/useModal';
+import { Supplier } from '@/models/types';
 
 const suppliers = [
   {
@@ -76,6 +77,7 @@ const suppliers = [
 ];
 
 export function SupplierView() {
+  const [supplier, setSupplier] = useState<Supplier>(suppliers[0]);
   const [isOpenAddModal, openAddModal, closeAddModal] = useModal(false);
   const [isOpenEditModal, openEditModal, closeEditModal] = useModal(false);
 
@@ -175,7 +177,12 @@ export function SupplierView() {
                           </DropdownMenuTrigger>
 
                           <DropdownMenuContent align='end'>
-                            <DropdownMenuItem onClick={openEditModal}>
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setSupplier(() => supplier);
+                                openEditModal();
+                              }}
+                            >
                               Editar
                             </DropdownMenuItem>
                             <DropdownMenuItem className='text-red-500'>
@@ -183,20 +190,20 @@ export function SupplierView() {
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
-                        <EditSupplierForm
-                          supplier={supplier}
-                          isOpenModal={isOpenEditModal}
-                          closeModal={closeEditModal}
-                        />
-                        <AddSupplierForm
-                          isOpenModal={isOpenAddModal}
-                          closeModal={closeAddModal}
-                        />
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
+              <EditSupplierForm
+                supplier={supplier}
+                isOpenModal={isOpenEditModal}
+                closeModal={closeEditModal}
+              />
+              <AddSupplierForm
+                isOpenModal={isOpenAddModal}
+                closeModal={closeAddModal}
+              />
             </CardContent>
             <CardFooter>
               <div className='text-xs text-muted-foreground'>

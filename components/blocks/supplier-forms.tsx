@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -130,11 +130,10 @@ export function EditSupplierForm({
   closeModal: () => void;
   supplier: Supplier;
 }) {
+
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
-    defaultValues: {
-      ...supplier
-    }
+    defaultValues: supplier
   });
 
   async function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
@@ -148,6 +147,12 @@ export function EditSupplierForm({
     const res = await editSupplierClient(undefined, formData);
     // console.log(res);
   }
+
+  useEffect(() => {
+    form.reset(supplier);
+  }, [supplier]);
+
+  // console.log(form.formState.defaultValues, supplier);
   return (
     <Modal
       isOpen={isOpenModal}
