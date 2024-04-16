@@ -2,7 +2,7 @@
   {
     "imagen": "https://img.freepik.com/free-psd/electric-drill-isolated-transparent-background_191095-26053.jpg?w=740&t=st=1712593186~exp=1712593786~hmac=8da0b82861e641d542b493872f5a89092125dde87d47105bfb1ce8c24fa745f8",
     "nombre": "Taladro Inalámbrico",
-    "estado": "En stock",
+    "estado": "Stock",
     "precio": 99.99,
     "ventasTotal": 50,
     "creado": "2023-04-15 09:30 AM"
@@ -10,7 +10,7 @@
   {
     "imagen": "https://img.freepik.com/premium-vector/hand-saw-coping-saw-aka-manual-wood-saw-vector-illuctration_708222-138.jpg?w=740",
     "nombre": "Serrucho de Mano",
-    "estado": "En stock",
+    "estado": "Stock",
     "precio": 24.99,
     "ventasTotal": 75,
     "creado": "2023-06-22 03:45 PM"
@@ -26,7 +26,7 @@
   {
     "imagen": "https://img.freepik.com/premium-photo/close-up-spanner-against-gray-background_1048944-8855363.jpg?w=900",
     "nombre": "Llave Inglesa Ajustable",
-    "estado": "En stock",
+    "estado": "Stock",
     "precio": 29.99,
     "ventasTotal": 80,
     "creado": "2023-09-10 02:05 PM"
@@ -34,7 +34,7 @@
   {
     "imagen": "https://img.freepik.com/premium-photo/flatlay-screwdriver-bits-wooden-surface-copy-space_268192-250.jpg?w=900",
     "nombre": "Juego de Destornilladores",
-    "estado": "En stock",
+    "estado": "Stock",
     "precio": 34.99,
     "ventasTotal": 60,
     "creado": "2023-11-20 08:00 AM"

@@ -1,22 +1,48 @@
 import { Button } from "@/components/ui/button";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { Kalam } from "next/font/google";
+const kalam = Kalam({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  preload: false,
+});
 
 export default function page() {
   return (
-    <div className="flex justify-center flex-col gap-4 h-96 items-center">
-      <h1 className="text-7xl font-bold">Ferre MYK</h1>
-      <div className="flex gap-3">
-        <Link href="/dashboard" className="group">
-          <Button>
-            Ir al Dashboard
-            <MoveRight className="group-hover:translate-x-2 ml-2 duration-500 ease-out" />
-          </Button>
-        </Link>
-        <Link href="/sign-in" className="group">
-          <Button variant="secondary">Iniciar Sesión</Button>
-        </Link>
+    <LandingLayout>
+      <div className="mx-auto max-w-2xl">
+        <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+          <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+            Anunciando el despliegue exitosos de la version 1.0.0
+            <Link href="#" className="font-semibold text-indigo-600">
+              <span className="absolute inset-0" aria-hidden="true" /> Ver más{" "}
+              <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+        </div>
+        <div className="text-center">
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+            Software para el manejo de tu{" "}
+            <i className={kalam.className}>PYME</i>
+          </h1>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            MKY Corp es un sistema semi ERP para control de gestion de tiendas,
+            con el cual podras llevar un control de tus productos, ventas,
+            compras, inventario y mucho mas.
+          </p>
+          <div className="mt-10 flex items-center justify-center gap-x-6">
+            <Link href="/login">
+              <Button size="lg">Empezar</Button>
+            </Link>
+            <Link href="/ferremyk" className="group">
+              <Button variant="outline" size="lg">
+                Probar Demo
+                <MoveRight className="h-4 w-4 ml-1.5 group-hover:translate-x-2 duration-300 ease-in-out" />
+              </Button>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

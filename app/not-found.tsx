@@ -28,7 +28,7 @@ export default function Page() {
           </Link>
         </div>
       </div>
-      <Image className="h-ful w-1/2" src={NotFound} alt="Not Found" />
+      <Image className="h-screen w-1/2" src={NotFound} alt="Not Found" />
     </main>
   );
 }
