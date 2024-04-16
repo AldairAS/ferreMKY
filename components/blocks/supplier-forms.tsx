@@ -43,7 +43,6 @@ export function AddSupplierForm({
     formData.append('contact', values.contact);
     formData.append('description', values.description);
 
-    // FIXME: para manejar el mensaje de si se agrego o no el proveedor esta función no debería retornar algo?
     const res = await addSupplierClient(undefined, formData);
     // console.log(res);
   }
@@ -143,7 +142,6 @@ export function EditSupplierForm({
     formData.append('contact', values.contact);
     formData.append('description', values.description);
 
-    // FIXME: para manejar el mensaje de si se agrego o no el proveedor esta función no debería retornar algo?
     const res = await editSupplierClient(undefined, formData);
     // console.log(values, supplier.id);
   }
@@ -226,7 +224,7 @@ export function EditSupplierForm({
             )}
           />
           <div className='flex justify-between w-full'>
-            <Button type='submit'>Editar Producto</Button>
+            <Button type='submit'>Editar Proveedor</Button>
             <Button
               type='reset'
               onClick={() => form.reset()}
