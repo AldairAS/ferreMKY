@@ -6,7 +6,7 @@ import { ThemeProvider } from "@components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FerreMYK",
+  title: "FerreMKY",
   description: "Sistema semi ERP para control de gestion de tiendas",
   icons: [
     {

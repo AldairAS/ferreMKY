@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -16,209 +16,225 @@ import {
   FormMessage
 } from '@components/ui/form';
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from '@components/ui/alert-dialog';
-
 import { FormSupplierSchema } from '@models/schemas';
 import { Supplier } from '@models/types';
-// import { Switch } from '../ui/switch';
-// import { Label } from '../ui/label';
+import Modal from '../ui/modal';
+import { addSupplierClient, editSupplierClient } from '@client/supplier';
 
 export function AddSupplierForm({
-  formTrigger
+  isOpenModal,
+  closeModal
 }: {
-  formTrigger: React.ReactNode;
+  isOpenModal: boolean;
+  closeModal: () => void;
 }) {
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
-    resolver: zodResolver(FormSupplierSchema)
+    resolver: zodResolver(FormSupplierSchema),
+    defaultValues: {
+      name: '',
+      contact: '',
+      description: ''
+    }
   });
 
-  function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('contact', values.contact);
+    formData.append('description', values.description);
+
+    const res = await addSupplierClient(undefined, formData);
+    // console.log(res);
   }
+
   return (
-    <AlertDialog>
-      <AlertDialogTrigger>{formTrigger}</AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader className='flex flex-row justify-between'>
-          <AlertDialogTitle className='text-2xl'>
-            Agregar Proveedor
-          </AlertDialogTitle>
-          <AlertDialogCancel className='bg-red-500 rounded-full text-white'>
-            X
-          </AlertDialogCancel>
-        </AlertDialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nombre del Proveedor</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Resina UXC 9' {...field} />
-                  </FormControl>
-                  <FormDescription>Un nombre para el proveedor</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <Modal
+      isOpen={isOpenModal}
+      handleClose={closeModal}
+      title='Agregar Proveedor'
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+          <FormField
+            control={form.control}
+            name='name'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nombre del Proveedor</FormLabel>
+                <FormControl>
+                  <Input placeholder='Resina UXC 9' {...field} />
+                </FormControl>
+                <FormDescription>Un nombre para el proveedor</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name='description'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descripcion</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Descripcion ...' {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Una descripcion detallada del proveedor
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name='description'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Descripción del Proveedor</FormLabel>
+                <FormControl>
+                  <Input placeholder='Descripcion ...' {...field} />
+                </FormControl>
+                <FormDescription>
+                  Una descripcion detallada del proveedor
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name='contact'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contacto</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Contacto ...' {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Un contacto para el proveedor
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className='flex justify-between w-full'>
-              <Button type='submit'>Crear Producto</Button>
-              <Button
-                type='reset'
-                onClick={() => form.reset()}
-                variant='destructive'
-              >
-                Limpiar
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </AlertDialogContent>
-    </AlertDialog>
+          <FormField
+            control={form.control}
+            name='contact'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Contacto</FormLabel>
+                <FormControl>
+                  <Input placeholder='Contacto ...' {...field} />
+                </FormControl>
+                <FormDescription>Un contacto para el proveedor</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className='flex justify-between w-full'>
+            <Button type='submit'>Crear Proveedor</Button>
+            <Button
+              type='reset'
+              onClick={() => form.reset()}
+              variant='destructive'
+            >
+              Limpiar
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </Modal>
   );
 }
 
 export function EditSupplierForm({
-  open,
-  supplier
+  supplier,
+  isOpenModal,
+  closeModal
 }: {
-  //formTrigger: React.ReactNode;
-  open: boolean;
+  isOpenModal: boolean;
+  closeModal: () => void;
   supplier: Supplier;
 }) {
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
     defaultValues: {
-      ...supplier
+      name: '',
+      contact: '',
+      description: ''
     }
   });
 
-  function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
+    const formData = new FormData();
+    formData.append('id', supplier.id);
+    formData.append('name', values.name);
+    formData.append('contact', values.contact);
+    formData.append('description', values.description);
+
+    const res = await editSupplierClient(undefined, formData);
+    // console.log(values, supplier.id);
   }
+
+  useEffect(() => {
+    // console.log(supplier);
+    // form.reset(supplier);
+
+    form.setValue('name', supplier.name, {
+      shouldDirty: true,
+      shouldValidate: true
+    });
+    form.setValue('description', supplier.description, {
+      shouldDirty: true,
+      shouldValidate: true
+    });
+    form.setValue('contact', supplier.contact, {
+      shouldDirty: true,
+      shouldValidate: true
+    });
+  }, [supplier]);
+
+  // console.log(form.formState.defaultValues, supplier);
   return (
-    <AlertDialog open={open}>
-      {/*<AlertDialogTrigger>{formTrigger}</AlertDialogTrigger>*/}
-      <AlertDialogContent>
-        <AlertDialogHeader className='flex-row justify-between'>
-          <AlertDialogTitle className='text-2xl'>
-            Editar Provedor
-          </AlertDialogTitle>
-          <AlertDialogCancel className='bg-red-500 rounded-full text-white'>
-            X
-          </AlertDialogCancel>
-        </AlertDialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nombre del Proveedor</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Resina UXC 9' {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Un nuevo nombre para el proveedor
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <Modal
+      isOpen={isOpenModal}
+      handleClose={closeModal}
+      title='Editar Proveedor'
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+          <FormField
+            control={form.control}
+            name='name'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nombre del Proveedor</FormLabel>
+                <FormControl>
+                  <Input placeholder='Resina UXC 9' {...field} />
+                </FormControl>
+                <FormDescription>
+                  Un nuevo nombre para el proveedor
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name='description'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descripcion</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Descripcion ...' {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Una nueva descripción detallada del proveedor
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name='description'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Descripcion del Proveedor</FormLabel>
+                <FormControl>
+                  <Input placeholder='Descripcion ...' {...field} />
+                </FormControl>
+                <FormDescription>
+                  Una nueva descripción detallada del proveedor
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name='contact'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contacto</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Contacto ...' {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Un nuevo contacto para el proveedor
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className='flex justify-between w-full'>
-              <Button type='submit'>Crear Producto</Button>
-              <Button
-                type='reset'
-                onClick={() => form.reset()}
-                variant='destructive'
-              >
-                Limpiar
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </AlertDialogContent>
-    </AlertDialog>
+          <FormField
+            control={form.control}
+            name='contact'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Contacto del Proveedor</FormLabel>
+                <FormControl>
+                  <Input placeholder='Contacto ...' {...field} />
+                </FormControl>
+                <FormDescription>
+                  Un nuevo contacto para el proveedor
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className='flex justify-between w-full'>
+            <Button type='submit'>Editar Proveedor</Button>
+            <Button
+              type='reset'
+              onClick={() => form.reset()}
+              variant='destructive'
+            >
+              Limpiar
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </Modal>
   );
 }
