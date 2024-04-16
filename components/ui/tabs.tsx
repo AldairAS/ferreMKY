@@ -4,10 +4,14 @@ import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { cn } from "@libs/utils"
 =======
 import { cn } from "@/lib/utils";
 >>>>>>> d7b6ff462638f73120e6289bd40d084fc9f40333
+=======
+import { cn } from "@libs/utils";
+>>>>>>> 35f3422e90fe105582c6255d4941d16495da2fb1
 
 const Tabs = TabsPrimitive.Root;
 
@@ -33,7 +37,11 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
+<<<<<<< HEAD
       "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-[10px] lg:text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+=======
+      "inline-flex items-center justify-center duration-200 whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+>>>>>>> 35f3422e90fe105582c6255d4941d16495da2fb1
       className
     )}
     {...props}

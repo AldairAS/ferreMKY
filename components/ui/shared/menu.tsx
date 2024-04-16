@@ -45,10 +45,9 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import FerreMYKLogo from "/public/icon.png";
-
-import { logout } from "@/services/client/auth";
-import { useFormState, useFormStatus } from "react-dom";
+import Logo from "@assets/logos/logo.svg";
+import ProfileSheet from "@/components/profile-config-sheet";
+import { useEffect, useState } from "react";
 
 const menuItems = [
   {
@@ -78,12 +77,36 @@ const menuItems = [
   },
 ];
 
+type TBreadcrumb = {
+  label: string;
+  href: string;
+};
+
 export default function NavigationMenu() {
   const router = useRouter();
   const pathname = usePathname();
   const { setTheme } = useTheme();
-  const [formState, formAction] = useFormState(logout, undefined);
+  const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
+  const [activePage, setActivePage] = useState("");
 
+  useEffect(() => {
+    if (router) {
+      const linkPath = pathname
+        .split("/")
+        .filter((path) => path !== "/dashboard")
+        .slice(1);
+
+      const pathArray = linkPath.map((path, index) => {
+        return {
+          label: path.charAt(0).toUpperCase() + path.slice(1),
+          href: `/${linkPath.slice(0, index + 1).join("/")}`,
+        };
+      });
+
+      setBreadcrumbs(pathArray);
+      setActivePage(linkPath.pop() || "/dashboard");
+    }
+  }, [router, pathname]);
 
   return (
     <div>
@@ -91,12 +114,12 @@ export default function NavigationMenu() {
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <TooltipProvider>
             <Link href="/dashboard">
-              <Image
-                className="transition-all group-hover:scale-110 rounded-sm"
-                src={FerreMYKLogo}
+              <img
+                className="transition-all group-hover:scale-110 rounded-lg"
+                src={Logo.src}
                 alt="FerreMYK"
-                height={60}
-                width={60}
+                height={50}
+                width={50}
               />
               <span className="sr-only">Ferre MYK</span>
             </Link>
@@ -122,9 +145,9 @@ export default function NavigationMenu() {
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
           <DropdownMenu>
-            <DropdownMenuTrigger className="px-2.5" asChild>
-              <Button variant="ghost">
-                <SettingsIcon className="h-5 w-5" />
+            <DropdownMenuTrigger asChild>
+              <Button className="px-2" variant="ghost">
+                <SettingsIcon className="h-5 w-5 text-muted-foreground" />
                 <span className="sr-only">Configuración</span>
               </Button>
             </DropdownMenuTrigger>
@@ -227,20 +250,27 @@ export default function NavigationMenu() {
           </Sheet>
           <Breadcrumb className="hidden md:flex">
             <BreadcrumbList>
+              {breadcrumbs.map(
+                (breadcrumb, i) =>
+                  i !== breadcrumbs.length - 1 && (
+                    <BreadcrumbItem key={i}>
+                      <BreadcrumbLink asChild>
+                        <Link
+                          href={breadcrumb.href}
+                          onClick={() => setActivePage(breadcrumb.label)}
+                        >
+                          {breadcrumb.label}
+                        </Link>
+                      </BreadcrumbLink>
+                      {i < breadcrumbs.length - 2 && <BreadcrumbSeparator />}
+                    </BreadcrumbItem>
+                  )
+              )}
+              {breadcrumbs.length > 1 && <BreadcrumbSeparator />}
               <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="home">Panel de Control</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="/">Pedidos</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Pedidos Recientes</BreadcrumbPage>
+                <BreadcrumbPage className="capitalize">
+                  {activePage}
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -275,7 +305,7 @@ export default function NavigationMenu() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Configuración</DropdownMenuItem>
+              <DropdownMenuItem>Perfil</DropdownMenuItem>
               <DropdownMenuItem>Soporte</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem 
