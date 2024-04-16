@@ -10,6 +10,7 @@
     height: 100vh;
     background: linear-gradient(219deg, rgba(11, 9, 9, 0.4) 26.69%, rgba(0, 84, 94, 0.4) 85.58%), url(../../assets/images/login_bg.png);
     background-size: cover;
+    background-position: center;
 }
 
 .textOneLogin{
@@ -60,6 +61,7 @@ letter-spacing: 17.92px;
 
 
 .loginContainer {
+    color:#FEFEFE;
     margin-right: 60px;
     display: flex;
     flex-direction: column;
@@ -68,7 +70,7 @@ letter-spacing: 17.92px;
     padding: 50px 25px 40px 25px;
     gap: 15px;
     max-width: 553px;
-max-height: 600px;
+    max-height: 600px;
     background: rgba(14, 11, 11, 0.2);
     backdrop-filter: blur(5.1px);
     border-radius: 10px;
@@ -123,6 +125,95 @@ letter-spacing: 4.2px;
     align-items: center;
 }
 
+.error {
+  font-size: 10px;
+}
+
+@media (max-width: 1200px) {
+    .textOneLogin {
+      font-size: 40px;
+      letter-spacing: 3px;
+    }
+  
+    .textTwoLogin {
+      font-size: 100px;
+      letter-spacing: 12px;
+    }
+  
+    .loginContainer {
+      margin-right: 20px;
+    }
+  }
 
 
+@media (max-width: 1024px) {
+    .loginForm {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 20px;
+    }
+  
+    .inputField {
+      width: 100%;
+      max-width: 300px;
+    }
 
+    .loginContainer{
+        margin-right: 0px;
+    }
+
+    .textTwoLogin {
+        font-size: 60px;
+        letter-spacing: 12px;
+      }
+  }
+  
+  @media (max-width: 600px) {
+    .textOneLogin {
+      font-size: 28px;
+      letter-spacing: 3px;
+    }
+  
+    .textTwoLogin {
+      font-size: 68px;
+      letter-spacing: 12px;
+    }
+  
+    .loginContainer {
+      margin-right: 20px;
+    }
+  }
+
+
+  @media (max-width: 480px) {
+    .textOneLogin {
+      font-size: 24px;
+      letter-spacing: 3px;
+    }
+  
+    .textTwoLogin {
+      font-size: 64px;
+      letter-spacing: 12px;
+    }
+  
+    .loginContainer {
+      margin-right: 20px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .textOneLogin {
+      font-size: 18px;
+      letter-spacing: 3px;
+    }
+  
+    .textTwoLogin {
+      font-size: 50px;
+      letter-spacing: 12px;
+    }
+  
+    .loginContainer {
+      margin-right: 16px;
+    }
+  }
