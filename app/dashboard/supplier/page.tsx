@@ -1,12 +1,10 @@
-import React from "react";
-import { SupplierView } from "@/components/blocks/supplier_ui";
+import React from 'react';
+import { SupplierView } from '@components/blocks/supplier_ui';
 
-const SupplierPage = () => {
+export default function SupplierPage() {
   return (
     <div>
       <SupplierView />
     </div>
   );
-};
-
-export default SupplierPage;
+}

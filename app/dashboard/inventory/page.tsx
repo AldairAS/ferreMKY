@@ -1,10 +1,10 @@
-import React from "react";
-import { InventarioView } from "@/components/blocks/inventario_ui";
+import React from 'react';
+import { InventaryView } from '@components/blocks/inventary_ui';
 
-export default function InventarioPage() {
+export default function InventaryPage() {
   return (
     <div>
-      <InventarioView />
+      <InventaryView />
     </div>
   );
 }

@@ -1,5 +1,4 @@
 'use client';
-import { Badge } from '@components/ui/badge';
 import { Button } from '@components/ui/button';
 import {
   Card,
@@ -16,7 +15,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@components/ui/dropdown-menu';
 import {
@@ -28,10 +26,10 @@ import {
   TableRow
 } from '@components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs';
-//import { productos } from '@/data';
-//import Image from 'next/image';
 import { JSX, SVGProps, useState } from 'react';
 import { AddSupplierForm, EditSupplierForm } from './supplier-forms';
+import useModal from '../hooks/useModal';
+import { Supplier } from '@/models/types';
 
 const suppliers = [
   {
@@ -79,7 +77,9 @@ const suppliers = [
 ];
 
 export function SupplierView() {
-  const [open, setOpen] = useState(false);
+  const [supplier, setSupplier] = useState<Supplier>(suppliers[0]);
+  const [isOpenAddModal, openAddModal, closeAddModal] = useModal(false);
+  const [isOpenEditModal, openEditModal, closeEditModal] = useModal(false);
 
   return (
     <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
@@ -119,16 +119,12 @@ export function SupplierView() {
                 Exportar
               </span>
             </Button>
-            <AddSupplierForm
-              formTrigger={
-                <Button className='h-8 gap-1' size='sm'>
-                  <PlusCircleIcon className='h-3.5 w-3.5' />
-                  <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
-                    Agregar Proveedor
-                  </span>
-                </Button>
-              }
-            />
+            <Button className='h-8 gap-1' size='sm' onClick={openAddModal}>
+              <PlusCircleIcon className='h-3.5 w-3.5' />
+              <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
+                Agregar Proveedor
+              </span>
+            </Button>
           </div>
         </div>
         <TabsContent value='all'>
@@ -181,10 +177,11 @@ export function SupplierView() {
                           </DropdownMenuTrigger>
 
                           <DropdownMenuContent align='end'>
-                            <EditSupplierForm supplier={supplier} open={open} />
-
                             <DropdownMenuItem
-                              onClick={() => setOpen(() => !open)}
+                              onClick={() => {
+                                setSupplier(() => supplier);
+                                openEditModal();
+                              }}
                             >
                               Editar
                             </DropdownMenuItem>
@@ -198,6 +195,15 @@ export function SupplierView() {
                   ))}
                 </TableBody>
               </Table>
+              <EditSupplierForm
+                supplier={supplier}
+                isOpenModal={isOpenEditModal}
+                closeModal={closeEditModal}
+              />
+              <AddSupplierForm
+                isOpenModal={isOpenAddModal}
+                closeModal={closeAddModal}
+              />
             </CardContent>
             <CardFooter>
               <div className='text-xs text-muted-foreground'>
