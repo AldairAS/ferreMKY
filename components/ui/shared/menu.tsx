@@ -46,10 +46,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "@assets/logos/logo.svg";
-import ProfileSheet from "@/components/profile-config-sheet";
+import ProfileSheet from "@components/profile-config-sheet";
 import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { logout } from "@/services/client/auth";
+import { logout } from "@client/auth";
 const menuItems = [
   {
     icon: LayoutDashboard,

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import {
   updateKindClient,
   KindItem as KindItemType,
-} from "@/services/client/kind";
+} from "@client/kind";
 
 interface KindItemProps {
   kind: KindItemType;

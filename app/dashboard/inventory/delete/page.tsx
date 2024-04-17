@@ -2,7 +2,7 @@
 
 "use client";
 import { useState } from "react";
-import { deleteProduct } from "@/services/server/product";
+import { deleteProduct } from "@server/product";
 
 export default function DeleteProduct() {
   const [productId, setProductId] = useState("");

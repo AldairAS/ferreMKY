@@ -3,7 +3,7 @@ import { useState } from "react";
 import {
   updateCategoryClient,
   CategoryItem as CategoryItemType,
-} from "@/services/client/category";
+} from "@client/category";
 
 interface CategoryItemProps {
   category: CategoryItemType;

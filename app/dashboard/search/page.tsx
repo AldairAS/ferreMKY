@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Product } from "@/models/types";
+import { Product } from "@models/types";
 import { searchItemsInventory } from "@server/product";
 import { useEffect, useState } from "react";
 

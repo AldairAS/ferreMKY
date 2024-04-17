@@ -29,7 +29,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import { JSX, SVGProps, useState } from "react";
 import { AddSupplierForm, EditSupplierForm } from "./supplier-forms";
 import useModal from "../hooks/useModal";
-import { Supplier } from "@/models/types";
+import { Supplier } from "@models/types";
 
 const suppliers = [
   {

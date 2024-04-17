@@ -3,7 +3,7 @@ import { useState } from "react";
 import {
   updateSupplierClient,
   SupplierItem as SupplierItemType,
-} from "@/services/client/supplier";
+} from "@client/supplier";
 
 interface SupplierItemProps {
   supplier: SupplierItemType;

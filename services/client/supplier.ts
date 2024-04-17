@@ -5,7 +5,7 @@ import {
   revalidateSupplier,
 } from "../server/supplier";
 
-import { updateSupplier, getAllSupplier } from "@/services/server/supplier";
+import { updateSupplier, getAllSupplier } from "@server/supplier";
 import { StateSupplier } from "@models/types";
 
 //Función para añadir la categoría y validación de campos
