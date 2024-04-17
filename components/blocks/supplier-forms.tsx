@@ -1,10 +1,10 @@
-'use client';
-import React, { useEffect } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { Button } from '@components/ui/button';
-import { Input } from '@components/ui/input';
+"use client";
+import React, { useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@components/ui/button";
+import { Input } from "@components/ui/input";
 
 import {
   Form,
@@ -13,17 +13,17 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from '@components/ui/form';
+  FormMessage,
+} from "@components/ui/form";
 
-import { FormSupplierSchema } from '@models/schemas';
-import { Supplier } from '@models/types';
-import Modal from '../ui/modal';
-import { addSupplierClient, editSupplierClient } from '@client/supplier';
+import { FormSupplierSchema } from "@models/schemas";
+import { Supplier } from "@models/types";
+import Modal from "../ui/modal";
+import { addSupplierClient, editSupplierClient } from "@client/supplier";
 
 export function AddSupplierForm({
   isOpenModal,
-  closeModal
+  closeModal,
 }: {
   isOpenModal: boolean;
   closeModal: () => void;
@@ -31,17 +31,17 @@ export function AddSupplierForm({
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
     defaultValues: {
-      name: '',
-      contact: '',
-      description: ''
-    }
+      name: "",
+      contact: "",
+      description: "",
+    },
   });
 
   async function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
     const formData = new FormData();
-    formData.append('name', values.name);
-    formData.append('contact', values.contact);
-    formData.append('description', values.description);
+    formData.append("name", values.name);
+    formData.append("contact", values.contact);
+    formData.append("description", values.description);
 
     const res = await addSupplierClient(undefined, formData);
     // console.log(res);
@@ -51,18 +51,18 @@ export function AddSupplierForm({
     <Modal
       isOpen={isOpenModal}
       handleClose={closeModal}
-      title='Agregar Proveedor'
+      title="Agregar Proveedor"
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name='name'
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nombre del Proveedor</FormLabel>
                 <FormControl>
-                  <Input placeholder='Resina UXC 9' {...field} />
+                  <Input placeholder="Resina UXC 9" {...field} />
                 </FormControl>
                 <FormDescription>Un nombre para el proveedor</FormDescription>
                 <FormMessage />
@@ -72,12 +72,12 @@ export function AddSupplierForm({
 
           <FormField
             control={form.control}
-            name='description'
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Descripción del Proveedor</FormLabel>
                 <FormControl>
-                  <Input placeholder='Descripcion ...' {...field} />
+                  <Input placeholder="Descripcion ..." {...field} />
                 </FormControl>
                 <FormDescription>
                   Una descripcion detallada del proveedor
@@ -89,24 +89,24 @@ export function AddSupplierForm({
 
           <FormField
             control={form.control}
-            name='contact'
+            name="contact"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Contacto</FormLabel>
                 <FormControl>
-                  <Input placeholder='Contacto ...' {...field} />
+                  <Input placeholder="Contacto ..." {...field} />
                 </FormControl>
                 <FormDescription>Un contacto para el proveedor</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className='flex justify-between w-full'>
-            <Button type='submit'>Crear Proveedor</Button>
+          <div className="flex justify-between w-full">
+            <Button type="submit">Crear Proveedor</Button>
             <Button
-              type='reset'
+              type="reset"
               onClick={() => form.reset()}
-              variant='destructive'
+              variant="destructive"
             >
               Limpiar
             </Button>
@@ -120,7 +120,7 @@ export function AddSupplierForm({
 export function EditSupplierForm({
   supplier,
   isOpenModal,
-  closeModal
+  closeModal,
 }: {
   isOpenModal: boolean;
   closeModal: () => void;
@@ -129,18 +129,18 @@ export function EditSupplierForm({
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
     defaultValues: {
-      name: '',
-      contact: '',
-      description: ''
-    }
+      name: "",
+      contact: "",
+      description: "",
+    },
   });
 
   async function onSubmit(values: z.infer<typeof FormSupplierSchema>) {
     const formData = new FormData();
-    formData.append('id', supplier.id);
-    formData.append('name', values.name);
-    formData.append('contact', values.contact);
-    formData.append('description', values.description);
+    formData.append("id", supplier.id);
+    formData.append("name", values.name);
+    formData.append("contact", values.contact);
+    formData.append("description", values.description);
 
     const res = await editSupplierClient(undefined, formData);
     // console.log(values, supplier.id);
@@ -150,17 +150,17 @@ export function EditSupplierForm({
     // console.log(supplier);
     // form.reset(supplier);
 
-    form.setValue('name', supplier.name, {
+    form.setValue("name", supplier.name, {
       shouldDirty: true,
-      shouldValidate: true
+      shouldValidate: true,
     });
-    form.setValue('description', supplier.description, {
+    form.setValue("description", supplier.description, {
       shouldDirty: true,
-      shouldValidate: true
+      shouldValidate: true,
     });
-    form.setValue('contact', supplier.contact, {
+    form.setValue("contact", supplier.contact, {
       shouldDirty: true,
-      shouldValidate: true
+      shouldValidate: true,
     });
   }, [supplier]);
 
@@ -169,18 +169,18 @@ export function EditSupplierForm({
     <Modal
       isOpen={isOpenModal}
       handleClose={closeModal}
-      title='Editar Proveedor'
+      title="Editar Proveedor"
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name='name'
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nombre del Proveedor</FormLabel>
                 <FormControl>
-                  <Input placeholder='Resina UXC 9' {...field} />
+                  <Input placeholder="Resina UXC 9" {...field} />
                 </FormControl>
                 <FormDescription>
                   Un nuevo nombre para el proveedor
@@ -192,12 +192,12 @@ export function EditSupplierForm({
 
           <FormField
             control={form.control}
-            name='description'
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Descripcion del Proveedor</FormLabel>
                 <FormControl>
-                  <Input placeholder='Descripcion ...' {...field} />
+                  <Input placeholder="Descripcion ..." {...field} />
                 </FormControl>
                 <FormDescription>
                   Una nueva descripción detallada del proveedor
@@ -209,12 +209,12 @@ export function EditSupplierForm({
 
           <FormField
             control={form.control}
-            name='contact'
+            name="contact"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Contacto del Proveedor</FormLabel>
                 <FormControl>
-                  <Input placeholder='Contacto ...' {...field} />
+                  <Input placeholder="Contacto ..." {...field} />
                 </FormControl>
                 <FormDescription>
                   Un nuevo contacto para el proveedor
@@ -223,12 +223,12 @@ export function EditSupplierForm({
               </FormItem>
             )}
           />
-          <div className='flex justify-between w-full'>
-            <Button type='submit'>Editar Proveedor</Button>
+          <div className="flex justify-between w-full">
+            <Button type="submit">Editar Proveedor</Button>
             <Button
-              type='reset'
+              type="reset"
               onClick={() => form.reset()}
-              variant='destructive'
+              variant="destructive"
             >
               Limpiar
             </Button>

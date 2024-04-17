@@ -2,7 +2,11 @@
 import { useFormState } from "react-dom";
 import { addKindClient } from "@client/kind";
 
-export default function AddKindForm({categories}:{categories: any | null}) {
+export default function AddKindForm({
+  categories,
+}: {
+  categories: any | null;
+}) {
   const [formState, formAction] = useFormState(addKindClient, undefined);
   return (
     <div>

@@ -265,7 +265,7 @@ export default function NavigationMenu() {
                       </BreadcrumbLink>
                       {i < breadcrumbs.length - 2 && <BreadcrumbSeparator />}
                     </BreadcrumbItem>
-                  )
+                  ),
               )}
               {breadcrumbs.length > 1 && <BreadcrumbSeparator />}
               <BreadcrumbItem>
@@ -309,10 +309,10 @@ export default function NavigationMenu() {
               <DropdownMenuItem>Perfil</DropdownMenuItem>
               <DropdownMenuItem>Soporte</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem 
-                  onClick={() => {
-                    formAction();
-                  }}
+              <DropdownMenuItem
+                onClick={() => {
+                  formAction();
+                }}
                 className="text-red-500 "
               >
                 <LogOut className="h-4 w-4 mr-1" />

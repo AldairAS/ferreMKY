@@ -16,7 +16,7 @@ export default function DeleteProduct() {
     //Mensaje de confirmación
     if (
       !confirm(
-        "Al eliminar el producto se eliminará también el product_supplier asociado. ¿Estás seguro de que deseas continuar"
+        "Al eliminar el producto se eliminará también el product_supplier asociado. ¿Estás seguro de que deseas continuar",
       )
     ) {
       return;
@@ -34,7 +34,7 @@ export default function DeleteProduct() {
     } catch (error) {
       // Manejo de errores
       alert(
-        "Error al eliminar el producto. Por favor revisa la consola para más detalles."
+        "Error al eliminar el producto. Por favor revisa la consola para más detalles.",
       );
       console.error("Error al eliminar el producto:", error);
     }

@@ -1,6 +1,9 @@
-"use client"
-import React, { useState } from 'react';
-import { updateQuantityClient, QuantityItem as QuantityItemType } from "@/services/client/product_supplier";
+"use client";
+import React, { useState } from "react";
+import {
+  updateQuantityClient,
+  QuantityItem as QuantityItemType,
+} from "@/services/client/product_supplier";
 
 interface QuantityItemProps {
   quantity: QuantityItemType;
@@ -9,7 +12,12 @@ interface QuantityItemProps {
   suppliers: any[] | null;
 }
 
-const QuantityItem = ({ quantity, setAllQuantitys, products,suppliers }: QuantityItemProps) => {
+const QuantityItem = ({
+  quantity,
+  setAllQuantitys,
+  products,
+  suppliers,
+}: QuantityItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(quantity);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -37,7 +45,7 @@ const QuantityItem = ({ quantity, setAllQuantitys, products,suppliers }: Quantit
   const handleSelectChanges = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormData({
       ...formData,
-      id_supplier: e.target.value,// Actualizar el valor de id_category
+      id_supplier: e.target.value, // Actualizar el valor de id_category
     });
     setSelectedSupplier(e.target.value); // Mantener el valor seleccionado
   };
@@ -75,34 +83,36 @@ const QuantityItem = ({ quantity, setAllQuantitys, products,suppliers }: Quantit
             />
           </label>
           <br />
-          <label htmlFor="id_product">Seleccione una categoría de producto</label>
-<select
-  name="id_product"
-  id="id_product"
-  value={formData.id_product || currentProductId}
-  onChange={handleSelectChange}
->
-  {products?.map((v: any) => (
-    <option key={v.id} value={v.id}>
-      {v.description}
-    </option>
-  ))}
-</select>
-        <br />
-        <label htmlFor="id_supplier">Seleccione una proveedor</label>
-<select
-  name="id_supplier"
-  id="id_supplier"
-  value={formData.id_supplier || currentSupplierId}
-  onChange={handleSelectChanges}
->
-  {suppliers?.map((v: any) => (
-    <option key={v.id} value={v.id}>
-      {v.name}
-    </option>
-  ))}
-</select>
-        <br />
+          <label htmlFor="id_product">
+            Seleccione una categoría de producto
+          </label>
+          <select
+            name="id_product"
+            id="id_product"
+            value={formData.id_product || currentProductId}
+            onChange={handleSelectChange}
+          >
+            {products?.map((v: any) => (
+              <option key={v.id} value={v.id}>
+                {v.description}
+              </option>
+            ))}
+          </select>
+          <br />
+          <label htmlFor="id_supplier">Seleccione una proveedor</label>
+          <select
+            name="id_supplier"
+            id="id_supplier"
+            value={formData.id_supplier || currentSupplierId}
+            onChange={handleSelectChanges}
+          >
+            {suppliers?.map((v: any) => (
+              <option key={v.id} value={v.id}>
+                {v.name}
+              </option>
+            ))}
+          </select>
+          <br />
           <button type="submit">Actualizar</button>
         </form>
       ) : (

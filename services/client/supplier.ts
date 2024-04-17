@@ -5,14 +5,13 @@ import {
   revalidateSupplier,
 } from "../server/supplier";
 
-import { updateSupplier,getAllSupplier } from "@/services/server/supplier";
+import { updateSupplier, getAllSupplier } from "@/services/server/supplier";
 import { StateSupplier } from "@models/types";
-
 
 //Función para añadir la categoría y validación de campos
 export async function addSupplierClient(
   prevState: StateSupplier,
-  formData: FormData
+  formData: FormData,
 ): Promise<StateSupplier> {
   const name = formData.get("name") as string;
   const contact = formData.get("contact") as string;
@@ -40,7 +39,7 @@ export async function addSupplierClient(
 // Función para editar un proveedor
 export async function editSupplierClient(
   prevState: StateSupplier,
-  formData: FormData
+  formData: FormData,
 ): Promise<StateSupplier> {
   const id = formData.get("id") as string;
   const name = formData.get("name") as string;
@@ -62,7 +61,7 @@ export async function editSupplierClient(
     id,
     name,
     description,
-    contact
+    contact,
   );
   if (!data || errorMessage)
     return { message: errorMessage ?? "Ha ocurrido un error" };
@@ -80,24 +79,30 @@ export interface SupplierItem {
 }
 
 export async function updateSupplierClient(
-  formData: { id: string; name: string;contact:string; description: string },
+  formData: { id: string; name: string; contact: string; description: string },
   supplier: SupplierItem,
-  setAllSuppliers: (suppliers: SupplierItem[]) => void
+  setAllSuppliers: (suppliers: SupplierItem[]) => void,
 ) {
   try {
     // Actualizamos la categoría en la base de datos
-    const result: { data: any; errorMessage: string | undefined } = await updateSupplier(formData.id, formData.name,formData.contact, formData.description);
+    const result: { data: any; errorMessage: string | undefined } =
+      await updateSupplier(
+        formData.id,
+        formData.name,
+        formData.contact,
+        formData.description,
+      );
 
     // Registro de la respuesta y errores para depuración
     console.log("Respuesta de updateSupplier:", result.data);
-    
+
     if (result.errorMessage) {
       // Si hay un mensaje de error, lo lanzamos
       throw new Error(result.errorMessage);
     }
 
     // Verificamos si la respuesta de la actualización es un objeto válido con propiedad 'id'
-    if (result.data && typeof result.data === 'object') {
+    if (result.data && typeof result.data === "object") {
       console.log("Proveedor actualizado");
       await revalidateSupplier();
       const updatedSuppliersFromServer = await getAllSupplier();

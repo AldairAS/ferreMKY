@@ -1,26 +1,26 @@
-'use server';
-import { supabase } from '@config/supabase';
-import { revalidatePath } from 'next/cache';
+"use server";
+import { supabase } from "@config/supabase";
+import { revalidatePath } from "next/cache";
 
 //Revalidar la ruta
 export async function revalidateKind() {
-  revalidatePath('/add', 'page');
+  revalidatePath("/add", "page");
 }
 
 //Implementación para añadir un nuevo tipo de producto
 export async function addKind(
   idCategory: String,
   name: String,
-  description: String
+  description: String,
 ) {
   const { data, error } = await supabase
-    .from('kind')
+    .from("kind")
     .insert([
       {
         id_category: idCategory,
         name,
-        description
-      }
+        description,
+      },
     ])
     .select();
 
@@ -31,24 +31,25 @@ export async function addKind(
 }
 
 //funcion para eliminar un tipo de producto de la tabla (kind)
-export async function deleteTypeOfProduct(id : string) {
-    const { error } = await supabase
-        .from('kind')
-        .delete()
-        .eq('id', id);
+export async function deleteTypeOfProduct(id: string) {
+  const { error } = await supabase.from("kind").delete().eq("id", id);
 
-    if (error) {
-        console.log('Error:', error.message);
-        return { error }
-    } else {
-        console.log('Tipo de producto eliminado');
-        return { error: null }
-    }
+  if (error) {
+    console.log("Error:", error.message);
+    return { error };
+  } else {
+    console.log("Tipo de producto eliminado");
+    return { error: null };
+  }
 }
 
-
 // Función para actualizar una categoría
-export async function updateKind(id: string, name: string, description: string, id_category: string) {
+export async function updateKind(
+  id: string,
+  name: string,
+  description: string,
+  id_category: string,
+) {
   const { data, error } = await supabase
     .from("kind")
     .update({ name, description, id_category })

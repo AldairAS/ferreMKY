@@ -1,207 +1,202 @@
 /* Login.module.css */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Jersey+15&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jersey+15&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 .loginBackground {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(219deg, rgba(11, 9, 9, 0.4) 26.69%, rgba(0, 84, 94, 0.4) 85.58%), url(../../assets/images/login_bg.png);
-    background-size: cover;
-    background-position: center;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+      219deg,
+      rgba(11, 9, 9, 0.4) 26.69%,
+      rgba(0, 84, 94, 0.4) 85.58%
+    ),
+    url(../../assets/images/login_bg.png);
+  background-size: cover;
+  background-position: center;
 }
 
-.textOneLogin{
-    color: #FFF;
-    font-family: "Poppins", sans-serif;
-    font-size: 38px;
-    font-style: normal;
-    font-weight: 300;
-    line-height: normal;
-    letter-spacing: 6.72px;
+.textOneLogin {
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 38px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 6.72px;
 }
 
-.textTwoLogin{
-    color: #FF6F1E;
-font-family:  "Jersey 15", sans-serif;
-font-size: 95px;
-font-style: normal;
-font-weight: 200;
-line-height: normal;
-letter-spacing: 17.92px;
+.textTwoLogin {
+  color: #ff6f1e;
+  font-family: "Jersey 15", sans-serif;
+  font-size: 95px;
+  font-style: normal;
+  font-weight: 200;
+  line-height: normal;
+  letter-spacing: 17.92px;
 }
 
 .loginLogo {
-    width:79px;           
-    height: 65px;
-    position: relative;
-    background: url(../../assets/logos/logo_f.png);
-    background-size: cover;
+  width: 79px;
+  height: 65px;
+  position: relative;
+  background: url(../../assets/logos/logo_f.png);
+  background-size: cover;
 }
 
 .loginLogoText {
-    font-family: "Montserrat", sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 44px;
-    letter-spacing: 0.16em;
-
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 44px;
+  letter-spacing: 0.16em;
 }
 
 .loginForm {
-    display: flex;
-    justify-content: space-between;
-    padding: 40px;
-    align-items: center;
-    height: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 40px;
+  align-items: center;
+  height: 100%;
 }
 
-
 .loginContainer {
-    color:#FEFEFE;
-    margin-right: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 25px 40px 25px;
-    gap: 15px;
-    max-width: 553px;
-    max-height: 600px;
-    background: rgba(14, 11, 11, 0.2);
-    backdrop-filter: blur(5.1px);
-    border-radius: 10px;
+  color: #fefefe;
+  margin-right: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 25px 40px 25px;
+  gap: 15px;
+  max-width: 553px;
+  max-height: 600px;
+  background: rgba(14, 11, 11, 0.2);
+  backdrop-filter: blur(5.1px);
+  border-radius: 10px;
 }
 
 .inputField {
-    box-sizing: border-box;
-    width: 333px;
-    height: 45px;
-    padding: 10px 20px;
-    color: black;
-    background: #FFFFFF;
-    border: 1px solid var(--color-primary);
-    border-radius: 5px;
+  box-sizing: border-box;
+  width: 333px;
+  height: 45px;
+  padding: 10px 20px;
+  color: black;
+  background: #ffffff;
+  border: 1px solid var(--color-primary);
+  border-radius: 5px;
 }
 
 .submitButton {
-    width: 100%;
-    height: 45px;
-    background: var(--color-secondary);
-    border-radius: 5px;
-    color: var(--PrimaryColor, #FEFEFE);
-text-align: center;
-font-family: "Montserrat", sans-serif;
-font-size: 10px;
-font-style: normal;
-font-weight: 500;
-line-height: 120%; /* 22.4px */
-letter-spacing: 4.2px;
+  width: 100%;
+  height: 45px;
+  background: var(--color-secondary);
+  border-radius: 5px;
+  color: var(--PrimaryColor, #fefefe);
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%; /* 22.4px */
+  letter-spacing: 4.2px;
 }
 
-
 .TabsList {
-    display: flex;
-    
-    flex-grow: 1;
-    color: #FFFFFF;
-    background-color: rgba(14, 11, 11, 0);
-    align-items: flex-end;
-    justify-content: center;
-    height: 43px;
-    width: 100%;
+  display: flex;
+
+  flex-grow: 1;
+  color: #ffffff;
+  background-color: rgba(14, 11, 11, 0);
+  align-items: flex-end;
+  justify-content: center;
+  height: 43px;
+  width: 100%;
 }
 
 .TabBtn {
-    display: flex;
-    border-radius: 8px;
-    border-color: #FEFEFE;
-    
-    width: 170px;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  border-radius: 8px;
+  border-color: #fefefe;
+
+  width: 170px;
+  justify-content: center;
+  align-items: center;
 }
 
 .error {
   font-size: 10px;
-
 }
 
 @media (max-width: 1200px) {
-    .textOneLogin {
-      font-size: 40px;
-      letter-spacing: 3px;
-    }
-  
-    .textTwoLogin {
-      font-size: 100px;
-      letter-spacing: 12px;
-    }
-  
-    .loginContainer {
-      margin-right: 0px;
-    }
+  .textOneLogin {
+    font-size: 40px;
+    letter-spacing: 3px;
   }
 
+  .textTwoLogin {
+    font-size: 100px;
+    letter-spacing: 12px;
+  }
+
+  .loginContainer {
+    margin-right: 0px;
+  }
+}
 
 @media (max-width: 1024px) {
-    .loginForm {
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 20px;
-    }
-  
-    .inputField {
-      width: 100%;
-      max-width: 300px;
-    }
-
-    .textTwoLogin {
-        font-size: 60px;
-        letter-spacing: 12px;
-      }
-  }
-  
-  @media (max-width: 600px) {
-    .textOneLogin {
-      font-size: 28px;
-      letter-spacing: 3px;
-    }
-  
-    .textTwoLogin {
-      font-size: 68px;
-      letter-spacing: 12px;
-    }
-  
+  .loginForm {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
   }
 
-
-  @media (max-width: 480px) {
-    .textOneLogin {
-      font-size: 24px;
-      letter-spacing: 3px;
-    }
-  
-    .textTwoLogin {
-      font-size: 64px;
-      letter-spacing: 12px;
-    }
-  
+  .inputField {
+    width: 100%;
+    max-width: 300px;
   }
 
-  @media (max-width: 380px) {
-    .textOneLogin {
-      font-size: 18px;
-      letter-spacing: 3px;
-    }
-  
-    .textTwoLogin {
-      font-size: 50px;
-      letter-spacing: 12px;
-    }
-  
+  .textTwoLogin {
+    font-size: 60px;
+    letter-spacing: 12px;
   }
+}
+
+@media (max-width: 600px) {
+  .textOneLogin {
+    font-size: 28px;
+    letter-spacing: 3px;
+  }
+
+  .textTwoLogin {
+    font-size: 68px;
+    letter-spacing: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .textOneLogin {
+    font-size: 24px;
+    letter-spacing: 3px;
+  }
+
+  .textTwoLogin {
+    font-size: 64px;
+    letter-spacing: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .textOneLogin {
+    font-size: 18px;
+    letter-spacing: 3px;
+  }
+
+  .textTwoLogin {
+    font-size: 50px;
+    letter-spacing: 12px;
+  }
+}

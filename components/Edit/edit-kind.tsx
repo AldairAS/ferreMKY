@@ -1,6 +1,9 @@
-"use client"
-import React, { useState } from 'react';
-import { updateKindClient, KindItem as KindItemType } from "@/services/client/kind";
+"use client";
+import React, { useState } from "react";
+import {
+  updateKindClient,
+  KindItem as KindItemType,
+} from "@/services/client/kind";
 
 interface KindItemProps {
   kind: KindItemType;
@@ -66,20 +69,20 @@ const KindItem = ({ kind, setAllKinds, categories }: KindItemProps) => {
           </label>
           <br />
           <label htmlFor="id_category">Seleccione una categoría</label>
-<select
-  name="id_category"
-  id="id_category"
-  value={formData.id_category || currentCategoryId}
-  onChange={handleSelectChange}
->
-  {categories?.map((v: any) => (
-    <option key={v.id} value={v.id}>
-      {v.name}
-    </option>
-  ))}
-</select>
-        <br />
-         
+          <select
+            name="id_category"
+            id="id_category"
+            value={formData.id_category || currentCategoryId}
+            onChange={handleSelectChange}
+          >
+            {categories?.map((v: any) => (
+              <option key={v.id} value={v.id}>
+                {v.name}
+              </option>
+            ))}
+          </select>
+          <br />
+
           <button type="submit">Actualizar</button>
         </form>
       ) : (

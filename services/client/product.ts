@@ -6,7 +6,7 @@ import { updateProduct, getAllProducts } from "@/services/server/product";
 //Función para añadir la categoría y validación de campos
 export async function addProductClient(
   prevState: StateProduct,
-  formData: FormData
+  formData: FormData,
 ): Promise<StateProduct> {
   const code = formData.get("code") as string;
   const description = formData.get("description") as string;
@@ -37,7 +37,7 @@ export async function addProductClient(
     Number(priceSale),
     Number(storageCost),
     Number(quantity),
-    unit
+    unit,
   );
 
   if (!data || errorMessage) {
@@ -48,41 +48,57 @@ export async function addProductClient(
   await revalidateProduct();
 }
 
-
 //actualizar
-
 
 export interface ProductItem {
   id: string;
-  id_kind: string,
-  code: string,
-  description: string,
-  price_sale: number,
-  storage_cost: number,
-  quantity: number,
-  unit: number   
+  id_kind: string;
+  code: string;
+  description: string;
+  price_sale: number;
+  storage_cost: number;
+  quantity: number;
+  unit: number;
 }
 
 export async function updateProductClient(
-  formData: { id: string; code:string, description: string;
-     price_sale: number; storage_cost:number; quantity:number; unit:number;id_kind: string },
+  formData: {
+    id: string;
+    code: string;
+    description: string;
+    price_sale: number;
+    storage_cost: number;
+    quantity: number;
+    unit: number;
+    id_kind: string;
+  },
   product: ProductItem,
-  setAllProducts: (products: ProductItem[]) => void
+  setAllProducts: (products: ProductItem[]) => void,
 ) {
   try {
     // Actualizamos la categoría en la base de datos
-    const result: { data: any; errorMessage: string | undefined } = await updateProduct(formData.id, formData.id_kind,formData.code, formData.description,formData.price_sale,formData.quantity,formData.storage_cost,formData.unit);
+    const result: { data: any; errorMessage: string | undefined } =
+      await updateProduct(
+        formData.id,
+        formData.id_kind,
+        formData.code,
+        formData.description,
+        formData.price_sale,
+        formData.quantity,
+        formData.storage_cost,
+        formData.unit,
+      );
 
     // Registro de la respuesta y errores para depuración
     console.log("Respuesta de updateProduct:", result.data);
-    
+
     if (result.errorMessage) {
       // Si hay un mensaje de error, lo lanzamos
       throw new Error(result.errorMessage);
     }
 
     // Verificamos si la respuesta de la actualización es un objeto válido con propiedad 'id'
-    if (result.data && typeof result.data === 'object') {
+    if (result.data && typeof result.data === "object") {
       console.log("Producto actualizado");
       await revalidateProduct();
       const updatedProductsFromServer = await getAllProducts();

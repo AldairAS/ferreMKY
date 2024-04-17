@@ -1,6 +1,9 @@
-"use client"
-import { useState } from 'react';
-import { updateSupplierClient, SupplierItem as SupplierItemType } from "@/services/client/supplier";
+"use client";
+import { useState } from "react";
+import {
+  updateSupplierClient,
+  SupplierItem as SupplierItemType,
+} from "@/services/client/supplier";
 
 interface SupplierItemProps {
   supplier: SupplierItemType;
@@ -75,7 +78,7 @@ const SupplierItem = ({ supplier, setAllSuppliers }: SupplierItemProps) => {
           <h2>{supplier.name}</h2>
           <p>{supplier.contact}</p>
           <p>{supplier.description}</p>
-          
+
           <button onClick={handleEditClick}>Editar</button>
         </>
       )}

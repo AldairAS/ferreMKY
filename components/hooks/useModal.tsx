@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const useModal = (initialValue = false): [boolean, () => void, () => void] => {
   const [isOpen, setIsOpen] = useState(initialValue);

@@ -1,6 +1,9 @@
-"use client"
-import { useState } from 'react';
-import { updateCategoryClient, CategoryItem as CategoryItemType } from "@/services/client/category";
+"use client";
+import { useState } from "react";
+import {
+  updateCategoryClient,
+  CategoryItem as CategoryItemType,
+} from "@/services/client/category";
 
 interface CategoryItemProps {
   category: CategoryItemType;

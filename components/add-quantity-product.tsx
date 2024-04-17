@@ -4,9 +4,9 @@ import { addQuantityClient } from "@client/product_supplier";
 
 export default function AddQuantityForm({
   products,
-  suppliers
+  suppliers,
 }: {
-  products: any | null,
+  products: any | null;
   suppliers: any | null;
 }) {
   const [formState, formAction] = useFormState(addQuantityClient, undefined);

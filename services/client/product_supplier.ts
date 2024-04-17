@@ -1,11 +1,14 @@
 import { FormAddQuantitySchema } from "@models/schemas/zod_schemas";
 import { addQuantity, revalidateQuantity } from "../server/product_supplier";
 import { StateProductSupplier } from "@models/types/states";
-import { updateQuantity, getAllQuantitys } from "@/services/server/product_supplier";
+import {
+  updateQuantity,
+  getAllQuantitys,
+} from "@/services/server/product_supplier";
 //Función para añadir la categoría y validación de campos
 export async function addQuantityClient(
   prevState: StateProductSupplier,
-  formData: FormData
+  formData: FormData,
 ): Promise<StateProductSupplier> {
   const pricePurchase = formData.get("pricePurchase") as string;
   const quantity = formData.get("quantity") as string;
@@ -27,7 +30,7 @@ export async function addQuantityClient(
     idProduct,
     idSupplier,
     Number(quantity),
-    Number(pricePurchase)
+    Number(pricePurchase),
   );
 
   if (!data || errorMessage) {
@@ -38,36 +41,48 @@ export async function addQuantityClient(
   await revalidateQuantity();
 }
 
-
 //actualizar
 
 export interface QuantityItem {
   id: string;
-  quantity: number; 
+  quantity: number;
   price_purchase: number;
   id_product: string;
   id_supplier: string;
 }
 
 export async function updateQuantityClient(
-  formData: { id: string; quantity: number; price_purchase: number; id_product: string; id_supplier: string },
+  formData: {
+    id: string;
+    quantity: number;
+    price_purchase: number;
+    id_product: string;
+    id_supplier: string;
+  },
   quantity: QuantityItem,
-  setAllQuantitys: (quantitys: QuantityItem[]) => void
+  setAllQuantitys: (quantitys: QuantityItem[]) => void,
 ) {
   try {
     // Actualizamos la categoría en la base de datos
-    const result: { data: any; errorMessage: string | undefined } = await updateQuantity(formData.id, formData.quantity, formData.price_purchase,formData.id_product,formData.id_supplier);
+    const result: { data: any; errorMessage: string | undefined } =
+      await updateQuantity(
+        formData.id,
+        formData.quantity,
+        formData.price_purchase,
+        formData.id_product,
+        formData.id_supplier,
+      );
 
     // Registro de la respuesta y errores para depuración
     console.log("Respuesta de updateQuantity:", result.data);
-    
+
     if (result.errorMessage) {
       // Si hay un mensaje de error, lo lanzamos
       throw new Error(result.errorMessage);
     }
 
     // Verificamos si la respuesta de la actualización es un objeto válido con propiedad 'id'
-    if (result.data && typeof result.data === 'object') {
+    if (result.data && typeof result.data === "object") {
       console.log("Cantidad actualizada");
       await revalidateQuantity();
       const updatedQuantitysFromServer = await getAllQuantitys();

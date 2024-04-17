@@ -1,4 +1,4 @@
-import AddSupplierForm from '@components/add-supplier';
+import AddSupplierForm from "@components/add-supplier";
 
 export default async function AddSupplier() {
   return (

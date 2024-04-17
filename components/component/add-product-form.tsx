@@ -29,7 +29,7 @@ import { Switch } from "../ui/switch";
 import { X, XCircle } from "lucide-react";
 
 export default function AddProductForm({
-  formTrigger
+  formTrigger,
 }: {
   formTrigger: React.ReactNode;
 }) {
@@ -56,15 +56,15 @@ export default function AddProductForm({
           </AlertDialogTitle>
         </AlertDialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name='code'
+              name="code"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nombre del Producto</FormLabel>
                   <FormControl>
-                    <Input placeholder='Resina UXC 9' {...field} />
+                    <Input placeholder="Resina UXC 9" {...field} />
                   </FormControl>
                   <FormDescription>
                     Un nombre descriptivo para el producto
@@ -76,12 +76,12 @@ export default function AddProductForm({
 
             <FormField
               control={form.control}
-              name='description'
+              name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Descripcion</FormLabel>
                   <FormControl>
-                    <Input placeholder='Descripcion ...' {...field} />
+                    <Input placeholder="Descripcion ..." {...field} />
                   </FormControl>
                   <FormDescription>
                     Una descripcion detallada del producto
@@ -90,15 +90,15 @@ export default function AddProductForm({
                 </FormItem>
               )}
             />
-            <div className='flex justify-between'>
+            <div className="flex justify-between">
               <FormField
                 control={form.control}
-                name='priceSale'
+                name="priceSale"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Precio</FormLabel>
                     <FormControl>
-                      <Input type='number' placeholder='150.00' {...field} />
+                      <Input type="number" placeholder="150.00" {...field} />
                     </FormControl>
                     <FormDescription>
                       Precio en stock del producto
@@ -109,12 +109,12 @@ export default function AddProductForm({
               />
               <FormField
                 control={form.control}
-                name='storageCost'
+                name="storageCost"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Cantidad</FormLabel>
                     <FormControl>
-                      <Input type='number' placeholder='150.00' {...field} />
+                      <Input type="number" placeholder="150.00" {...field} />
                     </FormControl>
                     <FormDescription>
                       Cantidad de productos en stock
@@ -126,18 +126,18 @@ export default function AddProductForm({
             </div>
             <FormField
               control={form.control}
-              name='quantity'
+              name="quantity"
               render={({ field }) => (
-                <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
-                  <div className='space-y-0.5'>
-                    <FormLabel className='text-base'>Stock</FormLabel>
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">Stock</FormLabel>
                     <FormDescription>
                       El producto esta disponible?
                     </FormDescription>
                   </div>
                   <FormControl>
-                    <div className='flex gap-2 items-center'>
-                      <Label htmlFor='stock'>{field.value ? 'Sí' : 'No'}</Label>
+                    <div className="flex gap-2 items-center">
+                      <Label htmlFor="stock">{field.value ? "Sí" : "No"}</Label>
                       <Switch
                         checked={Boolean(field.value)}
                         onCheckedChange={field.onChange}
@@ -147,9 +147,9 @@ export default function AddProductForm({
                 </FormItem>
               )}
             />
-            <div className='flex justify-between w-full'>
-              <Button type='submit'>Crear Producto</Button>
-              <Button type='reset' variant='destructive'>
+            <div className="flex justify-between w-full">
+              <Button type="submit">Crear Producto</Button>
+              <Button type="reset" variant="destructive">
                 Limpiar
               </Button>
             </div>

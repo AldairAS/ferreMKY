@@ -165,8 +165,8 @@ export function PedidosView() {
                               pedido.estado === "Recibido"
                                 ? "secondary"
                                 : pedido.estado === "Rechazado"
-                                ? "destructive"
-                                : "outline"
+                                  ? "destructive"
+                                  : "outline"
                             }
                           >
                             {pedido.estado}
@@ -350,7 +350,7 @@ export function PedidosView() {
 }
 
 function ListFilterIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -413,7 +413,7 @@ function CopyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 }
 
 function MoreVerticalIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -436,7 +436,7 @@ function MoreVerticalIcon(
 }
 
 function CreditCardIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -458,7 +458,7 @@ function CreditCardIcon(
 }
 
 function ChevronLeftIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -479,7 +479,7 @@ function ChevronLeftIcon(
 }
 
 function ChevronRightIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg

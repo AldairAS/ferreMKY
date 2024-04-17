@@ -48,7 +48,11 @@ export default function page() {
                 >
                   Email
                 </label>
-                <input name="email" placeholder="user@mail.com" className={styles.inputField} />
+                <input
+                  name="email"
+                  placeholder="user@mail.com"
+                  className={styles.inputField}
+                />
                 {formState?.errors && formState.errors.email && (
                   <p className={styles.error}>{formState.errors.email}</p>
                 )}
@@ -76,10 +80,9 @@ export default function page() {
             <div className="w-[100%] flex justify-center flex-col">
               <button className={styles.submitButton}>ACCEDER</button>
               <p className="text-red-400 text-right pt-[5px]">
-              {formState?.message && formState.message}
-            </p>
+                {formState?.message && formState.message}
+              </p>
             </div>
-       
           </div>
         </form>
       </div>

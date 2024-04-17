@@ -203,7 +203,7 @@ export function InventaryView() {
 }
 
 function ListFilterIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -246,7 +246,7 @@ function FileIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 }
 
 function PlusCircleIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -269,7 +269,7 @@ function PlusCircleIcon(
 }
 
 function MoreHorizontalIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg

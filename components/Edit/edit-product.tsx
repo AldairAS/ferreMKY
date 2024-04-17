@@ -1,6 +1,9 @@
-"use client"
-import React, { useState } from 'react';
-import { updateProductClient, ProductItem as ProductItemType } from "@/services/client/product";
+"use client";
+import React, { useState } from "react";
+import {
+  updateProductClient,
+  ProductItem as ProductItemType,
+} from "@/services/client/product";
 
 interface ProductItemProps {
   product: ProductItemType;
@@ -45,20 +48,20 @@ const ProductItem = ({ product, setAllProducts, kinds }: ProductItemProps) => {
     <div>
       {isEditing ? (
         <form onSubmit={handleSubmit}>
-            <label htmlFor="id_kind">Seleccione un producto</label>
-<select
-  name="id_kind"
-  id="id_kind"
-  value={formData.id_kind || currentKindId}
-  onChange={handleSelectChange}
->
-  {kinds?.map((v: any) => (
-    <option key={v.id} value={v.id}>
-      {v.name}
-    </option>
-  ))}
-</select>
-        <br />
+          <label htmlFor="id_kind">Seleccione un producto</label>
+          <select
+            name="id_kind"
+            id="id_kind"
+            value={formData.id_kind || currentKindId}
+            onChange={handleSelectChange}
+          >
+            {kinds?.map((v: any) => (
+              <option key={v.id} value={v.id}>
+                {v.name}
+              </option>
+            ))}
+          </select>
+          <br />
           <label>
             code
             <input
@@ -119,7 +122,7 @@ const ProductItem = ({ product, setAllProducts, kinds }: ProductItemProps) => {
             />
           </label>
           <br />
-         
+
           <button type="submit">Actualizar</button>
         </form>
       ) : (

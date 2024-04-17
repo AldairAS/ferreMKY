@@ -1,12 +1,12 @@
 // Componente para editar un supplier
-'use client';
-import { useFormState } from 'react-dom';
-import { editSupplierClient } from '@client/supplier';
-import { Supplier } from '@models/types/definitions';
+"use client";
+import { useFormState } from "react-dom";
+import { editSupplierClient } from "@client/supplier";
+import { Supplier } from "@models/types/definitions";
 
 export default function EditSupplierForm({
   kinds,
-  supplier
+  supplier,
 }: {
   kinds: any | null;
   supplier: Supplier;
@@ -17,8 +17,8 @@ export default function EditSupplierForm({
     <div>
       <form action={formAction}>
         <h2>Añadir un Producto</h2>
-        <label htmlFor='idKind'>Seleccione un Tipo de producto</label>
-        <select name='idKind' id='idKind' defaultValue=''>
+        <label htmlFor="idKind">Seleccione un Tipo de producto</label>
+        <select name="idKind" id="idKind" defaultValue="">
           {kinds?.map((v: any) => (
             <option key={v.id} value={v.id}>
               {v.name}
@@ -27,28 +27,28 @@ export default function EditSupplierForm({
         </select>
         <br />
         <input
-          type='text'
-          id='code'
-          name='code'
+          type="text"
+          id="code"
+          name="code"
           value={supplier.name}
-          placeholder='Ingrese el nuevo nombre del proveedor.'
+          placeholder="Ingrese el nuevo nombre del proveedor."
         />
         <br />
         <input
-          type='text'
-          id='description'
-          name='description'
+          type="text"
+          id="description"
+          name="description"
           value={supplier.contact}
-          placeholder='Ingrese el nuevo contacto del proveedor.'
+          placeholder="Ingrese el nuevo contacto del proveedor."
         />
         <input
-          type='text'
-          id='priceSale'
-          name='priceSale'
+          type="text"
+          id="priceSale"
+          name="priceSale"
           value={supplier.description}
-          placeholder='Ingrese la nueva descripción del proveedor.'
+          placeholder="Ingrese la nueva descripción del proveedor."
         />
-        <button type='submit'>Editar Proveedor</button>
+        <button type="submit">Editar Proveedor</button>
         <p>
           {formState?.errors && formState.errors.name}
           {formState?.errors && formState.errors.contact}

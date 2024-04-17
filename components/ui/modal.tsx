@@ -1,12 +1,12 @@
-import { cn } from '@/libs/utils';
-import { SyntheticEvent, useEffect } from 'react';
+import { cn } from "@/libs/utils";
+import { SyntheticEvent, useEffect } from "react";
 
 const Modal = ({
   children,
   isOpen,
   title,
   handleClose,
-  className
+  className,
 }: {
   children: React.ReactNode;
   isOpen: boolean;
@@ -15,8 +15,8 @@ const Modal = ({
   className?: string;
 }) => {
   useEffect(() => {
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
         handleClose();
       }
     });
@@ -30,7 +30,7 @@ const Modal = ({
         `fixed overflow-auto z-50 top-0 left-0 w-full min-h-screen justify-center items-center inset-0 bg-black bg-opacity-20 ${
           isOpen ? `flex` : `hidden`
         }`,
-        className
+        className,
       )}
       onClick={handleClose}
     >
@@ -38,8 +38,8 @@ const Modal = ({
         className={`relative w-full min-w-[320px] max-w-lg p-5 gap-4 rounded-lg overflow-y-auto min-h-[200px] max-h-[80vh] inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:rounded-lg duration-200 border shadow-lg`}
         onClick={handleModalContainerClick}
       >
-        <div className='flex flex-col space-y-2 text-center sm:text-left'>
-          <h2 className='font-semibold text-2xl pb-4'>{title}</h2>
+        <div className="flex flex-col space-y-2 text-center sm:text-left">
+          <h2 className="font-semibold text-2xl pb-4">{title}</h2>
         </div>
         {/* le agrego el stop propagation porque sino seria como si al hacer click al modal-container tambien le haría click al div principal con la clase modal y cerraria todo */}
         {/* <button
