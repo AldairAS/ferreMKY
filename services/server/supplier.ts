@@ -57,13 +57,39 @@ export async function deleteSupplier(id: string) {
   }
 }
 
-//Función para traer los proveedores
-export async function getAllSuppliers() {
-  const { data: supplier } = await supabase
-    .from('supplier')
-    .select('*')
-    .order('name');
-  return supplier;
+// Función para actualizar una categoría
+export async function updateSupplier(id: string, name: string, contact:string , description: string) {
+  const { data, error } = await supabase
+    .from("supplier")
+    .update({ name,contact, description })
+    .eq("id", id)
+    .single();
+
+  const errorMessage = error?.message;
+
+  if (errorMessage) {
+    console.error("Error al actualizar el proveedor:", errorMessage);
+    return { data: null, errorMessage };
+  }
+
+  // Devuelve un objeto con data y errorMessage
+  return { data: data || {}, errorMessage: undefined };
+}
+// Función para traer las categorías
+export async function getAllSupplier() {
+  const { data: supplier, error } = await supabase
+    .from("supplier")
+    .select("*")
+    .order("name");
+
+  const errorMessage = error?.message;
+
+  if (errorMessage) {
+    console.error("Error al obtener el proveedor:", errorMessage);
+    return [];
+  }
+
+  return supplier || [];
 }
 
 // Función para editar un proveedor

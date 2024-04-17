@@ -39,12 +39,38 @@ export async function deleteCategory(id : string) {
         return { error: null }
     }
 }
-//Función para traer las categorías
-export async function getAllCategories() {
-  const { data: categories } = await supabase
-    .from('category')
-    .select('*')
-    .order('name');
 
-  return categories;
+// Función para actualizar una categoría
+export async function updateCategory(id: string, name: string, description: string) {
+  const { data, error } = await supabase
+    .from("category")
+    .update({ name, description })
+    .eq("id", id)
+    .single();
+
+  const errorMessage = error?.message;
+
+  if (errorMessage) {
+    console.error("Error al actualizar la categoría:", errorMessage);
+    return { data: null, errorMessage };
+  }
+
+  // Devuelve un objeto con data y errorMessage
+  return { data: data || {}, errorMessage: undefined };
+}
+// Función para traer las categorías
+export async function getAllCategories() {
+  const { data: categories, error } = await supabase
+    .from("category")
+    .select("*")
+    .order("name");
+
+  const errorMessage = error?.message;
+
+  if (errorMessage) {
+    console.error("Error al obtener las categorías:", errorMessage);
+    return [];
+  }
+
+  return categories || [];
 }

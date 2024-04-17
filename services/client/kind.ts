@@ -1,7 +1,7 @@
 import { FormKindSchema } from "@models/schemas/zod_schemas";
 import { addKind, revalidateKind } from "../server/kind";
 import { StateKind } from "@models/types/states";
-
+import { updateKind, getAllKinds } from "@/services/server/kind";
 //Función para añadir la categoría y validación de campos
 export async function addKindClient(
   prevState: StateKind,
@@ -27,4 +27,48 @@ export async function addKindClient(
 
   console.log("Tipo de producto añadido");
   await revalidateKind();
+}
+
+
+// actualizar
+
+export interface KindItem {
+  id: string;
+  name: string;
+  description: string;
+  id_category: string;
+}
+
+export async function updateKindClient(
+  formData: { id: string; name: string; description: string; id_category: string },
+  kind: KindItem,
+  setAllKinds: (kinds: KindItem[]) => void
+) {
+  try {
+    // Actualizamos la categoría en la base de datos
+    const result: { data: any; errorMessage: string | undefined } = await updateKind(formData.id, formData.name, formData.description,formData.id_category);
+
+    // Registro de la respuesta y errores para depuración
+    console.log("Respuesta de updateKind:", result.data);
+    
+    if (result.errorMessage) {
+      // Si hay un mensaje de error, lo lanzamos
+      throw new Error(result.errorMessage);
+    }
+
+    // Verificamos si la respuesta de la actualización es un objeto válido con propiedad 'id'
+    if (result.data && typeof result.data === 'object') {
+      console.log("Categoría actualizada");
+      await revalidateKind();
+      const updatedKindsFromServer = await getAllKinds();
+      setAllKinds(updatedKindsFromServer);
+    } else if (result.errorMessage) {
+      throw new Error(result.errorMessage);
+    } else {
+      throw new Error("La respuesta de actualización no es válida.");
+    }
+  } catch (error) {
+    // Manejamos cualquier error capturado durante el proceso
+    console.error("Error al actualizar la categoría:", error);
+  }
 }

@@ -66,13 +66,50 @@ export async function deleteProduct(id : string) {
     
 }
 //Función para traer los productos
-export async function getAllProducts() {
-  const { data: products } = await supabase
-    .from('product')
-    .select('*')
-    .order('code');
-  return products;
+// Función para actualizar una categoría
+export async function updateProduct(id: string,
+  id_kind: string,
+  code: string,
+  description: string,
+  price_sale: number,
+  storage_cost: number,
+  quantity: number ,
+  unit: number   
+
+) {
+  const { data, error } = await supabase
+    .from("product")
+    .update({ id_kind,code, description, price_sale,storage_cost,quantity,unit })
+    .eq("id", id)
+    .single();
+
+  const errorMessage = error?.message;
+
+  if (errorMessage) {
+    console.error("Error al actualizar el producto:", errorMessage);
+    return { data: null, errorMessage };
+  }
+
+  // Devuelve un objeto con data y errorMessage
+  return { data: data || {}, errorMessage: undefined };
 }
+// Función para traer las categorías
+export async function getAllProducts() {
+  const { data: products, error } = await supabase
+    .from("product")
+    .select("*")
+    .order("code");
+
+  const errorMessage = error?.message;
+
+  if (errorMessage) {
+    console.error("Error al obtener el producto:", errorMessage);
+    return [];
+  }
+
+  return products || [];
+}
+
 
 export async function searchItemsInventory(
   currentPage: number,
@@ -89,3 +126,4 @@ export async function searchItemsInventory(
 
   return products as Product[];
 }
+
