@@ -47,7 +47,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "@assets/logos/logo.svg";
 import ProfileSheet from "@components/profile-config-sheet";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { logout } from "@client/auth";
 import { z } from "zod";
@@ -56,6 +56,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormSearchSchema } from "@/models/schemas";
 import { Form, FormField } from "../form";
 import { getSuppliersByValueOfDatabase } from "@/services/client/supplier";
+import { SupplierContext } from "@/context/useSupplierContext";
 
 const menuItems = [
   {
@@ -96,6 +97,7 @@ export default function NavigationMenu() {
   const { setTheme } = useTheme();
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
+  const { setSuppliersData } = useContext(SupplierContext);
   const [formState, formAction] = useFormState(logout, undefined);
   const form = useForm<z.infer<typeof FormSearchSchema>>({
     resolver: zodResolver(FormSearchSchema),
@@ -109,6 +111,7 @@ export default function NavigationMenu() {
     if (activePage === "supplier") {
       const data = await getSuppliersByValueOfDatabase(values.search, 1);
       console.log(data);
+      setSuppliersData(data);
     }
   }
 

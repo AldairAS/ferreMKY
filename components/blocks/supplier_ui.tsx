@@ -26,14 +26,16 @@ import {
   TableRow,
 } from "@components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import { JSX, SVGProps, useEffect, useState } from "react";
+import { JSX, SVGProps, useContext, useEffect, useState } from "react";
 import { AddSupplierForm, EditSupplierForm } from "./supplier-forms";
 import useModal from "../hooks/useModal";
 import { Supplier } from "@models/types";
 import { getAllSuppliers } from "@client/supplier";
+import { SupplierContext } from "@/context/useSupplierContext";
 
 export function SupplierView() {
-  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  //const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  const { setSuppliersData, suppliers } = useContext(SupplierContext);
   const [supplier, setSupplier] = useState<Supplier | undefined>(undefined);
   const [page, setPage] = useState(1);
   const [n, setN] = useState(0);
@@ -43,7 +45,7 @@ export function SupplierView() {
   const getSuppliers = async () => {
     const data = await getAllSuppliers();
     // console.log(data);
-    setSuppliers(() => data.suppliers);
+    setSuppliersData(data.suppliers);
     setN(() => data.count);
   };
 
@@ -188,7 +190,7 @@ export function SupplierView() {
                   {(page - 1) * 10 + 1} - {page === 1 ? n : page * 10}
                 </strong>{" "}
                 de <strong>{n} </strong>
-                productos
+                proveedores
               </div>
             </CardFooter>
           </Card>
