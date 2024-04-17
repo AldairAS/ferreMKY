@@ -50,6 +50,13 @@ import ProfileSheet from "@components/profile-config-sheet";
 import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { logout } from "@client/auth";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormSearchSchema } from "@/models/schemas";
+import { Form, FormField } from "../form";
+import { getSuppliersByValueOfDatabase } from "@/services/client/supplier";
+
 const menuItems = [
   {
     icon: LayoutDashboard,
@@ -90,6 +97,33 @@ export default function NavigationMenu() {
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
   const [formState, formAction] = useFormState(logout, undefined);
+  const form = useForm<z.infer<typeof FormSearchSchema>>({
+    resolver: zodResolver(FormSearchSchema),
+    defaultValues: {
+      search: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof FormSearchSchema>) {
+    console.log(activePage);
+    if (activePage === "supplier") {
+      const data = await getSuppliersByValueOfDatabase(values.search, 1);
+      console.log(data);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", (e) => {
+      console.log(e.target === document.querySelector('input[type="search"]'));
+      if (
+        e.key === "Enter" &&
+        e.target === document.querySelector('input[type="search"]')
+      ) {
+        form.handleSubmit(onSubmit)();
+      }
+    });
+  }, []);
+
   useEffect(() => {
     if (router) {
       const linkPath = pathname
@@ -265,7 +299,7 @@ export default function NavigationMenu() {
                       </BreadcrumbLink>
                       {i < breadcrumbs.length - 2 && <BreadcrumbSeparator />}
                     </BreadcrumbItem>
-                  ),
+                  )
               )}
               {breadcrumbs.length > 1 && <BreadcrumbSeparator />}
               <BreadcrumbItem>
@@ -275,14 +309,28 @@ export default function NavigationMenu() {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-          <div className="relative ml-auto flex-1 md:grow-0">
-            <SearchIcon className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
-              className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
-              placeholder="Buscar..."
-              type="search"
-            />
-          </div>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="relative ml-auto flex-1 md:grow-0"
+            >
+              <FormField
+                control={form.control}
+                name="search"
+                render={({ field }) => (
+                  <>
+                    <SearchIcon className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      {...field}
+                      className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+                      placeholder="Buscar..."
+                      type="search"
+                    />
+                  </>
+                )}
+              />
+            </form>
+          </Form>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button

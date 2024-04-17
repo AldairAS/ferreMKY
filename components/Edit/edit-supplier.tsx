@@ -1,9 +1,7 @@
 "use client";
 import { useState } from "react";
-import {
-  updateSupplierClient,
-  SupplierItem as SupplierItemType,
-} from "@client/supplier";
+import { updateSupplierClient } from "@client/supplier";
+import { Supplier as SupplierItemType } from "@models/types";
 
 interface SupplierItemProps {
   supplier: SupplierItemType;

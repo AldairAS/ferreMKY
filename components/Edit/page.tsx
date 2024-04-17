@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import CategoryItem from "@/components/edit/edit-categories";
-import KindItem from "@/components/edit/edit-kind";
-import SupplierItem from "@/components/edit/edit-supplier";
-import ProductItem from "@/components/edit/edit-product";
-import QuantityItem from "@/components/edit/edit-quantity-product";
+import CategoryItem from "@components/edit/edit-categories";
+import KindItem from "@components/edit/edit-kind";
+import SupplierItem from "@components/edit/edit-supplier";
+import ProductItem from "@components/edit/edit-product";
+import QuantityItem from "@components/edit/edit-quantity-product";
 import { getAllCategories } from "@server/category";
 import { getAllKinds } from "@server/kind";
 import { getAllSupplier } from "@server/supplier";
@@ -12,7 +12,8 @@ import { getAllProducts } from "@server/product";
 import { getAllQuantitys } from "@server/product_supplier";
 import { CategoryItem as CategoryItemType } from "@client/category";
 import { KindItem as KindItemType } from "@client/kind";
-import { SupplierItem as SupplierItemType } from "@client/supplier";
+// import { SupplierItem as SupplierItemType } from "@client/supplier";
+import { Supplier as SupplierItemType } from "@models/types";
 import { ProductItem as ProductItemType } from "@client/product";
 import { QuantityItem as QuantityItemType } from "@client/product_supplier";
 
@@ -33,7 +34,7 @@ export default function Add(props: AddProps) {
       setKinds(fetchedKinds);
 
       const fetchedSuppliers = await getAllSupplier();
-      setSuppliers(fetchedSuppliers);
+      setSuppliers(fetchedSuppliers.suppliers as SupplierItemType[]);
 
       const fetchedProducts = await getAllProducts();
       setProducts(fetchedProducts);

@@ -26,60 +26,31 @@ import {
   TableRow,
 } from "@components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import { JSX, SVGProps, useState } from "react";
+import { JSX, SVGProps, useEffect, useState } from "react";
 import { AddSupplierForm, EditSupplierForm } from "./supplier-forms";
 import useModal from "../hooks/useModal";
 import { Supplier } from "@models/types";
-
-const suppliers = [
-  {
-    id: "1",
-    name: "Proveedor 1",
-    contact: "123456789",
-    description: "Proveedor 1",
-  },
-  {
-    id: "2",
-    name: "Proveedor 2",
-    contact: "987654321",
-    description: "Proveedor 2",
-  },
-  {
-    id: "3",
-    name: "Proveedor 3",
-    contact: "123456789",
-    description: "Proveedor 3",
-  },
-  {
-    id: "4",
-    name: "Proveedor 4",
-    contact: "987654321",
-    description: "Proveedor 4",
-  },
-  {
-    id: "5",
-    name: "Proveedor 5",
-    contact: "123456789",
-    description: "Proveedor 5",
-  },
-  {
-    id: "6",
-    name: "Proveedor 6",
-    contact: "987654321",
-    description: "Proveedor 6",
-  },
-  {
-    id: "7",
-    name: "Proveedor 7",
-    contact: "123456789",
-    description: "Proveedor 7",
-  },
-];
+import { getAllSuppliers } from "@client/supplier";
 
 export function SupplierView() {
-  const [supplier, setSupplier] = useState<Supplier>(suppliers[0]);
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  const [supplier, setSupplier] = useState<Supplier | undefined>(undefined);
+  const [page, setPage] = useState(1);
+  const [n, setN] = useState(0);
   const [isOpenAddModal, openAddModal, closeAddModal] = useModal(false);
   const [isOpenEditModal, openEditModal, closeEditModal] = useModal(false);
+
+  const getSuppliers = async () => {
+    const data = await getAllSuppliers();
+    // console.log(data);
+    setSuppliers(() => data.suppliers);
+    setN(() => data.count);
+  };
+
+  useEffect(() => {
+    // fetch suppliers
+    getSuppliers();
+  }, []);
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
@@ -195,11 +166,15 @@ export function SupplierView() {
                   ))}
                 </TableBody>
               </Table>
-              <EditSupplierForm
-                supplier={supplier}
-                isOpenModal={isOpenEditModal}
-                closeModal={closeEditModal}
-              />
+              {supplier ? (
+                <EditSupplierForm
+                  supplier={supplier}
+                  isOpenModal={isOpenEditModal}
+                  closeModal={closeEditModal}
+                />
+              ) : (
+                ""
+              )}
               <AddSupplierForm
                 isOpenModal={isOpenAddModal}
                 closeModal={closeAddModal}
@@ -208,7 +183,11 @@ export function SupplierView() {
             <CardFooter>
               <div className="text-xs text-muted-foreground">
                 Mostrando
-                <strong> 1-10</strong> de <strong>32 </strong>
+                <strong>
+                  {" "}
+                  {(page - 1) * 10 + 1} - {page === 1 ? n : page * 10}
+                </strong>{" "}
+                de <strong>{n} </strong>
                 productos
               </div>
             </CardFooter>
@@ -220,7 +199,7 @@ export function SupplierView() {
 }
 
 function ListFilterIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 ) {
   return (
     <svg
@@ -263,7 +242,7 @@ function FileIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 }
 
 function PlusCircleIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 ) {
   return (
     <svg
@@ -286,7 +265,7 @@ function PlusCircleIcon(
 }
 
 function MoreHorizontalIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 ) {
   return (
     <svg

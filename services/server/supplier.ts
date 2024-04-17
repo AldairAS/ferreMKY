@@ -1,4 +1,5 @@
 "use server";
+import { Supplier } from "@/models/types";
 import { supabase } from "@config/supabase";
 import { revalidatePath } from "next/cache";
 
@@ -11,7 +12,7 @@ export async function revalidateSupplier() {
 export async function addSupplier(
   name: String,
   description: String,
-  contact: String,
+  contact: String
 ) {
   const { data, error } = await supabase
     .from("supplier")
@@ -62,7 +63,7 @@ export async function updateSupplier(
   id: string,
   name: string,
   contact: string,
-  description: string,
+  description: string
 ) {
   const { data, error } = await supabase
     .from("supplier")
@@ -80,21 +81,47 @@ export async function updateSupplier(
   // Devuelve un objeto con data y errorMessage
   return { data: data || {}, errorMessage: undefined };
 }
-// Función para traer las categorías
-export async function getAllSupplier() {
-  const { data: supplier, error } = await supabase
+
+// Get 10 supplier filter by name search
+
+export async function getSupplierByValueAndPage(value: string, page: number) {
+  const { data: suppliers, error } = await supabase
     .from("supplier")
-    .select("*")
+    .select("name, contact, description")
+    .or(
+      `name.ilike."*${value}*", contact.ilike."*${value}*", description.ilike."*${value}*"`
+    )
+    .order("name")
+    .range((page - 1) * 10, page * 10);
+
+  const errorMessage = error?.message;
+
+  if (errorMessage) {
+    console.error("Error al buscar el proveedor:", errorMessage);
+    return [];
+  }
+
+  return (suppliers || []) as Supplier[];
+}
+
+export async function getAllSupplier() {
+  const {
+    data: suppliers,
+    count,
+    error,
+  } = await supabase
+    .from("supplier")
+    .select("id, name, contact, description", { count: "exact" })
     .order("name");
 
   const errorMessage = error?.message;
 
   if (errorMessage) {
     console.error("Error al obtener el proveedor:", errorMessage);
-    return [];
+    return { suppliers: [], count: 0 };
   }
 
-  return supplier || [];
+  return { suppliers, count } || { suppliers: [], count: 0 };
 }
 
 // Función para editar un proveedor
@@ -102,11 +129,11 @@ export async function editSupplier(
   id: String,
   name?: String,
   description?: String,
-  contact?: String,
+  contact?: String
 ) {
   const supplier = Object.keys({ name, description, contact }).reduce(
     (acc, el) => (el ? { acc, el } : acc),
-    {},
+    {}
   );
 
   const { data, error } = await supabase

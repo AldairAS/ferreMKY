@@ -1,17 +1,23 @@
 import { FormSupplierSchema } from "@models/schemas";
 import {
+  updateSupplier,
+  getAllSupplier,
   addSupplier,
   editSupplier,
   revalidateSupplier,
-} from "../server/supplier";
+  getSupplierByValueAndPage,
+} from "@server/supplier";
+import { StateSupplier, Supplier } from "@models/types";
 
-import { updateSupplier, getAllSupplier } from "@server/supplier";
-import { StateSupplier } from "@models/types";
+type SupplierAllData = {
+  suppliers: Supplier[];
+  count: number;
+};
 
 //Función para añadir la categoría y validación de campos
 export async function addSupplierClient(
   prevState: StateSupplier,
-  formData: FormData,
+  formData: FormData
 ): Promise<StateSupplier> {
   const name = formData.get("name") as string;
   const contact = formData.get("contact") as string;
@@ -36,10 +42,15 @@ export async function addSupplierClient(
   await revalidateSupplier();
 }
 
+// Función para recuperar todos los proveedores
+export async function getAllSuppliers(): Promise<any> {
+  return await getAllSupplier();
+}
+
 // Función para editar un proveedor
 export async function editSupplierClient(
   prevState: StateSupplier,
-  formData: FormData,
+  formData: FormData
 ): Promise<StateSupplier> {
   const id = formData.get("id") as string;
   const name = formData.get("name") as string;
@@ -61,7 +72,7 @@ export async function editSupplierClient(
     id,
     name,
     description,
-    contact,
+    contact
   );
   if (!data || errorMessage)
     return { message: errorMessage ?? "Ha ocurrido un error" };
@@ -69,19 +80,11 @@ export async function editSupplierClient(
   console.log("Proveedor editado");
   await revalidateSupplier();
 }
-//actualizar
-
-export interface SupplierItem {
-  id: string;
-  name: string;
-  contact: string;
-  description: string;
-}
 
 export async function updateSupplierClient(
   formData: { id: string; name: string; contact: string; description: string },
-  supplier: SupplierItem,
-  setAllSuppliers: (suppliers: SupplierItem[]) => void,
+  supplier: Supplier,
+  setAllSuppliers: (suppliers: Supplier[]) => void
 ) {
   try {
     // Actualizamos la categoría en la base de datos
@@ -90,7 +93,7 @@ export async function updateSupplierClient(
         formData.id,
         formData.name,
         formData.contact,
-        formData.description,
+        formData.description
       );
 
     // Registro de la respuesta y errores para depuración
@@ -105,8 +108,11 @@ export async function updateSupplierClient(
     if (result.data && typeof result.data === "object") {
       console.log("Proveedor actualizado");
       await revalidateSupplier();
-      const updatedSuppliersFromServer = await getAllSupplier();
-      setAllSuppliers(updatedSuppliersFromServer);
+      const data = await getAllSupplier();
+      if (data.suppliers) {
+        //setAllSuppliers(updatedSuppliersFromServer);
+        setAllSuppliers(data.suppliers);
+      }
     } else if (result.errorMessage) {
       throw new Error(result.errorMessage);
     } else {
@@ -116,4 +122,36 @@ export async function updateSupplierClient(
     // Manejamos cualquier error capturado durante el proceso
     console.error("Error al actualizar el proveedor:", error);
   }
+}
+
+// Busquedá de proveedores por valor y página en el cliente
+//export async function getSupplierByValueOfAllSuppliers(
+//  value: string,
+//  page: number
+//) {
+//  const suppliers = await getAllSupplier();
+//  return suppliers
+//    .filter(
+//      (supplier: any) =>
+//        supplier.name.toLowerCase().includes(value.toLowerCase()) ||
+//        supplier.contact.toLowerCase().includes(value.toLowerCase()) ||
+//        supplier.description.toLowerCase().includes(value.toLowerCase())
+//    )
+//    .slice((page - 1) * 10, page * 10);
+//}
+
+// Busqueda de proveedores por valor y página en el servidor desde la base de datos
+export async function getSuppliersByValueOfDatabase(
+  value: string,
+  page: number
+): Promise<Supplier[]> {
+  // limpia los inputs de posibles ataques y valida los parametros
+  //if (!value) return [];
+
+  //if (page < 1) return [];
+
+  //if (value.length < 3) return [];
+
+  const suppliers = await getSupplierByValueAndPage(value, page);
+  return suppliers;
 }
