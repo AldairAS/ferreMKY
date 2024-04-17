@@ -54,7 +54,7 @@ const menuItems = [
   {
     icon: LayoutDashboard,
     label: "Panel de Control",
-    href: "/ferremyk",
+    href: "/dashboard",
   },
   {
     icon: ShoppingCartIcon,
