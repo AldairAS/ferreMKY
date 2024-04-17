@@ -29,7 +29,7 @@ export default function Page() {
           </Link>
         </div>
       </div>
-      <Image className='h-ful w-1/2' src={NotFound} alt='Not Found' />
+      <img className='h-full w-1/2' src="" alt='Not Found' />
     </main>
   );
 }

@@ -3,6 +3,7 @@ import { FormAuthSchema } from "@/models/schemas/zod_schemas";
 import { redirect } from "next/navigation";
 import { signInWithPassword, signOut } from "../server/auth";
 
+
 export async function login(
   prevState: FormAuthState, 
   formData: FormData
@@ -15,6 +16,8 @@ export async function login(
     password,
   });
 
+
+
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -24,6 +27,8 @@ export async function login(
   const error = await signInWithPassword(email, password);
 
   if (error) {
+    console.log(error);
+    
     return { message: error };
   }
 
@@ -35,5 +40,5 @@ export async function logout(prevState: FormAuthState): Promise<FormAuthState> {
   if (error) {
     return { message: error };
   }
-  redirect("/sign-in");
+  redirect("/");
 }

@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
   if (!session) {
     // Redirect to login if there is no session
     if (!req.nextUrl.pathname.includes("/sign-in")) {
-      // return NextResponse.redirect(new URL('/sign-in', req.url));
+      return NextResponse.redirect(new URL('/sign-in', req.url));
     }
   } else if (req.nextUrl.pathname.includes("/sign-in")) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
