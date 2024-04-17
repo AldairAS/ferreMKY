@@ -1,6 +1,6 @@
 "use client";
 import { useFormState } from "react-dom";
-import { addSupplierClient } from "@/services/client/supplier";
+import { addSupplierClient } from "@client/supplier";
 
 export default function AddSupplierForm() {
   const [formState, formAction] = useFormState(addSupplierClient, undefined);

@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import LandingMenu from "@/components/ui/shared/landing-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@components/ui/button";
+import LandingMenu from "@components/ui/shared/landing-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import { MenuIcon, MoveRight } from "lucide-react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -51,7 +51,9 @@ export default function LandingLayout({
                 width={32}
                 height={32}
               />
-              <span className="text-3xl font-bold">MYK Corp.</span>
+              <span className="text-3xl font-bold text-gray-900">
+                MYK Corp.
+              </span>
             </Link>
           </div>
           <Sheet>

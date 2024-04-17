@@ -1,12 +1,12 @@
 "use client";
 import { useFormState } from "react-dom";
-import { addQuantityClient } from "@/services/client/product_supplier";
+import { addQuantityClient } from "@client/product_supplier";
 
 export default function AddQuantityForm({
   products,
-  suppliers
+  suppliers,
 }: {
-  products: any | null,
+  products: any | null;
   suppliers: any | null;
 }) {
   const [formState, formAction] = useFormState(addQuantityClient, undefined);

@@ -1,9 +1,10 @@
 "use client";
-import NotFound from "@/assets/images/not-found.avif";
-import { Button } from "@/components/ui/button";
+import NotFound from "@assets/images/not-found.avif";
+import { Button } from "@components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+
 export default function Page() {
   const router = useRouter();
   return (
@@ -28,7 +29,7 @@ export default function Page() {
           </Link>
         </div>
       </div>
-      <Image className="h-screen w-1/2" src={NotFound} alt="Not Found" />
+      <img className="h-full w-1/2" src="" alt="Not Found" />
     </main>
   );
 }

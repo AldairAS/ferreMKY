@@ -33,14 +33,14 @@ export default function AddProductForm({
 }: {
   formTrigger: React.ReactNode;
 }) {
-  const form = useForm<z.infer<typeof addProductSchema>>({
-    resolver: zodResolver(addProductSchema),
-    defaultValues: {
-      image: "",
-    },
+  const form = useForm<z.infer<typeof FormProductSchema>>({
+    resolver: zodResolver(FormProductSchema),
+    // defaultValues: {
+    //   image: ''
+    // }
   });
 
-  function onSubmit(values: z.infer<typeof addProductSchema>) {
+  function onSubmit(values: z.infer<typeof FormProductSchema>) {
     console.log(values);
   }
   return (
@@ -59,7 +59,7 @@ export default function AddProductForm({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="name"
+              name="code"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nombre del Producto</FormLabel>
@@ -93,7 +93,7 @@ export default function AddProductForm({
             <div className="flex justify-between">
               <FormField
                 control={form.control}
-                name="price"
+                name="priceSale"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Precio</FormLabel>
@@ -109,7 +109,7 @@ export default function AddProductForm({
               />
               <FormField
                 control={form.control}
-                name="quantity"
+                name="storageCost"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Cantidad</FormLabel>
@@ -126,7 +126,7 @@ export default function AddProductForm({
             </div>
             <FormField
               control={form.control}
-              name="stock"
+              name="quantity"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
@@ -139,7 +139,7 @@ export default function AddProductForm({
                     <div className="flex gap-2 items-center">
                       <Label htmlFor="stock">{field.value ? "Sí" : "No"}</Label>
                       <Switch
-                        checked={field.value}
+                        checked={Boolean(field.value)}
                         onCheckedChange={field.onChange}
                       />
                     </div>

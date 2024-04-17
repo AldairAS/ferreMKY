@@ -1,6 +1,6 @@
 "use client";
 import { useFormState } from "react-dom";
-import { addCategoryClient } from "@/services/client/category";
+import { addCategoryClient } from "@client/category";
 
 export default function AddCategoryForm() {
   const [formState, formAction] = useFormState(addCategoryClient, undefined);
