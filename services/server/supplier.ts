@@ -112,7 +112,7 @@ export async function getAllSupplier() {
   } = await supabase
     .from("supplier")
     .select("id, name, contact, description", { count: "exact" })
-    .order("name");
+    .order("created_at", { ascending: false });
 
   const errorMessage = error?.message;
 

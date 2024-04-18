@@ -30,30 +30,18 @@ import { JSX, SVGProps, useContext, useEffect, useState } from "react";
 import { AddSupplierForm, EditSupplierForm } from "./supplier-forms";
 import useModal from "../hooks/useModal";
 import { Supplier } from "@models/types";
-import { getAllSuppliers } from "@client/supplier";
-import { SupplierContext } from "@/context/useSupplierContext";
+// import { getAllSuppliers } from "@client/supplier";
+import { SupplierContext } from "@/context/SupplierContext";
 import useQueryParams from "../hooks/useQuery";
 
 export function SupplierView() {
-  const [n, setN] = useState(0);
-  const { readSuppliers, suppliers } = useContext(SupplierContext);
+  // const [n, setN] = useState(0);
+  const { n, deleteSupplier, readSuppliers, suppliers } =
+    useContext(SupplierContext);
   const [supplier, setSupplier] = useState<Supplier | undefined>(undefined);
   const [isOpenAddModal, openAddModal, closeAddModal] = useModal(false);
   const [isOpenEditModal, openEditModal, closeEditModal] = useModal(false);
   const { page } = useQueryParams();
-
-  useEffect(() => {
-    const getSuppliers = async () => {
-      const data = await getAllSuppliers();
-      // console.log(data);
-      readSuppliers(data.suppliers);
-      setN(() => data.count);
-    };
-
-    // fetch suppliers
-    getSuppliers();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
@@ -159,7 +147,12 @@ export function SupplierView() {
                             >
                               Editar
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-500">
+                            <DropdownMenuItem
+                              onClick={() => {
+                                deleteSupplier(supplier.id);
+                              }}
+                              className="text-red-500"
+                            >
                               Eliminar
                             </DropdownMenuItem>
                           </DropdownMenuContent>

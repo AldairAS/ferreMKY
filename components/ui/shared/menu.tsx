@@ -55,7 +55,7 @@ import { z } from "zod";
 import { FormSearchSchema } from "@/models/schemas";
 import { Form, FormField } from "../form";
 import { getSuppliersByValueOfDatabase } from "@client/supplier";
-import { SupplierContext } from "@/context/useSupplierContext";
+import { SupplierContext } from "@/context/SupplierContext";
 import useQueryParams from "@components/hooks/useQuery";
 
 const menuItems = [
@@ -96,18 +96,18 @@ export default function NavigationMenu() {
   const { form } = useQueryParams();
   const pathname = usePathname();
   const { setTheme } = useTheme();
-  const [localSearch, setSearch] = useState("");
+  const [localSearch, setLocalSearch] = useState("");
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
   const { readSuppliers } = useContext(SupplierContext);
   const [formState, formAction] = useFormState(logout, undefined);
   const search = form.watch("search");
-  console.log(search);
+  // console.log(search);
 
   async function onSubmit(values: z.infer<typeof FormSearchSchema>) {
-    console.log(activePage, values);
+    // console.log(activePage, values);
+    // Dependiendo de la página en la que están debería agregarse su respectiva función
     if (activePage === "supplier") {
-      // console.log(values);
       const data = await getSuppliersByValueOfDatabase(values.search, 1);
       readSuppliers(data);
     }
@@ -123,7 +123,7 @@ export default function NavigationMenu() {
     if (search === "") {
       setSuppliers();
     } else if (localSearch !== search) {
-      setSearch(search);
+      setLocalSearch(search);
       form.handleSubmit(onSubmit)();
     } else {
       return;

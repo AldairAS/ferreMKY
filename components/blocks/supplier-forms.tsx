@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,6 +20,7 @@ import { FormSupplierSchema } from "@models/schemas";
 import { Supplier } from "@models/types";
 import Modal from "../ui/modal";
 import { addSupplierClient, editSupplierClient } from "@client/supplier";
+import { SupplierContext } from "@/context/SupplierContext";
 
 export function AddSupplierForm({
   isOpenModal,
@@ -28,6 +29,7 @@ export function AddSupplierForm({
   isOpenModal: boolean;
   closeModal: () => void;
 }) {
+  const { addSupplier } = useContext(SupplierContext);
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
     defaultValues: {
@@ -43,8 +45,10 @@ export function AddSupplierForm({
     formData.append("contact", values.contact);
     formData.append("description", values.description);
 
-    const res = await addSupplierClient(undefined, formData);
-    // console.log(res);
+    await addSupplierClient(undefined, formData);
+    form.reset();
+    closeModal();
+    addSupplier({ id: new Date().toISOString(), ...values });
   }
 
   return (
@@ -126,6 +130,7 @@ export function EditSupplierForm({
   closeModal: () => void;
   supplier: Supplier;
 }) {
+  const { updateSupplier } = useContext(SupplierContext);
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
     defaultValues: {
@@ -142,8 +147,10 @@ export function EditSupplierForm({
     formData.append("contact", values.contact);
     formData.append("description", values.description);
 
-    const res = await editSupplierClient(undefined, formData);
-    // console.log(values, supplier.id);
+    await editSupplierClient(undefined, formData);
+    form.reset();
+    closeModal();
+    updateSupplier({ id: supplier.id, ...values });
   }
 
   useEffect(() => {

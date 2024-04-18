@@ -9,11 +9,6 @@ import {
 } from "@server/supplier";
 import { StateSupplier, Supplier } from "@models/types";
 
-type SupplierAllData = {
-  suppliers: Supplier[];
-  count: number;
-};
-
 //Función para añadir la categoría y validación de campos
 export async function addSupplierClient(
   prevState: StateSupplier,
@@ -44,6 +39,7 @@ export async function addSupplierClient(
 
 // Función para recuperar todos los proveedores
 export async function getAllSuppliers(): Promise<any> {
+  // console.log("first getAllSuppliers");
   return await getAllSupplier();
 }
 

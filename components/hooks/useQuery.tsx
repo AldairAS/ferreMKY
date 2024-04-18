@@ -86,7 +86,7 @@ function useQueryParams() {
       window.history.pushState(null, "", `?${params.toString()}`);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, form.getValues("search")]);
+  }, [router]);
 
   return {
     page,
