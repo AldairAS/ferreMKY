@@ -124,22 +124,6 @@ export async function updateSupplierClient(
   }
 }
 
-// Busquedá de proveedores por valor y página en el cliente
-//export async function getSupplierByValueOfAllSuppliers(
-//  value: string,
-//  page: number
-//) {
-//  const suppliers = await getAllSupplier();
-//  return suppliers
-//    .filter(
-//      (supplier: any) =>
-//        supplier.name.toLowerCase().includes(value.toLowerCase()) ||
-//        supplier.contact.toLowerCase().includes(value.toLowerCase()) ||
-//        supplier.description.toLowerCase().includes(value.toLowerCase())
-//    )
-//    .slice((page - 1) * 10, page * 10);
-//}
-
 // Busqueda de proveedores por valor y página en el servidor desde la base de datos
 export async function getSuppliersByValueOfDatabase(
   value: string,

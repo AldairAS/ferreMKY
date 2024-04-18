@@ -32,26 +32,27 @@ import useModal from "../hooks/useModal";
 import { Supplier } from "@models/types";
 import { getAllSuppliers } from "@client/supplier";
 import { SupplierContext } from "@/context/useSupplierContext";
+import useQueryParams from "../hooks/useQuery";
 
 export function SupplierView() {
-  //const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-  const { setSuppliersData, suppliers } = useContext(SupplierContext);
-  const [supplier, setSupplier] = useState<Supplier | undefined>(undefined);
-  const [page, setPage] = useState(1);
   const [n, setN] = useState(0);
+  const { readSuppliers, suppliers } = useContext(SupplierContext);
+  const [supplier, setSupplier] = useState<Supplier | undefined>(undefined);
   const [isOpenAddModal, openAddModal, closeAddModal] = useModal(false);
   const [isOpenEditModal, openEditModal, closeEditModal] = useModal(false);
-
-  const getSuppliers = async () => {
-    const data = await getAllSuppliers();
-    // console.log(data);
-    setSuppliersData(data.suppliers);
-    setN(() => data.count);
-  };
+  const { page } = useQueryParams();
 
   useEffect(() => {
+    const getSuppliers = async () => {
+      const data = await getAllSuppliers();
+      // console.log(data);
+      readSuppliers(data.suppliers);
+      setN(() => data.count);
+    };
+
     // fetch suppliers
     getSuppliers();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -51,12 +51,12 @@ import { useContext, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { logout } from "@client/auth";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+// import { useForm } from "react-hook-form";
 import { FormSearchSchema } from "@/models/schemas";
 import { Form, FormField } from "../form";
-import { getSuppliersByValueOfDatabase } from "@/services/client/supplier";
+import { getSuppliersByValueOfDatabase } from "@client/supplier";
 import { SupplierContext } from "@/context/useSupplierContext";
+import useQueryParams from "@components/hooks/useQuery";
 
 const menuItems = [
   {
@@ -93,39 +93,72 @@ type TBreadcrumb = {
 
 export default function NavigationMenu() {
   const router = useRouter();
+  const { form } = useQueryParams();
   const pathname = usePathname();
   const { setTheme } = useTheme();
+  const [localSearch, setSearch] = useState("");
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
-  const { setSuppliersData } = useContext(SupplierContext);
+  const { readSuppliers } = useContext(SupplierContext);
   const [formState, formAction] = useFormState(logout, undefined);
-  const form = useForm<z.infer<typeof FormSearchSchema>>({
-    resolver: zodResolver(FormSearchSchema),
-    defaultValues: {
-      search: "",
-    },
-  });
+  const search = form.watch("search");
+  console.log(search);
 
   async function onSubmit(values: z.infer<typeof FormSearchSchema>) {
-    console.log(activePage);
+    console.log(activePage, values);
     if (activePage === "supplier") {
+      // console.log(values);
       const data = await getSuppliersByValueOfDatabase(values.search, 1);
-      console.log(data);
-      setSuppliersData(data);
+      readSuppliers(data);
     }
   }
 
+  async function setSuppliers() {
+    const data = await getSuppliersByValueOfDatabase("", 1);
+    readSuppliers(data);
+  }
+
   useEffect(() => {
-    window.addEventListener("keydown", (e) => {
-      console.log(e.target === document.querySelector('input[type="search"]'));
-      if (
-        e.key === "Enter" &&
-        e.target === document.querySelector('input[type="search"]')
-      ) {
-        form.handleSubmit(onSubmit)();
-      }
-    });
-  }, []);
+    console.log(localSearch !== search);
+    if (search === "") {
+      setSuppliers();
+    } else if (localSearch !== search) {
+      setSearch(search);
+      form.handleSubmit(onSubmit)();
+    } else {
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
+
+  // useEffect para buscar con la tecla Enter
+  // useEffect(() => {
+  //   window.addEventListener("keydown", async (e) => {
+  //     // console.log(e.target === document.querySelector('input[type="search"]'));
+  //     const formAux = document.querySelector("input[type='search']");
+  //     if (
+  //       // e.key === "Enter" || &&
+  //       e.target === document.querySelector('input[type="search"]')
+  //     ) {
+  //       // setTimeout(() => {
+  //       if (activePage === "supplier") {
+  //         console.log(search);
+  //         form.handleSubmit(onSubmit)();
+  //         // const data = await getSuppliersByValueOfDatabase(search, 1);
+  //         // console.log(data);
+  //         // readSuppliers(data);
+  //       }
+  //       // }, 300);
+  //     }
+  //   });
+
+  //   return () => {
+  //     window.removeEventListener("keydown", (e) => {
+  //       console.log(e);
+  //     });
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [activePage]);
 
   useEffect(() => {
     if (router) {
@@ -324,6 +357,10 @@ export default function NavigationMenu() {
                   <>
                     <SearchIcon className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
+                      // onKeyDown={(e) => {
+                      //   // if (e. === "Enter") {
+                      //   form.handleSubmit(onSubmit)();
+                      // }}
                       {...field}
                       className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
                       placeholder="Buscar..."

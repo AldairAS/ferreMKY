@@ -26,6 +26,7 @@
       "@components/*": ["./components/*"],
       "@client/*": ["./services/client/*"],
       "@server/*": ["./services/server/*"],
+      "@context/*": ["./context/*"],
       "@config/*": ["./config/*"],
       "@assets/*": ["./assets/*"],
       "@styles/*": ["./styles/*"],

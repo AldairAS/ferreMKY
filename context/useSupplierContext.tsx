@@ -6,14 +6,14 @@ type SupplierContextType = {
   suppliers: Supplier[];
   addSupplier: (supplier: Supplier) => void;
   deleteSupplier: (id: string) => void;
-  setSuppliersData: (suppliers: Supplier[]) => void;
+  readSuppliers: (suppliers: Supplier[]) => void;
 };
 
 export const SupplierContext = createContext<SupplierContextType>({
   suppliers: [],
   addSupplier: () => {},
   deleteSupplier: () => {},
-  setSuppliersData: () => {},
+  readSuppliers: () => {},
 });
 
 export const SupplierProvider = ({
@@ -23,12 +23,20 @@ export const SupplierProvider = ({
 }) => {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
 
-  const setSuppliersData = (suppliers: Supplier[]) => {
+  const addSupplier = (supplier: Supplier) => {
+    setSuppliers((prevSuppliers) => [...prevSuppliers, supplier]);
+  };
+
+  const readSuppliers = (suppliers: Supplier[]) => {
     setSuppliers(suppliers);
   };
 
-  const addSupplier = (supplier: Supplier) => {
-    setSuppliers((prevSuppliers) => [...prevSuppliers, supplier]);
+  const updateSupplier = (supplier: Supplier) => {
+    setSuppliers((prevSuppliers) =>
+      prevSuppliers.map((prevSupplier) =>
+        prevSupplier.id === supplier.id ? supplier : prevSupplier
+      )
+    );
   };
 
   const deleteSupplier = (id: string) => {
@@ -39,13 +47,9 @@ export const SupplierProvider = ({
 
   return (
     <SupplierContext.Provider
-      value={{ suppliers, setSuppliersData, addSupplier, deleteSupplier }}
+      value={{ suppliers, readSuppliers, addSupplier, deleteSupplier }}
     >
       {children}
     </SupplierContext.Provider>
   );
 };
-
-//export const useSupplierContext = () => {
-// return useContext(SupplierContext);
-//};
