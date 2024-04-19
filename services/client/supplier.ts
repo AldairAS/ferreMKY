@@ -3,9 +3,9 @@ import {
   updateSupplier,
   getAllSuppliers,
   addSupplier,
-  editSupplier,
   revalidateSupplier,
-  getSupplierByValueAndPage,
+  searchSuppliers,
+  deleteSupplier,
 } from "@server/supplier";
 import { StateSupplier, Supplier } from "@models/types";
 
@@ -44,7 +44,7 @@ export async function getAllSuppliersClient(): Promise<any> {
 }
 
 // Función para editar un proveedor
-export async function editSupplierClient(
+export async function updateSupplierClient(
   prevState: StateSupplier,
   formData: FormData
 ): Promise<StateSupplier> {
@@ -64,64 +64,66 @@ export async function editSupplierClient(
     };
   }
 
-  const { data, errorMessage } = await editSupplier(
+  const { data, errorMessage } = await updateSupplier(
     id,
     name,
     description,
     contact
   );
+
   if (!data || errorMessage)
     return { message: errorMessage ?? "Ha ocurrido un error" };
 
   console.log("Proveedor editado");
   await revalidateSupplier();
+  return { success: true };
 }
 
-export async function updateSupplierClient(
-  formData: { id: string; name: string; contact: string; description: string },
-  supplier: Supplier,
-  setAllSuppliers: (suppliers: Supplier[]) => void
-) {
-  try {
-    // Actualizamos la categoría en la base de datos
-    const result: { data: any; errorMessage: string | undefined } =
-      await updateSupplier(
-        formData.id,
-        formData.name,
-        formData.contact,
-        formData.description
-      );
+// export async function updateSupplierClient(
+//   formData: { id: string; name: string; contact: string; description: string },
+//   supplier: Supplier,
+//   setAllSuppliers: (suppliers: Supplier[]) => void
+// ) {
+//   try {
+//     // Actualizamos la categoría en la base de datos
+//     const result: { data: any; errorMessage: string | undefined } =
+//       await updateSupplier(
+//         formData.id,
+//         formData.name,
+//         formData.contact,
+//         formData.description
+//       );
 
-    // Registro de la respuesta y errores para depuración
-    console.log("Respuesta de updateSupplier:", result.data);
+//     // Registro de la respuesta y errores para depuración
+//     console.log("Respuesta de updateSupplier:", result.data);
 
-    if (result.errorMessage) {
-      // Si hay un mensaje de error, lo lanzamos
-      throw new Error(result.errorMessage);
-    }
+//     if (result.errorMessage) {
+//       // Si hay un mensaje de error, lo lanzamos
+//       throw new Error(result.errorMessage);
+//     }
 
-    // Verificamos si la respuesta de la actualización es un objeto válido con propiedad 'id'
-    if (result.data && typeof result.data === "object") {
-      console.log("Proveedor actualizado");
-      await revalidateSupplier();
-      const data = await getAllSuppliers();
-      if (data.suppliers) {
-        //setAllSuppliers(updatedSuppliersFromServer);
-        setAllSuppliers(data.suppliers);
-      }
-    } else if (result.errorMessage) {
-      throw new Error(result.errorMessage);
-    } else {
-      throw new Error("La respuesta de actualización no es válida.");
-    }
-  } catch (error) {
-    // Manejamos cualquier error capturado durante el proceso
-    console.error("Error al actualizar el proveedor:", error);
-  }
-}
+//     // Verificamos si la respuesta de la actualización es un objeto válido con propiedad 'id'
+//     if (result.data && typeof result.data === "object") {
+//       console.log("Proveedor actualizado");
+//       await revalidateSupplier();
+//       const data = await getAllSuppliers();
+//       if (data.suppliers) {
+//         //setAllSuppliers(updatedSuppliersFromServer);
+//         setAllSuppliers(data.suppliers);
+//       }
+//     } else if (result.errorMessage) {
+//       throw new Error(result.errorMessage);
+//     } else {
+//       throw new Error("La respuesta de actualización no es válida.");
+//     }
+//   } catch (error) {
+//     // Manejamos cualquier error capturado durante el proceso
+//     console.error("Error al actualizar el proveedor:", error);
+//   }
+// }
 
 // Busqueda de proveedores por valor y página en el servidor desde la base de datos
-export async function getSuppliersByValueOfDatabase(
+export async function searchSuppliersClient(
   value: string,
   page: number
 ): Promise<Supplier[]> {
@@ -132,6 +134,16 @@ export async function getSuppliersByValueOfDatabase(
 
   //if (value.length < 3) return [];
 
-  const suppliers = await getSupplierByValueAndPage(value, page);
+  const suppliers = await searchSuppliers(value, page);
   return suppliers;
+}
+
+export async function deleteSupplierClient(supplier: Supplier) {
+  const res = await deleteSupplier(supplier.id);
+  if (res.errorMessage) {
+    return { message: res.errorMessage ?? "Ha ocurrido un error" };
+  }
+
+  await revalidateSupplier();
+  return { success: true };
 }

@@ -26,22 +26,99 @@ import {
   TableRow,
 } from "@components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import { JSX, SVGProps, useContext, useEffect, useState } from "react";
+import { JSX, SVGProps, useEffect, useState } from "react";
 import { AddSupplierForm, EditSupplierForm } from "./supplier-forms";
 import useModal from "../hooks/useModal";
 import { Supplier } from "@models/types";
 // import { getAllSuppliers } from "@client/supplier";
-import { SupplierContext } from "@/context/SupplierContext";
+// import { SupplierContext } from "@/context/SupplierContext";
 import useQueryParams from "../hooks/useQuery";
+import { generatePagination, showToast } from "@/libs";
+import {
+  getAllSuppliersByRange,
+  getCountSupplier,
+} from "@/services/server/supplier";
+import { useDebouncedCallback } from "use-debounce";
+import { ROWS_PER_PAGE, WAIT_BETWEEN_CHANCE } from "@models/constants";
+import { deleteSupplierClient } from "@client/supplier";
+import { TypeToast } from "@models/enums";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
+import Modal from "../ui/modal";
+import { SearchIcon } from "lucide-react";
+import { Input } from "../ui/input";
 
-export function SupplierView() {
+export default function SupplierView() {
   // const [n, setN] = useState(0);
-  const { n, deleteSupplier, readSuppliers, suppliers } =
-    useContext(SupplierContext);
+  // const { n, deleteSupplier, readSuppliers, suppliers } =
+  //   useContext(SupplierContext);
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalSuppliers, setTotalSuppliers] = useState(0);
+  const [query, setQuery] = useState("");
+  const [rows, setRows] = useState(10);
+
   const [supplier, setSupplier] = useState<Supplier | undefined>(undefined);
   const [isOpenAddModal, openAddModal, closeAddModal] = useModal(false);
   const [isOpenEditModal, openEditModal, closeEditModal] = useModal(false);
+  const [isOpenDeleteModal, openDeleteModal, closeDeleteModal] =
+    useModal(false);
+  const [loading, setLoading] = useState(true);
   const { page } = useQueryParams();
+
+  const pagination = generatePagination(totalPages, currentPage);
+
+  const getSuppliers = async () => {
+    setLoading(true);
+    const data = await getAllSuppliersByRange(currentPage, query, rows);
+    console.log(data);
+    setSuppliers(data);
+    setLoading(false);
+  };
+
+  const getTotalPage = async () => {
+    const total = await getCountSupplier(query);
+    setTotalSuppliers(total);
+    setTotalPages(Math.ceil(total / rows));
+  };
+
+  const deleteSupplier = async () => {
+    if (!supplier) {
+      closeDeleteModal();
+      return;
+    }
+    const res = await deleteSupplierClient(supplier);
+
+    closeDeleteModal();
+
+    if (res?.message) showToast("Error", res.message, TypeToast.ERROR);
+
+    if (res?.success) {
+      showToast("Éxito", "Proveedor eliminado", TypeToast.SUCCESS);
+      getSuppliers();
+      getTotalPage();
+    }
+  };
+
+  useEffect(() => {
+    console.log(query);
+    getSuppliers();
+    getTotalPage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, query, rows]);
+
+  const handleQuery = useDebouncedCallback((e: any) => {
+    setQuery(e.target.value);
+    setCurrentPage(1);
+  }, WAIT_BETWEEN_CHANCE);
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
@@ -56,6 +133,41 @@ export function SupplierView() {
             </TabsTrigger>
           </TabsList>
           <div className="ml-auto flex items-center gap-2">
+            <div className="relative ml-auto flex-1 md:grow-0">
+              <SearchIcon className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                className="w-full rounded-lg bg-background pl-8 md:w-[200px] max-w-[336px]"
+                placeholder="Buscar..."
+                type="search"
+                onChange={handleQuery}
+              />
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="h-8 gap-1" size="sm" variant="outline">
+                  <ListFilterIcon className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Filas
+                  </span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Total de Filas</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {ROWS_PER_PAGE.map((v, i) => (
+                  <DropdownMenuCheckboxItem
+                    key={i}
+                    checked={v == rows}
+                    onClick={() => {
+                      setRows(v);
+                      setCurrentPage(1);
+                    }}
+                  >
+                    {v}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="h-8 gap-1" size="sm" variant="outline">
@@ -65,7 +177,7 @@ export function SupplierView() {
                   </span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              {/* <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Filtrar por</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuCheckboxItem checked>
@@ -73,7 +185,7 @@ export function SupplierView() {
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem>Borrador</DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem>Archivado</DropdownMenuCheckboxItem>
-              </DropdownMenuContent>
+              </DropdownMenuContent> */}
             </DropdownMenu>
             <Button className="h-8 gap-1" size="sm" variant="outline">
               <FileIcon className="h-3.5 w-3.5" />
@@ -149,7 +261,8 @@ export function SupplierView() {
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => {
-                                deleteSupplier(supplier.id);
+                                setSupplier(() => supplier);
+                                openDeleteModal();
                               }}
                               className="text-red-500"
                             >
@@ -175,17 +288,79 @@ export function SupplierView() {
                 isOpenModal={isOpenAddModal}
                 closeModal={closeAddModal}
               />
+
+              <Modal
+                isOpen={isOpenDeleteModal}
+                handleClose={closeDeleteModal}
+                title={`Eliminar Producto "${supplier?.id}"`}
+              >
+                <div className="font-medium">
+                  Esta acción no se puede deshacer. Esto eliminará el producto y
+                  sus vinculaciones con el proveedor.
+                </div>
+                <div className="flex justify-around mt-8">
+                  <Button
+                    type="button"
+                    onClick={deleteSupplier}
+                    variant="destructive"
+                  >
+                    Eliminar Producto
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={closeDeleteModal}
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </Modal>
             </CardContent>
             <CardFooter>
               <div className="text-xs text-muted-foreground">
                 Mostrando
                 <strong>
                   {" "}
-                  {(page - 1) * 10 + 1} - {page === 1 ? n : page * 10}
+                  {rows * (currentPage - 1) + 1}-
+                  {suppliers && suppliers?.length < rows
+                    ? rows * (currentPage - 1) + suppliers?.length
+                    : rows * currentPage}
                 </strong>{" "}
-                de <strong>{n} </strong>
+                de <strong>{totalSuppliers} </strong>
                 proveedores
               </div>
+              <Pagination>
+                <PaginationContent className="flex-wrap border">
+                  {totalPages > 1 && currentPage > 1 && (
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() => setCurrentPage((prev) => prev - 1)}
+                      />
+                    </PaginationItem>
+                  )}
+                  {pagination.map((v, i) => (
+                    <PaginationItem key={i}>
+                      {v != "..." ? (
+                        <PaginationLink
+                          isActive={currentPage == v}
+                          onClick={() => setCurrentPage(Number(v))}
+                        >
+                          {v}
+                        </PaginationLink>
+                      ) : (
+                        <PaginationEllipsis />
+                      )}
+                    </PaginationItem>
+                  ))}
+                  {totalPages > 1 && currentPage < totalPages && (
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => setCurrentPage((prev) => prev + 1)}
+                      />
+                    </PaginationItem>
+                  )}
+                </PaginationContent>
+              </Pagination>
             </CardFooter>
           </Card>
         </TabsContent>

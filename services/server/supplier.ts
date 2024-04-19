@@ -1,11 +1,12 @@
 "use server";
-import { Supplier } from "@/models/types";
+
+import { Supplier } from "@models/types";
 import { supabase } from "@config/supabase";
 import { revalidatePath } from "next/cache";
 
 //Revalidar la ruta
 export async function revalidateSupplier() {
-  revalidatePath("/add", "page");
+  revalidatePath("/dashboard/supplier", "page");
 }
 
 //Función para añadir un nuevo proveedor
@@ -24,6 +25,7 @@ export async function addSupplier(
       },
     ])
     .select();
+
   const errorMessage = error?.message;
   console.error(data, errorMessage);
   return { data, errorMessage };
@@ -32,30 +34,32 @@ export async function addSupplier(
 //funcion para eliminar productos de la tabla (product)
 export async function deleteSupplier(id: string) {
   //Elimina el registro relacionado con product_supplier
-  const { error: errorSupplier } = await supabase
+  const { error: errorPSupplier } = await supabase
     .from("product_supplier")
     .delete()
     .eq("id_supplier", id);
 
   //Manejo de errores
-  if (errorSupplier) {
-    console.error("Error:", errorSupplier.message);
-    return { error: errorSupplier };
+  if (errorPSupplier) {
+    console.error("Error:", errorPSupplier.message);
+    return { error: errorPSupplier };
   }
-  //Eliminar el producto
-  const { error: errorProduct } = await supabase
+  //Eliminar el proveedor
+  const { error: errorSupplier } = await supabase
     .from("supplier")
     .delete()
     .eq("id", id);
 
   //Manejo de errores
-  if (errorProduct) {
-    console.error("Error al eliminar el producto:", errorProduct.message);
-    return { error: errorProduct };
+  if (errorSupplier) {
+    console.error("Error al eliminar el producto:", errorSupplier.message);
+    // return { error: errorProduct };
   } else {
     console.log("Producto eliminado exitosamente.");
-    return { error: null };
+    // return { error: null };
   }
+
+  return { errorMessage: errorSupplier?.message ?? "" };
 }
 
 // Función para actualizar una categoría
@@ -83,21 +87,54 @@ export async function updateSupplier(
 }
 
 // Get 10 supplier filter by name search
+export async function searchSuppliers(
+  value: string,
+  page: number,
+  rows?: number
+) {
+  const initialPosition = (rows ?? 10) * (page - 1);
+  const finalPosition = (rows ?? 10) * page - 1;
 
-export async function getSupplierByValueAndPage(value: string, page: number) {
-  const { data: suppliers, count, error } = await supabase
+  const { data: suppliers, error } = await supabase
     .from("supplier")
     .select("name, contact, description")
     .or(
       `name.ilike."*${value}*", contact.ilike."*${value}*", description.ilike."*${value}*"`
     )
     .order("name")
-    .range((page - 1) * 10, page * 10 - 1);
+    .range(initialPosition, finalPosition);
 
   const errorMessage = error?.message;
 
   if (errorMessage) {
     console.error("Error al buscar el proveedor:", errorMessage);
+    return [];
+  }
+
+  return (suppliers || []) as Supplier[];
+}
+
+export async function getAllSuppliersByRange(
+  page: number,
+  query: string,
+  rows: number
+) {
+  const initialPosition = rows * (page - 1);
+  const finalPosition = rows * page - 1;
+
+  const { data: suppliers, error } = await supabase
+    .from("supplier")
+    .select("id, name, contact, description")
+    .or(
+      `name.ilike."*${query}*", contact.ilike."*${query}*", description.ilike."*${query}*"`
+    )
+    .order("name")
+    .range(initialPosition, finalPosition);
+
+  const errorMessage = error?.message;
+
+  if (errorMessage) {
+    console.error("Error al obtener el proveedor:", errorMessage);
     return [];
   }
 
@@ -124,24 +161,14 @@ export async function getAllSuppliers() {
   return { suppliers, count } || { suppliers: [], count: 0 };
 }
 
-// Función para editar un proveedor
-export async function editSupplier(
-  id: String,
-  name?: String,
-  description?: String,
-  contact?: String
-) {
-  const supplier = Object.keys({ name, description, contact }).reduce(
-    (acc, el) => (el ? { acc, el } : acc),
-    {}
-  );
-
-  const { data, error } = await supabase
+export async function getCountSupplier(query: string) {
+  const { count } = await supabase
     .from("supplier")
-    .update(supplier)
-    .eq("id", id);
+    .select(undefined, { count: "exact" })
+    .or(
+      `name.ilike."*${query}*", contact.ilike."*${query}*", description.ilike."*${query}*"`
+    );
 
-  const errorMessage = error?.message;
-  console.error(data, errorMessage);
-  return { data, errorMessage };
+  // console.log(count);
+  return count === null ? 0 : count;
 }

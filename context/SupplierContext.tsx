@@ -1,7 +1,7 @@
 "use client";
 import {
   // getAllSuppliersClient,
-  getSuppliersByValueOfDatabase,
+  // getSuppliersByValueOfDatabase,
 } from "@client/supplier";
 import { Supplier } from "@models/types";
 import React, { createContext, useEffect, useState } from "react";
@@ -54,23 +54,23 @@ export const SupplierProvider = ({
     );
   };
 
-  // console.log(suppliers);
-  useEffect(() => {
-    // console.log(suppliers);
-    if (suppliers.length > 0) return;
-    const getSuppliers = async () => {
-      const data = await getSuppliersByValueOfDatabase("", 1);
-      console.log(data);
-      setSuppliers(data);
-      //setN(() => data.count);
-    };
+  // // console.log(suppliers);
+  // useEffect(() => {
+  //   // console.log(suppliers);
+  //   if (suppliers.length > 0) return;
+  //   const getSuppliers = async () => {
+  //     const data = await getSuppliersByValueOfDatabase("", 1);
+  //     console.log(data);
+  //     setSuppliers(data);
+  //     //setN(() => data.count);
+  //   };
 
-    // console.log("first");
-    // fetch suppliers
+  //   // console.log("first");
+  //   // fetch suppliers
 
-    getSuppliers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   getSuppliers();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <SupplierContext.Provider

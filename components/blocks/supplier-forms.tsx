@@ -19,8 +19,8 @@ import {
 import { FormSupplierSchema } from "@models/schemas";
 import { Supplier } from "@models/types";
 import Modal from "../ui/modal";
-import { addSupplierClient, editSupplierClient } from "@client/supplier";
-import { SupplierContext } from "@/context/SupplierContext";
+import { addSupplierClient, updateSupplierClient } from "@client/supplier";
+// import { SupplierContext } from "@/context/SupplierContext";
 
 export function AddSupplierForm({
   isOpenModal,
@@ -29,7 +29,7 @@ export function AddSupplierForm({
   isOpenModal: boolean;
   closeModal: () => void;
 }) {
-  const { addSupplier } = useContext(SupplierContext);
+  // const { addSupplier } = useContext(SupplierContext);
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
     defaultValues: {
@@ -48,7 +48,7 @@ export function AddSupplierForm({
     await addSupplierClient(undefined, formData);
     form.reset();
     closeModal();
-    addSupplier({ id: new Date().toISOString(), ...values });
+    // addSupplier({ id: new Date().toISOString(), ...values });
   }
 
   return (
@@ -130,7 +130,7 @@ export function EditSupplierForm({
   closeModal: () => void;
   supplier: Supplier;
 }) {
-  const { updateSupplier } = useContext(SupplierContext);
+  // const { updateSupplier } = useContext(SupplierContext);
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
     defaultValues: {
@@ -147,10 +147,10 @@ export function EditSupplierForm({
     formData.append("contact", values.contact);
     formData.append("description", values.description);
 
-    await editSupplierClient(undefined, formData);
+    await updateSupplierClient(undefined, formData);
     form.reset();
     closeModal();
-    updateSupplier({ id: supplier.id, ...values });
+    // updateSupplier({ id: supplier.id, ...values });
   }
 
   useEffect(() => {
