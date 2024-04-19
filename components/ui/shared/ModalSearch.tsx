@@ -34,7 +34,7 @@ const menuItems = [
   {
     icon: PersonStandingIcon,
     label: "Proveedores",
-    href: "/dashboard/suppliers",
+    href: "/dashboard/supplier",
     description: "Gestión de proveedores",
   },
   {
