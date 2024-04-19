@@ -52,6 +52,7 @@ export type StateProduct =
         idKind?: string[];
       };
       message?: string | null;
+      success?: boolean;
     }
   | undefined;
 
