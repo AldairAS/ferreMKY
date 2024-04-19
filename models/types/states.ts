@@ -38,6 +38,7 @@ export type StateSupplier =
       };
       message?: string | null;
       success?: boolean;
+      id?: string;
     }
   | undefined;
 

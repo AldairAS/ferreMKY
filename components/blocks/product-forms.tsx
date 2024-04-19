@@ -21,7 +21,7 @@ import {
   addProductClient,
   updateProductClient,
   validateProductClient,
-} from "@/services/client/product";
+} from "@client/product";
 import { useState } from "react";
 import { Kind } from "@/models/types";
 import {

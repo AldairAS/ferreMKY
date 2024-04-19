@@ -33,8 +33,9 @@ export async function addSupplierClient(
   if (!data || errorMessage)
     return { message: errorMessage ?? "Ha ocurrido un error" };
 
-  console.log("Proveedor añadido");
+  // console.log("Proveedor añadido");
   await revalidateSupplier();
+  return { success: true, id: data[0].id };
 }
 
 // Función para recuperar todos los proveedores

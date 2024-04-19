@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,16 +20,20 @@ import { FormSupplierSchema } from "@models/schemas";
 import { Supplier } from "@models/types";
 import Modal from "../ui/modal";
 import { addSupplierClient, updateSupplierClient } from "@client/supplier";
-// import { SupplierContext } from "@/context/SupplierContext";
+import { showToast } from "@/libs";
+import { TypeToast } from "@/models/enums";
+// import { useRouter } from "next/navigation";
 
 export function AddSupplierForm({
   isOpenModal,
   closeModal,
+  setSuppliers,
 }: {
   isOpenModal: boolean;
   closeModal: () => void;
+  setSuppliers: React.Dispatch<React.SetStateAction<Supplier[]>>;
 }) {
-  // const { addSupplier } = useContext(SupplierContext);
+  // const router = useRouter();
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
     defaultValues: {
@@ -45,10 +49,26 @@ export function AddSupplierForm({
     formData.append("contact", values.contact);
     formData.append("description", values.description);
 
-    await addSupplierClient(undefined, formData);
+    const res = await addSupplierClient(undefined, formData);
     form.reset();
     closeModal();
-    // addSupplier({ id: new Date().toISOString(), ...values });
+
+    if (res?.message) showToast("Error", res.message, TypeToast.ERROR);
+
+    if (res?.success) {
+      showToast("Exito", `Proveedor ${values.name} añadido`, TypeToast.SUCCESS);
+
+      setSuppliers((prev) => [
+        {
+          id: res.id ?? "0",
+          name: values.name,
+          description: values.description,
+          contact: values.contact,
+        },
+        ...prev,
+      ]);
+      // router.refresh();
+    }
   }
 
   return (
@@ -123,14 +143,17 @@ export function AddSupplierForm({
 
 export function EditSupplierForm({
   supplier,
+  setSuppliers,
   isOpenModal,
   closeModal,
 }: {
   isOpenModal: boolean;
   closeModal: () => void;
   supplier: Supplier;
+  setSuppliers: React.Dispatch<React.SetStateAction<Supplier[]>>;
 }) {
-  // const { updateSupplier } = useContext(SupplierContext);
+  // const router = useRouter();
+
   const form = useForm<z.infer<typeof FormSupplierSchema>>({
     resolver: zodResolver(FormSupplierSchema),
     defaultValues: {
@@ -147,10 +170,28 @@ export function EditSupplierForm({
     formData.append("contact", values.contact);
     formData.append("description", values.description);
 
-    await updateSupplierClient(undefined, formData);
+    const res = await updateSupplierClient(undefined, formData);
     form.reset();
     closeModal();
-    // updateSupplier({ id: supplier.id, ...values });
+
+    if (res?.message) showToast("Error", res.message, TypeToast.ERROR);
+
+    if (res?.success) {
+      showToast("Éxito", "Proveedor editado", TypeToast.SUCCESS);
+      setSuppliers((prev) =>
+        prev.map((item) =>
+          item.id === supplier.id
+            ? {
+                ...item,
+                name: values.name,
+                description: values.description,
+                contact: values.contact,
+              }
+            : item
+        )
+      );
+      // router.refresh();
+    }
   }
 
   useEffect(() => {
@@ -166,6 +207,7 @@ export function EditSupplierForm({
       shouldDirty: true,
       shouldValidate: true,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [supplier]);
 
   // console.log(form.formState.defaultValues, supplier);

@@ -101,7 +101,7 @@ export async function searchSuppliers(
     .or(
       `name.ilike."*${value}*", contact.ilike."*${value}*", description.ilike."*${value}*"`
     )
-    .order("name")
+    .order("created_at", { ascending: false })
     .range(initialPosition, finalPosition);
 
   const errorMessage = error?.message;
@@ -128,7 +128,7 @@ export async function getAllSuppliersByRange(
     .or(
       `name.ilike."*${query}*", contact.ilike."*${query}*", description.ilike."*${query}*"`
     )
-    .order("name")
+    .order("created_at", { ascending: false })
     .range(initialPosition, finalPosition);
 
   const errorMessage = error?.message;

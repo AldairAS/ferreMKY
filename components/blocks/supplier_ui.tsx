@@ -34,10 +34,7 @@ import { Supplier } from "@models/types";
 // import { SupplierContext } from "@/context/SupplierContext";
 import useQueryParams from "../hooks/useQuery";
 import { generatePagination, showToast } from "@/libs";
-import {
-  getAllSuppliersByRange,
-  getCountSupplier,
-} from "@/services/server/supplier";
+import { getAllSuppliersByRange, getCountSupplier } from "@server/supplier";
 import { useDebouncedCallback } from "use-debounce";
 import { ROWS_PER_PAGE, WAIT_BETWEEN_CHANCE } from "@models/constants";
 import { deleteSupplierClient } from "@client/supplier";
@@ -72,14 +69,14 @@ export default function SupplierView() {
   const [isOpenDeleteModal, openDeleteModal, closeDeleteModal] =
     useModal(false);
   const [loading, setLoading] = useState(true);
-  const { page } = useQueryParams();
+  // const { page } = useQueryParams();
 
   const pagination = generatePagination(totalPages, currentPage);
 
   const getSuppliers = async () => {
     setLoading(true);
     const data = await getAllSuppliersByRange(currentPage, query, rows);
-    console.log(data);
+    // console.log(data);
     setSuppliers(data);
     setLoading(false);
   };
@@ -109,7 +106,7 @@ export default function SupplierView() {
   };
 
   useEffect(() => {
-    console.log(query);
+    // console.log(query);
     getSuppliers();
     getTotalPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -168,16 +165,16 @@ export default function SupplierView() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+            {/* <DropdownMenu> */}
+            {/* <DropdownMenuTrigger asChild>
                 <Button className="h-8 gap-1" size="sm" variant="outline">
                   <ListFilterIcon className="h-3.5 w-3.5" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                     Filtrar
                   </span>
                 </Button>
-              </DropdownMenuTrigger>
-              {/* <DropdownMenuContent align="end">
+              </DropdownMenuTrigger> */}
+            {/* <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Filtrar por</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuCheckboxItem checked>
@@ -186,7 +183,7 @@ export default function SupplierView() {
                 <DropdownMenuCheckboxItem>Borrador</DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem>Archivado</DropdownMenuCheckboxItem>
               </DropdownMenuContent> */}
-            </DropdownMenu>
+            {/* </DropdownMenu> */}
             <Button className="h-8 gap-1" size="sm" variant="outline">
               <FileIcon className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -278,6 +275,7 @@ export default function SupplierView() {
               {supplier ? (
                 <EditSupplierForm
                   supplier={supplier}
+                  setSuppliers={setSuppliers}
                   isOpenModal={isOpenEditModal}
                   closeModal={closeEditModal}
                 />
@@ -285,18 +283,18 @@ export default function SupplierView() {
                 ""
               )}
               <AddSupplierForm
+                setSuppliers={setSuppliers}
                 isOpenModal={isOpenAddModal}
                 closeModal={closeAddModal}
               />
-
               <Modal
                 isOpen={isOpenDeleteModal}
                 handleClose={closeDeleteModal}
-                title={`Eliminar Producto "${supplier?.id}"`}
+                title={`Eliminar Proveedor "${supplier?.id}"`}
               >
                 <div className="font-medium">
-                  Esta acción no se puede deshacer. Esto eliminará el producto y
-                  sus vinculaciones con el proveedor.
+                  Esta acción no se puede deshacer. Esto eliminará el proveedor y
+                  sus vinculaciones con los productos asociado.
                 </div>
                 <div className="flex justify-around mt-8">
                   <Button
@@ -304,7 +302,7 @@ export default function SupplierView() {
                     onClick={deleteSupplier}
                     variant="destructive"
                   >
-                    Eliminar Producto
+                    Eliminar Proveedor
                   </Button>
                   <Button
                     type="button"
