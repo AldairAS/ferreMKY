@@ -52,6 +52,9 @@ import { FormSearchSchema } from "@/models/schemas";
 import { Form, FormField } from "../form";
 // import { SupplierContext } from "@/context/SupplierContext";
 import useQueryParams from "@components/hooks/useQuery";
+import useModal from "@/components/hooks/useModal";
+import ModalSearch from "./ModalSearch";
+import Modal from "../modal";
 
 const menuItems = [
   {
@@ -91,43 +94,25 @@ export default function NavigationMenu() {
   const { form } = useQueryParams();
   const pathname = usePathname();
   const { setTheme } = useTheme();
-  const [localSearch, setLocalSearch] = useState("");
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
+  const [isModalSearchOpen, openModalSearch, closeModalSearch] =
+    useModal(false);
   // const { suppliers, readSuppliers } = useContext(SupplierContext);
   const [formState, formAction] = useFormState(logout, undefined);
   const search = form.watch("search");
   // console.log(search);
-
-  // async function onSubmit(values: z.infer<typeof FormSearchSchema>) {
-  //   // console.log(activePage, values);
-  //   // Dependiendo de la página en la que están debería agregarse su respectiva función
-  //   if (activePage === "supplier") {
-  //     const data = await getSuppliersByValueOfDatabase(values.search, 1);
-  //     readSuppliers(data);
-  //   }
-  // }
-
-  // async function setSuppliers() {
-  //   const data = await getSuppliersByValueOfDatabase("", 1);
-  //   readSuppliers(data);
-  // }
-
-  // useEffect(() => {
-  //   // console.log(localSearch !== search);
-
-  //   if (localSearch !== search) {
-  //     setLocalSearch(search);
-  //     form.handleSubmit(onSubmit)();
-  //   } else if (search === "") {
-  //     console.log("Hola");
-  //     if (suppliers.length > 0) return;
-  //     //UsetSuppliers();
-  //   } else {
-  //     return;
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [search]);
+  const handleSearchInputFocus = () => {
+    const otherInput = document.querySelector(
+      "#searchModal"
+    ) as HTMLInputElement;
+    // console.log(!otherInput);
+    if (otherInput) {
+      setTimeout(() => {
+        otherInput.focus();
+      }, 200);
+    }
+  };
 
   useEffect(() => {
     if (router) {
@@ -314,33 +299,24 @@ export default function NavigationMenu() {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-          {/* <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="relative ml-auto flex-1 md:grow-0"
+          <div className="relative ml-auto flex-1 md:grow-0">
+            <SearchIcon className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
+            <Input
+              onClick={openModalSearch}
+              className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px] focus:outline-transparent focus:border-transparent focus:outline-none"
+              placeholder="Buscar..."
+              onFocus={handleSearchInputFocus}
+              type="search"
+              readOnly
+            />
+            <Modal
+              title="Reciente"
+              isOpen={isModalSearchOpen}
+              handleClose={closeModalSearch}
             >
-              <FormField
-                control={form.control}
-                name="search"
-                render={({ field }) => (
-                  <>
-                    <SearchIcon className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        form.handleSubmit(onSubmit)();
-                      }
-                    }}
-                      {...field}
-                      className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
-                      placeholder="Buscar..."
-                      type="search"
-                    />
-                  </>
-                )}
-              />
-            </form>
-          </Form> */}
+              <ModalSearch closeModalSearch={closeModalSearch} />
+            </Modal>
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
