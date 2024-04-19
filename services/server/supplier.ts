@@ -85,14 +85,14 @@ export async function updateSupplier(
 // Get 10 supplier filter by name search
 
 export async function getSupplierByValueAndPage(value: string, page: number) {
-  const { data: suppliers, error } = await supabase
+  const { data: suppliers, count, error } = await supabase
     .from("supplier")
     .select("name, contact, description")
     .or(
       `name.ilike."*${value}*", contact.ilike."*${value}*", description.ilike."*${value}*"`
     )
     .order("name")
-    .range((page - 1) * 10, page * 10);
+    .range((page - 1) * 10, page * 10 - 1);
 
   const errorMessage = error?.message;
 
@@ -104,7 +104,7 @@ export async function getSupplierByValueAndPage(value: string, page: number) {
   return (suppliers || []) as Supplier[];
 }
 
-export async function getAllSupplier() {
+export async function getAllSuppliers() {
   const {
     data: suppliers,
     count,

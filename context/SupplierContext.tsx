@@ -1,5 +1,8 @@
 "use client";
-import { getAllSuppliers } from "@client/supplier";
+import {
+  // getAllSuppliersClient,
+  getSuppliersByValueOfDatabase,
+} from "@client/supplier";
 import { Supplier } from "@models/types";
 import React, { createContext, useEffect, useState } from "react";
 
@@ -51,25 +54,21 @@ export const SupplierProvider = ({
     );
   };
 
-  console.log(suppliers);
+  // console.log(suppliers);
   useEffect(() => {
     // console.log(suppliers);
     if (suppliers.length > 0) return;
     const getSuppliers = async () => {
-      const data = await getAllSuppliers();
-      // console.log(data);
-      setSuppliers(data.suppliers);
-      setN(() => data.count);
+      const data = await getSuppliersByValueOfDatabase("", 1);
+      console.log(data);
+      setSuppliers(data);
+      //setN(() => data.count);
     };
 
     // console.log("first");
     // fetch suppliers
 
     getSuppliers();
-    return () => {
-      console.log("unmount");
-      setSuppliers(suppliers);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

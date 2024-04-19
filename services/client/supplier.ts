@@ -1,7 +1,7 @@
 import { FormSupplierSchema } from "@models/schemas";
 import {
   updateSupplier,
-  getAllSupplier,
+  getAllSuppliers,
   addSupplier,
   editSupplier,
   revalidateSupplier,
@@ -38,9 +38,9 @@ export async function addSupplierClient(
 }
 
 // Función para recuperar todos los proveedores
-export async function getAllSuppliers(): Promise<any> {
+export async function getAllSuppliersClient(): Promise<any> {
   // console.log("first getAllSuppliers");
-  return await getAllSupplier();
+  return await getAllSuppliers();
 }
 
 // Función para editar un proveedor
@@ -104,7 +104,7 @@ export async function updateSupplierClient(
     if (result.data && typeof result.data === "object") {
       console.log("Proveedor actualizado");
       await revalidateSupplier();
-      const data = await getAllSupplier();
+      const data = await getAllSuppliers();
       if (data.suppliers) {
         //setAllSuppliers(updatedSuppliersFromServer);
         setAllSuppliers(data.suppliers);

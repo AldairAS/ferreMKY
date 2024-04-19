@@ -154,9 +154,6 @@ export function EditSupplierForm({
   }
 
   useEffect(() => {
-    // console.log(supplier);
-    // form.reset(supplier);
-
     form.setValue("name", supplier.name, {
       shouldDirty: true,
       shouldValidate: true,

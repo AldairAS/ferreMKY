@@ -7,7 +7,7 @@ import ProductItem from "@components/edit/edit-product";
 import QuantityItem from "@components/edit/edit-quantity-product";
 import { getAllCategories } from "@server/category";
 import { getAllKinds } from "@server/kind";
-import { getAllSupplier } from "@server/supplier";
+import { getAllSuppliers } from "@server/supplier";
 import { getAllProducts } from "@server/product";
 import { getAllQuantitys } from "@server/product_supplier";
 import { CategoryItem as CategoryItemType } from "@client/category";
@@ -25,6 +25,7 @@ export default function Add(props: AddProps) {
   const [suppliers, setSuppliers] = useState<SupplierItemType[]>([]);
   const [products, setProducts] = useState<ProductItemType[]>([]);
   const [quantitys, setQuantitys] = useState<QuantityItemType[]>([]);
+
   useEffect(() => {
     async function fetchData() {
       const fetchedCategories = await getAllCategories();
@@ -33,7 +34,7 @@ export default function Add(props: AddProps) {
       const fetchedKinds = await getAllKinds();
       setKinds(fetchedKinds);
 
-      const fetchedSuppliers = await getAllSupplier();
+      const fetchedSuppliers = await getAllSuppliers();
       setSuppliers(fetchedSuppliers.suppliers as SupplierItemType[]);
 
       const fetchedProducts = await getAllProducts();

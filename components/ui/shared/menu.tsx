@@ -26,13 +26,11 @@ import {
 } from "@components/ui/tooltip";
 import { useTheme } from "next-themes";
 import {
-  HomeIcon,
   LayoutDashboard,
   Moon,
   LineChartIcon,
   ListCollapse,
   LogOut,
-  Package2Icon,
   PackageIcon,
   PanelLeftIcon,
   SearchIcon,
@@ -46,12 +44,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "@assets/logos/logo.svg";
-import ProfileSheet from "@components/profile-config-sheet";
 import { useContext, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { logout } from "@client/auth";
 import { z } from "zod";
-// import { useForm } from "react-hook-form";
 import { FormSearchSchema } from "@/models/schemas";
 import { Form, FormField } from "../form";
 import { getSuppliersByValueOfDatabase } from "@client/supplier";
@@ -99,7 +95,7 @@ export default function NavigationMenu() {
   const [localSearch, setLocalSearch] = useState("");
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
-  const { readSuppliers } = useContext(SupplierContext);
+  const { suppliers, readSuppliers } = useContext(SupplierContext);
   const [formState, formAction] = useFormState(logout, undefined);
   const search = form.watch("search");
   // console.log(search);
@@ -119,46 +115,20 @@ export default function NavigationMenu() {
   }
 
   useEffect(() => {
-    console.log(localSearch !== search);
-    if (search === "") {
-      setSuppliers();
-    } else if (localSearch !== search) {
+    // console.log(localSearch !== search);
+
+    if (localSearch !== search) {
       setLocalSearch(search);
       form.handleSubmit(onSubmit)();
+    } else if (search === "") {
+      console.log("Hola");
+      if (suppliers.length > 0) return;
+      //UsetSuppliers();
     } else {
       return;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
-
-  // useEffect para buscar con la tecla Enter
-  // useEffect(() => {
-  //   window.addEventListener("keydown", async (e) => {
-  //     // console.log(e.target === document.querySelector('input[type="search"]'));
-  //     const formAux = document.querySelector("input[type='search']");
-  //     if (
-  //       // e.key === "Enter" || &&
-  //       e.target === document.querySelector('input[type="search"]')
-  //     ) {
-  //       // setTimeout(() => {
-  //       if (activePage === "supplier") {
-  //         console.log(search);
-  //         form.handleSubmit(onSubmit)();
-  //         // const data = await getSuppliersByValueOfDatabase(search, 1);
-  //         // console.log(data);
-  //         // readSuppliers(data);
-  //       }
-  //       // }, 300);
-  //     }
-  //   });
-
-  //   return () => {
-  //     window.removeEventListener("keydown", (e) => {
-  //       console.log(e);
-  //     });
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [activePage]);
 
   useEffect(() => {
     if (router) {
@@ -357,10 +327,11 @@ export default function NavigationMenu() {
                   <>
                     <SearchIcon className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
-                      // onKeyDown={(e) => {
-                      //   // if (e. === "Enter") {
-                      //   form.handleSubmit(onSubmit)();
-                      // }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        form.handleSubmit(onSubmit)();
+                      }
+                    }}
                       {...field}
                       className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
                       placeholder="Buscar..."
