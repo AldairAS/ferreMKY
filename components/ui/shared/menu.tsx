@@ -1,4 +1,6 @@
 "use client";
+import { logout } from "@/services/client/auth";
+import Logo from "@assets/logos/logo.svg";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,36 +26,32 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@components/ui/tooltip";
-import { useTheme } from "next-themes";
 import {
-  HomeIcon,
+  Container,
   LayoutDashboard,
-  Moon,
   LineChartIcon,
   ListCollapse,
   LogOut,
-  Package2Icon,
+  Moon,
   PackageIcon,
   PanelLeftIcon,
+  PcCase,
   SearchIcon,
   SettingsIcon,
   ShoppingCartIcon,
   Sun,
   Users2Icon,
-  PcCase,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import Logo from "@assets/logos/logo.svg";
-import ProfileSheet from "@/components/profile-config-sheet";
 import { useEffect, useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
-import { logout } from "@/services/client/auth";
+import { useFormState } from "react-dom";
 const menuItems = [
   {
     icon: LayoutDashboard,
-    label: "Panel de Control",
+    label: "Overview",
     href: "/dashboard",
   },
   {
@@ -76,6 +74,11 @@ const menuItems = [
     label: "Estadísticas",
     href: "/dashboard/statistics",
   },
+  {
+    icon: Container,
+    label: "Proveedores",
+    href: "/dashboard/supplier",
+  },
 ];
 
 type TBreadcrumb = {
@@ -86,6 +89,7 @@ type TBreadcrumb = {
 export default function NavigationMenu() {
   const router = useRouter();
   const pathname = usePathname();
+  const [collapse, setCollapse] = useState(false);
   const { setTheme } = useTheme();
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
@@ -111,16 +115,30 @@ export default function NavigationMenu() {
 
   return (
     <div>
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
-        <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
+      <aside
+        className={`fixed inset-y-0 left-0 z-10 hidden flex-col border-r bg-background sm:flex ${
+          collapse ? "w-44 z-50" : "w-14"
+        }`}
+      >
+        <nav
+          className="
+          flex flex-col items-center gap-4 px-2 sm:py-5
+          "
+        >
           <TooltipProvider>
-            <Link href="/dashboard">
+            <Link
+              className={`
+              ${collapse ? "md:w-36 pl-2" : "w-14 pl-3"}
+
+              `}
+              href="/dashboard"
+            >
               <img
-                className="transition-all group-hover:scale-110 rounded-lg"
+                className="transition-all group-hover:scale-110 rounded-lg dark:invert"
                 src={Logo.src}
                 alt="FerreMYK"
-                height={50}
-                width={50}
+                height={30}
+                width={30}
               />
               <span className="sr-only">Ferre MYK</span>
             </Link>
@@ -128,15 +146,22 @@ export default function NavigationMenu() {
               <Tooltip key={label}>
                 <TooltipTrigger asChild>
                   <Link
-                    className={`flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 ${
+                    className={`flex h-9 ${
+                      collapse
+                        ? "md:w-36 pl-2 justify-start"
+                        : "w-9 justify-center"
+                    } items-center  rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-9  ${
                       pathname === href
                         ? "bg-accent-foreground dark:hover:text-black dark:text-black text-white rounded-sm hover:text-white"
                         : ""
                     }`}
                     href={href}
                   >
-                    <Icon className="h-5 w-5" />
-                    <span className="sr-only">{label}</span>
+                    <div className="flex gap-2 items-center justify-start">
+                      <Icon className="h-5 w-5" />
+                      {collapse && <span>{label}</span>}
+                      <span className="sr-only">{label}</span>
+                    </div>
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent side="right">{label}</TooltipContent>
@@ -144,12 +169,23 @@ export default function NavigationMenu() {
             ))}
           </TooltipProvider>
         </nav>
-        <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
+        <nav
+          className={`
+          mt-auto flex flex-col items-center gap-4 px-2 sm:py-5
+          `}
+        >
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="px-2" variant="ghost">
-                <SettingsIcon className="h-5 w-5 text-muted-foreground" />
-                <span className="sr-only">Configuración</span>
+              <Button
+                className={`
+                ${collapse ? "md:w-36 ml-0 pl-2" : " px-2"}`}
+                variant="ghost"
+              >
+                <div className={`flex gap-2 ${collapse ? "pl-2" : "pl-0"}`}>
+                  <SettingsIcon className="h-5 w-5 text-muted-foreground" />
+                  {collapse && <span className="">Configuración</span>}
+                  <span className="sr-only">Configuración</span>
+                </div>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="ml-5" align="center">
@@ -167,7 +203,11 @@ export default function NavigationMenu() {
                 <PcCase className="h-4 w-4 mr-1" />
                 Modo del Sistema
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setCollapse(!collapse);
+                }}
+              >
                 <ListCollapse className="h-4 w-4 mr-1" />
                 Collapsar
               </DropdownMenuItem>
@@ -265,7 +305,7 @@ export default function NavigationMenu() {
                       </BreadcrumbLink>
                       {i < breadcrumbs.length - 2 && <BreadcrumbSeparator />}
                     </BreadcrumbItem>
-                  ),
+                  )
               )}
               {breadcrumbs.length > 1 && <BreadcrumbSeparator />}
               <BreadcrumbItem>

@@ -27,12 +27,15 @@ import { Label } from "../ui/label";
 import { FormProductSchema } from "@models/schemas";
 import { X } from "lucide-react";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
+import { useFormState } from "react-dom";
+import { addProductClient } from "@/services/client/product";
 
 export default function AddProductForm({
   formTrigger,
 }: {
   formTrigger: React.ReactNode;
 }) {
+  const [formState, formAction] = useFormState(addProductClient, undefined);
   const form = useForm<z.infer<typeof FormProductSchema>>({
     resolver: zodResolver(FormProductSchema),
     // defaultValues: {
