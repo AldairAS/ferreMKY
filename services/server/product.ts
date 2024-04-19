@@ -1,12 +1,14 @@
 "use server";
+
 import { Product } from "@models/types/definitions";
 import { supabase } from "@config/supabase";
 import { revalidatePath } from "next/cache";
 
 //Revalidar la ruta
 export async function revalidateProduct() {
-  revalidatePath("/add", "page");
+  revalidatePath("/dashboard/product", "page");
 }
+
 //Función para añadir un nuevo producto
 export async function addProduct(
   idKind: String,
@@ -15,7 +17,7 @@ export async function addProduct(
   priceSale: number,
   storageCost: number,
   quantity: number,
-  unit: string,
+  unit: string
 ) {
   const { data, error } = await supabase
     .from("product")
@@ -30,9 +32,10 @@ export async function addProduct(
         quantity,
       },
     ])
-    .select();
+    .select("*")
+    .single();
   const errorMessage = error?.message;
-  console.error(data, errorMessage);
+  /* console.error(data, errorMessage); */
   return { data, errorMessage };
 }
 
@@ -58,11 +61,13 @@ export async function deleteProduct(id: string) {
   //Manejo de errores
   if (errorProduct) {
     console.log("Error al eliminar el producto:", errorProduct.message);
-    return { error: errorProduct };
+    // return { error: errorProduct.message };
   } else {
     console.log("Producto eliminado exitosamente.");
-    return { error: null };
+    // return { error: null };
   }
+
+  return { errorMessage: errorProduct?.message };
 }
 //Función para traer los productos
 // Función para actualizar una categoría
@@ -74,7 +79,9 @@ export async function updateProduct(
   price_sale: number,
   storage_cost: number,
   quantity: number,
-  unit: number,
+  unit: string,
+  id_image: string,
+  url_image: string
 ) {
   const { data, error } = await supabase
     .from("product")
@@ -86,6 +93,8 @@ export async function updateProduct(
       storage_cost,
       quantity,
       unit,
+      id_image,
+      url_image,
     })
     .eq("id", id)
     .single();
@@ -120,7 +129,7 @@ export async function getAllProducts() {
 export async function searchItemsInventory(
   currentPage: number,
   query: string,
-  rows?: number,
+  rows?: number
 ) {
   const initialPosition = (rows ?? 10) * (currentPage - 1);
   const lastPosition = (rows ?? 10) * currentPage - 1;
@@ -131,4 +140,125 @@ export async function searchItemsInventory(
     .range(initialPosition, lastPosition);
 
   return products as Product[];
+}
+
+export async function getUniqueProduct(id: string) {
+  const { data } = await supabase
+    .rpc("get_products_kind_query", { query: '' })
+    .eq("id", id)
+    .select("*")
+    .single();
+
+  return data;
+}
+
+export async function getAllProductByRange(
+  currentPage: number,
+  query: string,
+  rows: number
+) {
+  const initialPosition = rows * (currentPage - 1);
+  const lastPosition = rows * currentPage - 1;
+
+  const { data: products } = await supabase
+    .rpc("get_products_kind_query", { query })
+    .select("*")
+    .range(initialPosition, lastPosition)
+    .order("code");
+
+  return products as Product[];
+}
+
+export async function getAllProductStockByRange(
+  currentPage: number,
+  query: string,
+  rows: number
+) {
+  const initialPosition = rows * (currentPage - 1);
+  const lastPosition = rows * currentPage - 1;
+
+  const { data: products } = await supabase
+    .rpc("get_products_kind_query", { query })
+    .gt("quantity", 0)
+    .select("*")
+    .range(initialPosition, lastPosition)
+    .order("code");
+
+  return products as Product[];
+}
+
+export async function getAllProductOutOfStockByRange(
+  currentPage: number,
+  query: string,
+  rows: number
+) {
+  const initialPosition = rows * (currentPage - 1);
+  const lastPosition = rows * currentPage - 1;
+
+  const { data: products } = await supabase
+    .rpc("get_products_kind_query", { query })
+    .eq("quantity", 0)
+    .select("*")
+    .range(initialPosition, lastPosition)
+    .order("code");
+
+  return products as Product[];
+}
+
+export async function getCountProduct(query: string) {
+  const { count } = await supabase.rpc(
+    "get_products_kind_query",
+    { query },
+    { count: "exact" }
+  );
+
+  return count == null ? 0 : count;
+}
+
+export async function getCountProductStock(query: string) {
+  const { count } = await supabase
+    .rpc("get_products_kind_query", { query }, { count: "exact" })
+    .gt("quantity", 0);
+
+  return count == null ? 0 : count;
+}
+
+export async function getCountProductOutOfStock(query: string) {
+  const { count } = await supabase
+    .rpc("get_products_kind_query", { query }, { count: "exact" })
+    .eq("quantity", 0);
+  return count == null ? 0 : count;
+}
+
+export async function uploadImageAndGetUrlProduct(
+  idImage: string,
+  image: File
+) {
+  const data = await supabase.storage.from("products").upload(idImage, image);
+
+  console.log(data.error);
+
+  if (data.error != null) {
+    throw (new Error().message = data.error.message);
+  }
+
+  const imageDataUrl = await supabase.storage
+    .from("products")
+    .getPublicUrl(idImage);
+
+  return imageDataUrl;
+}
+
+export async function deleteImageProduct(idImage: string) {
+  const { data, error } = await supabase.storage
+    .from("products")
+    .remove([idImage]);
+
+  const errorMessage = error?.message
+  /* console.log(response.error);
+
+  if (response.error != null) {
+    throw (new Error().message = response.error.message);
+  } */
+  return { data, errorMessage };
 }

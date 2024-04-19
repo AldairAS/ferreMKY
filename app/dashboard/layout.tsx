@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import Footer from "@components/ui/shared/footer";
 import NavigationMenu from "@components/ui/shared/menu";
 
@@ -12,6 +13,7 @@ export default function FerreMKYLayout({
       {/* //FIXME: Add a some sort of margin that is applied to all the pages nested properly, the actual ml=14 is not working on all pages */}
       <main className="lg:ml-14">{children}</main>
       <Footer />
+      <Toaster />
     </section>
   );
 }
