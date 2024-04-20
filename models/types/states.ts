@@ -37,6 +37,8 @@ export type StateSupplier =
         description?: string[];
       };
       message?: string | null;
+      success?: boolean;
+      id?: string;
     }
   | undefined;
 
@@ -65,5 +67,6 @@ export type StateProductSupplier =
         idSupplier?: string[];
       };
       message?: string | null;
+      sucess?: boolean;
     }
   | undefined;

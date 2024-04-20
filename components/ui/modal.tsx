@@ -1,4 +1,4 @@
-import { cn } from "@/libs/utils";
+import { cn } from "@libs";
 import { SyntheticEvent, useEffect } from "react";
 
 const Modal = ({
@@ -20,6 +20,7 @@ const Modal = ({
         handleClose();
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleModalContainerClick = (e: SyntheticEvent) => e.stopPropagation();
@@ -30,7 +31,7 @@ const Modal = ({
         `fixed overflow-auto z-50 top-0 left-0 w-full min-h-screen justify-center items-center inset-0 bg-white bg-opacity-50 dark:bg-black dark:bg-opacity-20 ${
           isOpen ? `flex` : `hidden`
         }`,
-        className,
+        className
       )}
       onClick={handleClose}
     >

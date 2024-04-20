@@ -26,60 +26,96 @@ import {
   TableRow,
 } from "@components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import { JSX, SVGProps, useState } from "react";
+import { JSX, SVGProps, useEffect, useState } from "react";
 import { AddSupplierForm, EditSupplierForm } from "./supplier-forms";
 import useModal from "../hooks/useModal";
-import { Supplier } from "@/models/types";
+import { Supplier } from "@models/types";
+// import { getAllSuppliers } from "@client/supplier";
+// import { SupplierContext } from "@/context/SupplierContext";
+import useQueryParams from "../hooks/useQuery";
+import { generatePagination, showToast } from "@/libs";
+import { getAllSuppliersByRange, getCountSupplier } from "@server/supplier";
+import { useDebouncedCallback } from "use-debounce";
+import { ROWS_PER_PAGE, WAIT_BETWEEN_CHANCE } from "@models/constants";
+import { deleteSupplierClient } from "@client/supplier";
+import { TypeToast } from "@models/enums";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
+import Modal from "../ui/modal";
+import { SearchIcon } from "lucide-react";
+import { Input } from "../ui/input";
 
-const suppliers = [
-  {
-    id: "1",
-    name: "Proveedor 1",
-    contact: "123456789",
-    description: "Proveedor 1",
-  },
-  {
-    id: "2",
-    name: "Proveedor 2",
-    contact: "987654321",
-    description: "Proveedor 2",
-  },
-  {
-    id: "3",
-    name: "Proveedor 3",
-    contact: "123456789",
-    description: "Proveedor 3",
-  },
-  {
-    id: "4",
-    name: "Proveedor 4",
-    contact: "987654321",
-    description: "Proveedor 4",
-  },
-  {
-    id: "5",
-    name: "Proveedor 5",
-    contact: "123456789",
-    description: "Proveedor 5",
-  },
-  {
-    id: "6",
-    name: "Proveedor 6",
-    contact: "987654321",
-    description: "Proveedor 6",
-  },
-  {
-    id: "7",
-    name: "Proveedor 7",
-    contact: "123456789",
-    description: "Proveedor 7",
-  },
-];
+export default function SupplierView() {
+  // const [n, setN] = useState(0);
+  // const { n, deleteSupplier, readSuppliers, suppliers } =
+  //   useContext(SupplierContext);
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalSuppliers, setTotalSuppliers] = useState(0);
+  const [query, setQuery] = useState("");
+  const [rows, setRows] = useState(10);
 
-export function SupplierView() {
-  const [supplier, setSupplier] = useState<Supplier>(suppliers[0]);
+  const [supplier, setSupplier] = useState<Supplier | undefined>(undefined);
   const [isOpenAddModal, openAddModal, closeAddModal] = useModal(false);
   const [isOpenEditModal, openEditModal, closeEditModal] = useModal(false);
+  const [isOpenDeleteModal, openDeleteModal, closeDeleteModal] =
+    useModal(false);
+  const [loading, setLoading] = useState(true);
+  // const { page } = useQueryParams();
+
+  const pagination = generatePagination(totalPages, currentPage);
+
+  const getSuppliers = async () => {
+    setLoading(true);
+    const data = await getAllSuppliersByRange(currentPage, query, rows);
+    // console.log(data);
+    setSuppliers(data);
+    setLoading(false);
+  };
+
+  const getTotalPage = async () => {
+    const total = await getCountSupplier(query);
+    setTotalSuppliers(total);
+    setTotalPages(Math.ceil(total / rows));
+  };
+
+  const deleteSupplier = async () => {
+    if (!supplier) {
+      closeDeleteModal();
+      return;
+    }
+    const res = await deleteSupplierClient(supplier);
+
+    closeDeleteModal();
+
+    if (res?.message) showToast("Error", res.message, TypeToast.ERROR);
+
+    if (res?.success) {
+      showToast("Éxito", "Proveedor eliminado", TypeToast.SUCCESS);
+      getSuppliers();
+      getTotalPage();
+    }
+  };
+
+  useEffect(() => {
+    // console.log(query);
+    getSuppliers();
+    getTotalPage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, query, rows]);
+
+  const handleQuery = useDebouncedCallback((e: any) => {
+    setQuery(e.target.value);
+    setCurrentPage(1);
+  }, WAIT_BETWEEN_CHANCE);
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
@@ -94,16 +130,51 @@ export function SupplierView() {
             </TabsTrigger>
           </TabsList>
           <div className="ml-auto flex items-center gap-2">
+            <div className="relative ml-auto flex-1 md:grow-0">
+              <SearchIcon className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                className="w-full rounded-lg bg-background pl-8 md:w-[200px] max-w-[336px]"
+                placeholder="Buscar..."
+                type="search"
+                onChange={handleQuery}
+              />
+            </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
+                <Button className="h-8 gap-1" size="sm" variant="outline">
+                  <ListFilterIcon className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Filas
+                  </span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Total de Filas</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {ROWS_PER_PAGE.map((v, i) => (
+                  <DropdownMenuCheckboxItem
+                    key={i}
+                    checked={v == rows}
+                    onClick={() => {
+                      setRows(v);
+                      setCurrentPage(1);
+                    }}
+                  >
+                    {v}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            {/* <DropdownMenu> */}
+            {/* <DropdownMenuTrigger asChild>
                 <Button className="h-8 gap-1" size="sm" variant="outline">
                   <ListFilterIcon className="h-3.5 w-3.5" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                     Filtrar
                   </span>
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              </DropdownMenuTrigger> */}
+            {/* <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Filtrar por</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuCheckboxItem checked>
@@ -111,8 +182,8 @@ export function SupplierView() {
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem>Borrador</DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem>Archivado</DropdownMenuCheckboxItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </DropdownMenuContent> */}
+            {/* </DropdownMenu> */}
             <Button className="h-8 gap-1" size="sm" variant="outline">
               <FileIcon className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -185,7 +256,13 @@ export function SupplierView() {
                             >
                               Editar
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-500">
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setSupplier(() => supplier);
+                                openDeleteModal();
+                              }}
+                              className="text-red-500"
+                            >
                               Eliminar
                             </DropdownMenuItem>
                           </DropdownMenuContent>
@@ -195,22 +272,93 @@ export function SupplierView() {
                   ))}
                 </TableBody>
               </Table>
-              <EditSupplierForm
-                supplier={supplier}
-                isOpenModal={isOpenEditModal}
-                closeModal={closeEditModal}
-              />
+              {supplier ? (
+                <EditSupplierForm
+                  supplier={supplier}
+                  setSuppliers={setSuppliers}
+                  isOpenModal={isOpenEditModal}
+                  closeModal={closeEditModal}
+                />
+              ) : (
+                ""
+              )}
               <AddSupplierForm
+                setSuppliers={setSuppliers}
                 isOpenModal={isOpenAddModal}
                 closeModal={closeAddModal}
               />
+              <Modal
+                isOpen={isOpenDeleteModal}
+                handleClose={closeDeleteModal}
+                title={`Eliminar Proveedor "${supplier?.id}"`}
+              >
+                <div className="font-medium">
+                  Esta acción no se puede deshacer. Esto eliminará el proveedor y
+                  sus vinculaciones con los productos asociado.
+                </div>
+                <div className="flex justify-around mt-8">
+                  <Button
+                    type="button"
+                    onClick={deleteSupplier}
+                    variant="destructive"
+                  >
+                    Eliminar Proveedor
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={closeDeleteModal}
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </Modal>
             </CardContent>
             <CardFooter>
               <div className="text-xs text-muted-foreground">
                 Mostrando
-                <strong> 1-10</strong> de <strong>32 </strong>
-                productos
+                <strong>
+                  {" "}
+                  {rows * (currentPage - 1) + 1}-
+                  {suppliers && suppliers?.length < rows
+                    ? rows * (currentPage - 1) + suppliers?.length
+                    : rows * currentPage}
+                </strong>{" "}
+                de <strong>{totalSuppliers} </strong>
+                proveedores
               </div>
+              <Pagination>
+                <PaginationContent className="flex-wrap border">
+                  {totalPages > 1 && currentPage > 1 && (
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() => setCurrentPage((prev) => prev - 1)}
+                      />
+                    </PaginationItem>
+                  )}
+                  {pagination.map((v, i) => (
+                    <PaginationItem key={i}>
+                      {v != "..." ? (
+                        <PaginationLink
+                          isActive={currentPage == v}
+                          onClick={() => setCurrentPage(Number(v))}
+                        >
+                          {v}
+                        </PaginationLink>
+                      ) : (
+                        <PaginationEllipsis />
+                      )}
+                    </PaginationItem>
+                  ))}
+                  {totalPages > 1 && currentPage < totalPages && (
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => setCurrentPage((prev) => prev + 1)}
+                      />
+                    </PaginationItem>
+                  )}
+                </PaginationContent>
+              </Pagination>
             </CardFooter>
           </Card>
         </TabsContent>
@@ -220,7 +368,7 @@ export function SupplierView() {
 }
 
 function ListFilterIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 ) {
   return (
     <svg
@@ -263,7 +411,7 @@ function FileIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 }
 
 function PlusCircleIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 ) {
   return (
     <svg
@@ -286,7 +434,7 @@ function PlusCircleIcon(
 }
 
 function MoreHorizontalIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 ) {
   return (
     <svg

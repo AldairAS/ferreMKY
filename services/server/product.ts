@@ -1,6 +1,6 @@
 "use server";
 
-import { Product } from "@models/types/definitions";
+import { Product } from "@models/types";
 import { supabase } from "@config/supabase";
 import { revalidatePath } from "next/cache";
 
@@ -69,7 +69,7 @@ export async function deleteProduct(id: string) {
 
   return { errorMessage: errorProduct?.message };
 }
-//Función para traer los productos
+
 // Función para actualizar una categoría
 export async function updateProduct(
   id: string,
@@ -109,6 +109,7 @@ export async function updateProduct(
   // Devuelve un objeto con data y errorMessage
   return { data: data || {}, errorMessage: undefined };
 }
+
 // Función para traer las categorías
 export async function getAllProducts() {
   const { data: products, error } = await supabase
@@ -144,7 +145,7 @@ export async function searchItemsInventory(
 
 export async function getUniqueProduct(id: string) {
   const { data } = await supabase
-    .rpc("get_products_kind_query", { query: '' })
+    .rpc("get_products_kind_query", { query: "" })
     .eq("id", id)
     .select("*")
     .single();
@@ -254,7 +255,7 @@ export async function deleteImageProduct(idImage: string) {
     .from("products")
     .remove([idImage]);
 
-  const errorMessage = error?.message
+  const errorMessage = error?.message;
   /* console.log(response.error);
 
   if (response.error != null) {

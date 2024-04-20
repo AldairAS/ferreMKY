@@ -1,4 +1,4 @@
-import ProductView from "@/components/blocks/product_ui";
+import ProductView from "@components/blocks/product_ui";
 
 export default function ProductPage() {
   return (
