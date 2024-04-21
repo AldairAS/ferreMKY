@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { Input } from "@components/ui/input";
+import ProfileSheet from "@/components/profile-config-sheet";
 import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import {
   Tooltip,
@@ -93,6 +94,7 @@ export default function NavigationMenu() {
   const { setTheme } = useTheme();
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
+  const [showProfileSheet, setShowProfileSheet] = useState(false);
   const [formState, formAction] = useFormState(logout, undefined);
   useEffect(() => {
     if (router) {
@@ -346,7 +348,13 @@ export default function NavigationMenu() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Perfil</DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() => {
+                  setShowProfileSheet(true);
+                }}
+              >
+                Perfil
+              </DropdownMenuItem>
               <DropdownMenuItem>Soporte</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -360,6 +368,10 @@ export default function NavigationMenu() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <ProfileSheet
+            open={showProfileSheet}
+            onOpenChange={setShowProfileSheet}
+          />
         </header>
       </div>
     </div>
