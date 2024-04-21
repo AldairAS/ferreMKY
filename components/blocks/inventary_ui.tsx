@@ -1,3 +1,4 @@
+"use client";
 import { productos } from "@/data";
 import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
@@ -27,13 +28,15 @@ import {
   TableRow,
 } from "@components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
+import { Archive, PackageSearch, PencilRuler } from "lucide-react";
 import Image from "next/image";
-import { JSX, SVGProps } from "react";
+import { JSX, SVGProps, useState } from "react";
 import { EmptyPlaceholder } from "../ui/shared/empty-placeholder";
 import AddProductForm from "./add-product-form";
-import { Archive, FilesIcon, PackageSearch, PencilRuler } from "lucide-react";
+import EditProductForm from "./edit-product-form";
 
 export function InventaryView() {
+  const [showEditProductForm, setShowEditProductForm] = useState(false);
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
       <Tabs defaultValue="all">
@@ -155,7 +158,11 @@ export function InventaryView() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem>Editar</DropdownMenuItem>
+                            <DropdownMenuItem
+                              onSelect={() => setShowEditProductForm(true)}
+                            >
+                              Editar
+                            </DropdownMenuItem>
                             <DropdownMenuItem className="text-red-500">
                               Eliminar
                             </DropdownMenuItem>
@@ -166,6 +173,10 @@ export function InventaryView() {
                   ))}
                 </TableBody>
               </Table>
+              <EditProductForm
+                open={showEditProductForm}
+                onOpenChange={setShowEditProductForm}
+              />
             </CardContent>
             <CardFooter>
               <div className="text-xs text-muted-foreground">
@@ -203,7 +214,7 @@ export function InventaryView() {
 }
 
 function ListFilterIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 ) {
   return (
     <svg
@@ -246,7 +257,7 @@ function FileIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 }
 
 function PlusCircleIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 ) {
   return (
     <svg
@@ -269,7 +280,7 @@ function PlusCircleIcon(
 }
 
 function MoreHorizontalIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 ) {
   return (
     <svg

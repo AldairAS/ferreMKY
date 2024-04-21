@@ -17,25 +17,25 @@ import { Input } from "@components/ui/input";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
 import { FormProductSchema } from "@models/schemas";
 import { X } from "lucide-react";
+
 import { useFormState } from "react-dom";
 import { addProductClient } from "@/services/client/product";
-import { DialogDescription } from "@radix-ui/react-dialog";
 
-export default function AddProductForm({
-  formTrigger,
-}: {
-  formTrigger: React.ReactNode;
-}) {
+export default function EditProductForm({
+  onOpenChange,
+  ...props
+}: React.ComponentPropsWithRef<typeof Dialog>) {
   const [formState, formAction] = useFormState(addProductClient, undefined);
   const form = useForm<z.infer<typeof FormProductSchema>>({
     resolver: zodResolver(FormProductSchema),
@@ -48,16 +48,12 @@ export default function AddProductForm({
     console.log(values);
   }
   return (
-    <Dialog>
-      <DialogTrigger>{formTrigger}</DialogTrigger>
+    <Dialog onOpenChange={onOpenChange} {...props}>
       <DialogContent className="sm:max-w-[425px] md:max-w-[700px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl flex justify-between">
-            Agregar Producto
-          </DialogTitle>
+          <DialogTitle>Agregar Producto</DialogTitle>
           <DialogDescription>
-            Ingresa los detalles del producto a crear y luego haz click en
-            guardar.
+            Haz cambios a los detalles del producto y luego haz click en guardar
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -206,12 +202,7 @@ export default function AddProductForm({
           </form>
         </Form>
         <DialogFooter>
-          <DialogFooter>
-            <Button type="reset" variant="destructive">
-              Limpiar
-            </Button>
-            <Button type="submit">Guardar cambios</Button>
-          </DialogFooter>
+          <Button type="submit">Guardar cambios</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
