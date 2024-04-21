@@ -19,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
+
 import {
   Table,
   TableBody,
@@ -34,9 +35,10 @@ import { JSX, SVGProps, useState } from "react";
 import { EmptyPlaceholder } from "../ui/shared/empty-placeholder";
 import AddProductForm from "./add-product-form";
 import EditProductForm from "./edit-product-form";
-
+import { DeleteProductDialog } from "./delete=product-dialog";
 export function InventaryView() {
   const [showEditProductForm, setShowEditProductForm] = useState(false);
+  const [showDeleteProductDialog, setShowDeleteProductDialog] = useState(false);
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
       <Tabs defaultValue="all">
@@ -163,7 +165,10 @@ export function InventaryView() {
                             >
                               Editar
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-500">
+                            <DropdownMenuItem
+                              onSelect={() => setShowDeleteProductDialog(true)}
+                              className="text-red-500"
+                            >
                               Eliminar
                             </DropdownMenuItem>
                           </DropdownMenuContent>
@@ -173,6 +178,10 @@ export function InventaryView() {
                   ))}
                 </TableBody>
               </Table>
+              <DeleteProductDialog
+                open={showDeleteProductDialog}
+                onOpenChange={setShowDeleteProductDialog}
+              />
               <EditProductForm
                 open={showEditProductForm}
                 onOpenChange={setShowEditProductForm}
