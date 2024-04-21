@@ -49,16 +49,16 @@ export default function EditProductForm({
   }
   return (
     <Dialog onOpenChange={onOpenChange} {...props}>
-      <DialogContent className="sm:max-w-[425px] md:max-w-[700px]">
+      <DialogContent className="lg:min-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Agregar Producto</DialogTitle>
+          <DialogTitle>Editar Producto</DialogTitle>
           <DialogDescription>
             Haz cambios a los detalles del producto y luego haz click en guardar
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="flex justify-between gap-8 items-start">
+            <div className="flex flex-col lg:flex-row lg:justify-between gap-8 items-start">
               <div className="space-y-4">
                 <FormField
                   control={form.control}
@@ -93,7 +93,7 @@ export default function EditProductForm({
                     </FormItem>
                   )}
                 />
-                <div className="flex gap-4">
+                <div className="flex lg:flex-row flex-col gap-4">
                   <FormField
                     control={form.control}
                     name="priceSale"
@@ -139,7 +139,7 @@ export default function EditProductForm({
                   control={form.control}
                   name="quantity"
                   render={({ field }) => (
-                    <FormItem className="flex mt-4 flex-row items-center justify-between rounded-lg border p-4">
+                    <FormItem className="flex mt-4 flex-col lg:flex-row lg:items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
                         <FormLabel className="text-base">Stock</FormLabel>
                         <FormDescription>

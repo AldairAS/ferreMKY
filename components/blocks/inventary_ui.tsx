@@ -29,7 +29,15 @@ import {
   TableRow,
 } from "@components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import { Archive, PackageSearch, PencilRuler } from "lucide-react";
+import {
+  Archive,
+  ArrowDownIcon,
+  ArrowUpDown,
+  ArrowUpIcon,
+  EyeOff,
+  PackageSearch,
+  PencilRuler,
+} from "lucide-react";
 import Image from "next/image";
 import { JSX, SVGProps, useState } from "react";
 import { EmptyPlaceholder } from "../ui/shared/empty-placeholder";
@@ -39,6 +47,7 @@ import { DeleteProductDialog } from "./delete=product-dialog";
 export function InventaryView() {
   const [showEditProductForm, setShowEditProductForm] = useState(false);
   const [showDeleteProductDialog, setShowDeleteProductDialog] = useState(false);
+  const [filterIcon, setFilterIcon] = useState("");
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
       <Tabs defaultValue="all">
@@ -104,8 +113,58 @@ export function InventaryView() {
                     <TableHead className="hidden w-[100px] sm:table-cell">
                       <span className="sr-only">Imagen</span>
                     </TableHead>
-                    <TableHead>Nombre</TableHead>
-                    <TableHead>Estado</TableHead>
+                    <TableHead>Producto</TableHead>
+                    <TableHead>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="-ml-3 h-8 data-[state=open]:bg-accent"
+                          >
+                            <span>Estado</span>
+                            {filterIcon === "asc" ? (
+                              <ArrowUpIcon
+                                className="ml-2 h-3.5 w-3.5"
+                                aria-hidden="true"
+                              />
+                            ) : filterIcon === "desc" ? (
+                              <ArrowDownIcon
+                                className="ml-2 h-3.5 w-3.5"
+                                aria-hidden="true"
+                              />
+                            ) : (
+                              <ArrowUpDown
+                                className="ml-2 h-3.5 w-3.5"
+                                aria-hidden="true"
+                              />
+                            )}
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start">
+                          <DropdownMenuItem
+                            onClick={() => setFilterIcon("asc")}
+                            aria-label="Sort ascending"
+                          >
+                            <ArrowUpIcon
+                              className="mr-2 size-3.5 text-muted-foreground/70"
+                              aria-hidden="true"
+                            />
+                            Asc
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => setFilterIcon("desc")}
+                            aria-label="Sort descending"
+                          >
+                            <ArrowDownIcon
+                              className="mr-2 size-3.5 text-muted-foreground/70"
+                              aria-hidden="true"
+                            />
+                            Desc
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableHead>
                     <TableHead className="hidden md:table-cell">
                       Precio
                     </TableHead>
@@ -136,7 +195,17 @@ export function InventaryView() {
                         {producto.nombre}
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline">{producto.estado}</Badge>
+                        <Badge
+                          variant={
+                            producto.estado === "Stock"
+                              ? "secondary"
+                              : producto.estado === "Agotado"
+                              ? "destructive"
+                              : "outline"
+                          }
+                        >
+                          {producto.estado}
+                        </Badge>
                       </TableCell>
                       <TableCell className="hidden md:table-cell">
                         S/. {producto.precio}

@@ -30,17 +30,9 @@ export function DeleteProductDialog({
 
   return (
     <Dialog {...props}>
-      {showTrigger ? (
-        <DialogTrigger asChild>
-          <Button variant="outline" size="sm">
-            <TrashIcon className="mr-2 size-4" aria-hidden="true" />
-            Elimiar
-          </Button>
-        </DialogTrigger>
-      ) : null}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Estás segur@?</DialogTitle>
+          <DialogTitle>Estás seguro de eliminar este producto?</DialogTitle>
           <DialogDescription>
             Esta acción no se puede deshacer. Esta acción eliminará el productos
             seleccionados y todos los datos relacionados.
@@ -48,15 +40,15 @@ export function DeleteProductDialog({
         </DialogHeader>
         <DialogFooter className="gap-2 sm:space-x-0">
           <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline">Cancelar</Button>
           </DialogClose>
           <DialogClose asChild>
             <Button
-              aria-label="Delete selected rows"
+              aria-label="Eliminar producto seleccionado"
               variant="destructive"
               disabled={isDeletePending}
             >
-              Delete
+              Eliminar
             </Button>
           </DialogClose>
         </DialogFooter>
