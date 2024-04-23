@@ -49,10 +49,7 @@ export function AddProductForm({ kinds }: { kinds: Kind[] }) {
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
     setFileImage(file);
-
     const reader = new FileReader();
-    // console.log(reader);
-
     reader.onloadend = () => {
       const result = reader.result?.toString();
       const regex = /^data:image\/([a-zA-Z+]+);base64/;
@@ -60,8 +57,6 @@ export function AddProductForm({ kinds }: { kinds: Kind[] }) {
 
       if (match && match[1]) {
         setImagePreview(reader.result);
-        // const imageType = match[1];
-        // console.log("Tipo de imagen:", imageType);
       } else {
         showToast(
           "Advertencia",
@@ -71,8 +66,6 @@ export function AddProductForm({ kinds }: { kinds: Kind[] }) {
         setImagePreview(null);
         setFileImage(undefined);
       }
-      // setImagePreview(reader.result);
-      // console.log(reader.result)
     };
 
     if (file) {
@@ -149,8 +142,8 @@ export function AddProductForm({ kinds }: { kinds: Kind[] }) {
           className="space-y-8 md:w-[70%] w-full px-5 py-4 border "
         >
           <InputsFormProduct form={form} kinds={kinds} />
-          <div className="flex justify-around w-full">
-            <Button type="button" onClick={form.handleSubmit(validateForm)}>
+          <div className="flex justify-end gap-4 w-full">
+            <Button type="submit" onClick={form.handleSubmit(validateForm)}>
               Crear Producto
             </Button>
             <Button
@@ -314,7 +307,7 @@ export function EditProductForm({
             title="Actualizar Producto"
           >
             <div className="font-medium">
-              ¿Está seguro?. Esto actualizará el producto {`"${product.code}"`}.
+              ¿Está seguro?. Esto actualizará el producto {`${product.code}`}.
             </div>
             <div className="flex justify-around mt-8">
               <Button type="submit">Actualizar Producto</Button>

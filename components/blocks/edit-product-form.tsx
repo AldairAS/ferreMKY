@@ -17,25 +17,25 @@ import { Input } from "@components/ui/input";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@components/ui/dialog";
+} from "@/components/ui/dialog";
 
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
 import { FormProductSchema } from "@models/schemas";
 import { X } from "lucide-react";
+
 import { useFormState } from "react-dom";
 import { addProductClient } from "@/services/client/product";
-import { DialogDescription } from "@radix-ui/react-dialog";
 
-export default function AddProductForm({
-  formTrigger,
-}: {
-  formTrigger: React.ReactNode;
-}) {
+export default function EditProductForm({
+  onOpenChange,
+  ...props
+}: React.ComponentPropsWithRef<typeof Dialog>) {
   const [formState, formAction] = useFormState(addProductClient, undefined);
   const form = useForm<z.infer<typeof FormProductSchema>>({
     resolver: zodResolver(FormProductSchema),
@@ -48,21 +48,17 @@ export default function AddProductForm({
     console.log(values);
   }
   return (
-    <Dialog>
-      <DialogTrigger>{formTrigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] md:max-w-[700px]">
+    <Dialog onOpenChange={onOpenChange} {...props}>
+      <DialogContent className="lg:min-w-[700px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl flex justify-between">
-            Agregar Producto
-          </DialogTitle>
+          <DialogTitle>Editar Producto</DialogTitle>
           <DialogDescription>
-            Ingresa los detalles del producto a crear y luego haz click en
-            guardar.
+            Haz cambios a los detalles del producto y luego haz click en guardar
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="flex justify-between gap-8 items-start">
+            <div className="flex flex-col lg:flex-row lg:justify-between gap-8 items-start">
               <div className="space-y-4">
                 <FormField
                   control={form.control}
@@ -97,7 +93,7 @@ export default function AddProductForm({
                     </FormItem>
                   )}
                 />
-                <div className="flex gap-4">
+                <div className="flex lg:flex-row flex-col gap-4">
                   <FormField
                     control={form.control}
                     name="priceSale"
@@ -143,7 +139,7 @@ export default function AddProductForm({
                   control={form.control}
                   name="quantity"
                   render={({ field }) => (
-                    <FormItem className="flex mt-4 flex-row items-center justify-between rounded-lg border p-4">
+                    <FormItem className="flex mt-4 flex-col lg:flex-row lg:items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
                         <FormLabel className="text-base">Stock</FormLabel>
                         <FormDescription>
@@ -206,12 +202,7 @@ export default function AddProductForm({
           </form>
         </Form>
         <DialogFooter>
-          <DialogFooter>
-            <Button type="reset" variant="destructive">
-              Limpiar
-            </Button>
-            <Button type="submit">Guardar cambios</Button>
-          </DialogFooter>
+          <Button type="submit">Guardar cambios</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
