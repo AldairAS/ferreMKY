@@ -1,4 +1,5 @@
 "use client";
+import { Supplier } from "@/models/types";
 import { Button } from "@components/ui/button";
 import {
   Card,
@@ -26,10 +27,11 @@ import {
   TableRow,
 } from "@components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
+import { BookDashed, Newspaper, NotebookTabs } from "lucide-react";
+import { EmptyPlaceholder } from "../ui/shared/empty-placeholder";
 import { JSX, SVGProps, useEffect, useState } from "react";
 import { AddSupplierForm, EditSupplierForm } from "./supplier-forms";
 import useModal from "../hooks/useModal";
-import { Supplier } from "@models/types";
 // import { getAllSuppliers } from "@client/supplier";
 // import { SupplierContext } from "@/context/SupplierContext";
 import useQueryParams from "../hooks/useQuery";
@@ -123,10 +125,10 @@ export default function SupplierView() {
         <div className="flex items-center">
           <TabsList>
             <TabsTrigger value="all">Todos</TabsTrigger>
-            <TabsTrigger value="active">Activos</TabsTrigger>
-            <TabsTrigger value="draft">Borradores</TabsTrigger>
-            <TabsTrigger className="hidden sm:flex" value="archived">
-              Archivados
+            <TabsTrigger value="contracted">Contratados</TabsTrigger>
+            <TabsTrigger value="processing">En Proceso</TabsTrigger>
+            <TabsTrigger className="hidden sm:flex" value="news">
+              Nuevos
             </TabsTrigger>
           </TabsList>
           <div className="ml-auto flex items-center gap-2">
@@ -293,8 +295,8 @@ export default function SupplierView() {
                 title={`Eliminar Proveedor "${supplier?.id}"`}
               >
                 <div className="font-medium">
-                  Esta acción no se puede deshacer. Esto eliminará el proveedor y
-                  sus vinculaciones con los productos asociado.
+                  Esta acción no se puede deshacer. Esto eliminará el proveedor
+                  y sus vinculaciones con los productos asociado.
                 </div>
                 <div className="flex justify-around mt-8">
                   <Button
@@ -361,6 +363,27 @@ export default function SupplierView() {
               </Pagination>
             </CardFooter>
           </Card>
+        </TabsContent>
+        <TabsContent value="contracted">
+          <EmptyPlaceholder
+            icon={<NotebookTabs size={80} className="text-muted-foreground" />}
+            messageTitle="No hay proveedores contratados"
+            description="Los proveedores que ya han sido contratados se mostrarán aquí, por el momento no hay proveedores contratados."
+          />
+        </TabsContent>
+        <TabsContent value="processing">
+          <EmptyPlaceholder
+            icon={<BookDashed size={80} className="text-muted-foreground" />}
+            messageTitle="No hay proveedores en proceso de contratacion"
+            description="Los proveedores que estén en proceso de contratación se mostrarán aquí, por el momento no hay proveedores en proceso."
+          />
+        </TabsContent>
+        <TabsContent value="news">
+          <EmptyPlaceholder
+            icon={<Newspaper size={80} className="text-muted-foreground" />}
+            messageTitle="No hay nuevos proveedores"
+            description="Los proveedores que acaban de ser agregados se mostrarán aquí, por el momento no hay proveedores nuevos."
+          />
         </TabsContent>
       </Tabs>
     </main>
