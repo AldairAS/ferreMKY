@@ -42,3 +42,28 @@ export type Kind = {
   description: string;
   id_category: string;
 };
+
+export type Movement = {
+  id: string;
+  category_name: string;
+  product_description: string;
+  created_at: string;
+  supplier_name: string;
+  quantity: number;
+  price_purchase: number;
+  total: number;
+}
+
+export type ValueCategory = {
+  idcategory: string;
+  name_category: string;
+  quantity: number;
+  total_value: number;
+}
+
+export type ValueKind = {
+  idkind: string;
+  name_kind: string;
+  quantity: number;
+  total_value: number;
+}
