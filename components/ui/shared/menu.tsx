@@ -145,7 +145,7 @@ export default function NavigationMenu() {
   return (
     <div>
       <aside
-        className={`fixed inset-y-0 left-0 z-10 hidden flex-col border-r bg-background sm:flex ${
+        className={`fixed inset-y-0 duration-300 left-0 z-10 hidden flex-col border-r bg-background sm:flex ${
           collapse ? "w-44 z-50" : "w-14"
         }`}
       >
