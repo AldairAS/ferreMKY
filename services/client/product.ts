@@ -1,6 +1,6 @@
 "use server";
 
-import { FormProductSchema } from "@models/schemas/zod_schemas";
+import { FormProductSchema } from "@models/schemas";
 import {
   addProduct,
   deleteImageProduct,
@@ -206,9 +206,9 @@ export async function updateProductClient(
     urlImageToUpdate
   );
 
-  if (!result.data || result.errorMessage) {
+  if (!result.data || result.errorMessage)
     return { message: result.errorMessage ?? "Ha ocurrido un error" };
-  }
+
 
   await revalidateProduct();
   return { success: true };

@@ -47,8 +47,17 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
+import { useContext, useEffect, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { z } from "zod";
+import { FormSearchSchema } from "@/models/schemas";
+import { Form, FormField } from "../form";
+// import { SupplierContext } from "@/context/SupplierContext";
+import useQueryParams from "@components/hooks/useQuery";
+import useModal from "@/components/hooks/useModal";
+import ModalSearch from "./ModalSearch";
+import Modal from "../modal";
+
 const menuItems = [
   {
     icon: LayoutDashboard,
@@ -89,13 +98,31 @@ type TBreadcrumb = {
 
 export default function NavigationMenu() {
   const router = useRouter();
+  const { form } = useQueryParams();
   const pathname = usePathname();
   const [collapse, setCollapse] = useState(false);
   const { setTheme } = useTheme();
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
   const [showProfileSheet, setShowProfileSheet] = useState(false);
+  const [isModalSearchOpen, openModalSearch, closeModalSearch] =
+    useModal(false);
+  // const { suppliers, readSuppliers } = useContext(SupplierContext);
   const [formState, formAction] = useFormState(logout, undefined);
+  const search = form.watch("search");
+  // console.log(search);
+  const handleSearchInputFocus = () => {
+    const otherInput = document.querySelector(
+      "#searchModal"
+    ) as HTMLInputElement;
+    // console.log(!otherInput);
+    if (otherInput) {
+      setTimeout(() => {
+        otherInput.focus();
+      }, 200);
+    }
+  };
+
   useEffect(() => {
     if (router) {
       const linkPath = pathname
@@ -320,10 +347,20 @@ export default function NavigationMenu() {
           <div className="relative ml-auto flex-1 md:grow-0">
             <SearchIcon className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+              onClick={openModalSearch}
+              className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px] focus:outline-transparent focus:border-transparent focus:outline-none"
               placeholder="Buscar..."
+              onFocus={handleSearchInputFocus}
               type="search"
+              readOnly
             />
+            <Modal
+              title="Reciente"
+              isOpen={isModalSearchOpen}
+              handleClose={closeModalSearch}
+            >
+              <ModalSearch closeModalSearch={closeModalSearch} />
+            </Modal>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

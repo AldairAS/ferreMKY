@@ -1,20 +1,22 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import CategoryItem from "@/components/Edit/edit-categories";
-import KindItem from "@/components/Edit/edit-kind";
-import SupplierItem from "@/components/Edit/edit-supplier";
-import ProductItem from "@/components/Edit/edit-product";
-import QuantityItem from "@/components/Edit/edit-quantity-product";
-import { getAllCategories } from "@/services/server/category";
-import { getAllKinds } from "@/services/server/kind";
-import { getAllSupplier } from "@/services/server/supplier";
-import { getAllProducts } from "@/services/server/product";
-import { getAllQuantitys } from "@/services/server/product_supplier";
-import { CategoryItem as CategoryItemType } from "@/services/client/category";
-import { KindItem as KindItemType } from "@/services/client/kind";
-import { SupplierItem as SupplierItemType } from "@/services/client/supplier";
-import { ProductItem as ProductItemType } from "@/services/client/product";
-import { QuantityItem as QuantityItemType } from "@/services/client/product_supplier";
+import CategoryItem from "@components/edit/edit-categories";
+import KindItem from "@components/edit/edit-kind";
+import SupplierItem from "@components/edit/edit-supplier";
+import ProductItem from "@components/edit/edit-product";
+import QuantityItem from "@components/edit/edit-quantity-product";
+import { getAllCategories } from "@server/category";
+import { getAllKinds } from "@server/kind";
+import { getAllSuppliers } from "@server/supplier";
+import { getAllProducts } from "@server/product";
+import { getAllQuantitys } from "@server/product_supplier";
+import { CategoryItem as CategoryItemType } from "@client/category";
+import { KindItem as KindItemType } from "@client/kind";
+// import { SupplierItem as SupplierItemType } from "@client/supplier";
+import { Supplier as SupplierItemType } from "@models/types";
+import { ProductItem as ProductItemType } from "@client/product";
+import { QuantityItem as QuantityItemType } from "@client/product_supplier";
+
 interface AddProps {}
 
 export default function Add(props: AddProps) {
@@ -23,6 +25,7 @@ export default function Add(props: AddProps) {
   const [suppliers, setSuppliers] = useState<SupplierItemType[]>([]);
   const [products, setProducts] = useState<ProductItemType[]>([]);
   const [quantitys, setQuantitys] = useState<QuantityItemType[]>([]);
+
   useEffect(() => {
     async function fetchData() {
       const fetchedCategories = await getAllCategories();
@@ -31,8 +34,8 @@ export default function Add(props: AddProps) {
       const fetchedKinds = await getAllKinds();
       setKinds(fetchedKinds);
 
-      const fetchedSuppliers = await getAllSupplier();
-      setSuppliers(fetchedSuppliers);
+      const fetchedSuppliers = await getAllSuppliers();
+      setSuppliers(fetchedSuppliers.suppliers as SupplierItemType[]);
 
       const fetchedProducts = await getAllProducts();
       setProducts(fetchedProducts);
