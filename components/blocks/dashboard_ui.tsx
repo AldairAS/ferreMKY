@@ -83,33 +83,6 @@ export default function DashboardView() {
           <CardDescription>Valor total del inventario</CardDescription>
         </CardHeader>
       </Card>
-      <h1 className="text-xl py-4">Movimientos recientes</h1>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Categoría</TableHead>
-            <TableHead>Producto</TableHead>
-            <TableHead>Fecha de Movimiento</TableHead>
-            <TableHead>Proveedor</TableHead>
-            <TableHead>Cantidad</TableHead>
-            <TableHead>Precio de compra</TableHead>
-            <TableHead>Total</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {rMovements.map((movement, idx) => (
-            <TableRow key={idx}>
-              <TableCell>{movement.category_name}</TableCell>
-              <TableCell>{movement.product_description}</TableCell>
-              <TableCell>{movement.created_at}</TableCell>
-              <TableCell>{movement.supplier_name}</TableCell>
-              <TableCell>{movement.quantity}</TableCell>
-              <TableCell>${movement.price_purchase}</TableCell>
-              <TableCell>${movement.total}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
       <h1 className="text-xl py-4">Valor de productos por Categoría</h1>
       <Table>
         <TableHeader>
@@ -144,6 +117,33 @@ export default function DashboardView() {
               <TableCell>{movement.name_kind}</TableCell>
               <TableCell>{movement.quantity}</TableCell>
               <TableCell>${movement.total_value}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <h1 className="text-xl py-4">Movimientos recientes</h1>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Categoría</TableHead>
+            <TableHead>Producto</TableHead>
+            <TableHead>Fecha de Movimiento</TableHead>
+            <TableHead>Proveedor</TableHead>
+            <TableHead>Cantidad</TableHead>
+            <TableHead>Precio de compra</TableHead>
+            <TableHead>Total</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rMovements.map((movement, idx) => (
+            <TableRow key={idx}>
+              <TableCell>{movement.category_name}</TableCell>
+              <TableCell>{movement.product_description}</TableCell>
+              <TableCell>{movement.created_at}</TableCell>
+              <TableCell>{movement.supplier_name}</TableCell>
+              <TableCell>{movement.quantity}</TableCell>
+              <TableCell>${movement.price_purchase}</TableCell>
+              <TableCell>${movement.total}</TableCell>
             </TableRow>
           ))}
         </TableBody>
