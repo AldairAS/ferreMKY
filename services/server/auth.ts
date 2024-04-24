@@ -16,3 +16,14 @@ export async function signOut() {
 
   return error?.message;
 }
+
+export async function getUser() {
+  /* With Supabase ssr /
+  / const supabase = await supabaseServer(); */
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  return user;
+}

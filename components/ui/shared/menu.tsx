@@ -2,7 +2,6 @@
 
 import { Switch } from "@/components/ui/switch"
 import { logout } from "@/services/client/auth";
-import Logo from "@assets/logos/logo.svg";
 
 import {
   Breadcrumb,
@@ -22,7 +21,6 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { Input } from "@components/ui/input";
-import ProfileSheet from "@/components/profile-config-sheet";
 import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import {
   Tooltip,
@@ -31,6 +29,7 @@ import {
   TooltipTrigger,
 } from "@components/ui/tooltip";
 import {
+  ChevronDown,
   Container,
   LayoutDashboard,
   LineChartIcon,
@@ -64,6 +63,8 @@ import useQueryParams from "@components/hooks/useQuery";
 import useModal from "@/components/hooks/useModal";
 import ModalSearch from "./ModalSearch";
 import Modal from "../modal";
+import { getUser } from "@/services/server/auth";
+import { User } from "@supabase/supabase-js";
 
 const menuItems = [
   {
@@ -119,7 +120,7 @@ export default function NavigationMenu() {
 
 
   const { theme, setTheme } = useTheme();
-
+  const [user, setUser] = useState<User|null>();
   // Función para cambiar el tema a "light"
   const handleLightTheme = () => {
       setTheme("light");
@@ -128,7 +129,7 @@ export default function NavigationMenu() {
   // Función para cambiar el tema a "dark"
   const handleDarkTheme = () => {
       setTheme("dark");
-
+  }
   const search = form.watch("search");
   // console.log(search);
   const handleSearchInputFocus = () => {
@@ -143,6 +144,12 @@ export default function NavigationMenu() {
     }
 
   };
+
+  // Data session
+  const handleGetUser = async ()=>{
+    const data = await getUser();
+    setUser(data);
+  }
 
   useEffect(() => {
     if (router) {
@@ -163,9 +170,13 @@ export default function NavigationMenu() {
     }
   }, [router, pathname]);
 
+  useEffect(() => {
+    handleGetUser();
+  }, [])
+
+
   return (
     <div>
-
       <aside
         className={`fixed inset-y-0 duration-300 left-0 z-10 hidden flex-col border-r bg-card sm:flex  ${
           collapse ? "w-44 z-50" : "w-14"
@@ -208,13 +219,11 @@ export default function NavigationMenu() {
                     }`}
                     href={href}
                   >
-
                     <div className="flex gap-2 items-center justify-start">
                       <Icon className="h-5 w-5" />
                       {collapse && <span>{label}</span>}
                       <span className="sr-only">{label}</span>
                     </div>
-
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent side="right">{label}</TooltipContent>
@@ -319,7 +328,7 @@ export default function NavigationMenu() {
                   <DropdownMenuContent className="ml-5 w-56" align="center">
                     <DropdownMenuLabel>Preferencias</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    
+
                     <DropdownMenuItem>
                       <ListCollapse className="h-4 w-4 mr-1" />
                       Collapsar
@@ -373,16 +382,13 @@ export default function NavigationMenu() {
               <ModalSearch closeModalSearch={closeModalSearch} />
             </Modal>
           </div>
-          <Switch  onClick={() => theme === "light" ? handleDarkTheme() : handleLightTheme()} />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                className="overflow-hidden rounded-full"
-                size="icon"
-                variant="outline"
-              >
-                <Image
+          <Switch
+            onClick={() =>
+              theme === "light" ? handleDarkTheme() : handleLightTheme()
+            }
+          />
+          <div className="flex gap-2 items-center">
+             <Image
                   alt="Avatar"
                   className="overflow-hidden rounded-full"
                   height={36}
@@ -393,7 +399,11 @@ export default function NavigationMenu() {
                   }}
                   width={36}
                 />
-              </Button>
+                {user?.email}
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <ChevronDown className="cursor-pointer hover:opacity-80"/>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
@@ -427,3 +437,4 @@ export default function NavigationMenu() {
     </div>
   );
 }
+
