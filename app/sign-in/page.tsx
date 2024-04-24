@@ -3,7 +3,7 @@ import styles from "./Sign-in.module.css";
 import { login } from "@client/auth";
 import { useFormState } from "react-dom";
 
-export default function page() {
+export default function Page() {
   const [formState, formAction] = useFormState(login, undefined);
   return (
     <div className={styles.loginBackground}>

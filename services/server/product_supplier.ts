@@ -74,7 +74,7 @@ export async function getAllQuantitys() {
 export async function valueInventory(){
   const {data: total_value} = await supabase
     .rpc("value_inventory");
-  console.log(total_value)
+
   return total_value || [];
 }
 
@@ -82,7 +82,7 @@ export async function valueInventory(){
 export async function recentMovements(){
   const {data: recentMovements} = await supabase
     .rpc("recent_movements");
-  console.log(recentMovements)
+
   return recentMovements as Movement[];
 }
 
@@ -90,7 +90,7 @@ export async function recentMovements(){
 export async function categoryValue(){
   const {data: categoryValue} = await supabase
     .rpc("category_value");
-  console.log(categoryValue)
+
   return categoryValue as ValueCategory[];
 }
 
@@ -98,6 +98,6 @@ export async function categoryValue(){
 export async function kindValue(){
   const {data: kindValue} = await supabase
     .rpc("kind_value");
-  console.log(kindValue)
+
   return kindValue as ValueKind[];
 }
