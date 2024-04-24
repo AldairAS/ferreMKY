@@ -84,7 +84,7 @@ export function AddProductForm({ kinds }: { kinds: Kind[] }) {
       storageCost: 0,
       unit: "",
       quantity: 0,
-      idKind: kinds[0].id,
+      idKind: kinds[0]?.id,
     },
   });
 

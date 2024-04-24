@@ -233,7 +233,7 @@ export default function NavigationMenu() {
         </nav>
 
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          {/* <DropdownMenu>
+          <DropdownMenu>
 
             <DropdownMenuTrigger asChild>
               <Button
@@ -251,18 +251,6 @@ export default function NavigationMenu() {
             <DropdownMenuContent className="ml-5" align="center">
               <DropdownMenuLabel>Preferencias</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setTheme("light")}>
-                <Sun className="h-4 w-4 mr-1" />
-                Modo Claro
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
-                <Moon className="h-4 w-4 mr-1" />
-                Modo Oscuro
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")}>
-                <PcCase className="h-4 w-4 mr-1" />
-                Modo del Sistema
-              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
                   setCollapse(!collapse);
@@ -272,7 +260,7 @@ export default function NavigationMenu() {
                 Collapsar
               </DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu> */}
+          </DropdownMenu>
         </nav>
       </aside>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
