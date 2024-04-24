@@ -63,8 +63,9 @@ import useQueryParams from "@components/hooks/useQuery";
 import useModal from "@/components/hooks/useModal";
 import ModalSearch from "./ModalSearch";
 import Modal from "../modal";
-import { getUser } from "@/services/server/auth";
-import { User } from "@supabase/supabase-js";
+
+import { User } from "@/models/types";
+import { getUserData } from "@/services/server/user";
 
 const menuItems = [
   {
@@ -147,7 +148,7 @@ export default function NavigationMenu() {
 
   // Data session
   const handleGetUser = async ()=>{
-    const data = await getUser();
+    const data = await getUserData();
     setUser(data);
   }
 
@@ -234,7 +235,6 @@ export default function NavigationMenu() {
 
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
           <DropdownMenu>
-
             <DropdownMenuTrigger asChild>
               <Button
                 className={`
@@ -376,22 +376,25 @@ export default function NavigationMenu() {
             }
           />
           <div className="flex gap-2 items-center">
-             <Image
-                  alt="Avatar"
-                  className="overflow-hidden rounded-full"
-                  height={36}
-                  src="https://mighty.tools/mockmind-api/content/human/41.jpg"
-                  style={{
-                    aspectRatio: "36/36",
-                    objectFit: "cover",
-                  }}
-                  width={36}
-                />
-                {user?.email}
+            <img
+              alt="Avatar"
+              className="overflow-hidden rounded-full"
+              height={36}
+              src={user?.image || ""}
+              style={{
+                aspectRatio: "36/36",
+                objectFit: "cover",
+              }}
+              width={36}
+            />
+            <div className="flex flex-col">
+              <p>{`${user?.first_name} ${user?.last_name}`}</p>
+              <p className="text-xs">{user?.email}</p>
+            </div>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <ChevronDown className="cursor-pointer hover:opacity-80"/>
+              <ChevronDown className="cursor-pointer hover:opacity-80" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
