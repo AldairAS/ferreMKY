@@ -67,3 +67,17 @@ export type ValueKind = {
   quantity: number;
   total_value: number;
 }
+
+export type User = {
+  id: string;
+  created_at: string;
+  first_name: string;
+  last_name: string;
+  dni: string;
+  phone_number: string;
+  email: string;
+  image: string;
+  id_image: string;
+  id_role: string;
+  id_store: string;
+}
