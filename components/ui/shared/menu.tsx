@@ -1,6 +1,9 @@
 "use client";
+
+import { Switch } from "@/components/ui/switch"
 import { logout } from "@/services/client/auth";
 import Logo from "@assets/logos/logo.svg";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -47,7 +50,11 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+
+import Logo from "@assets/logos/logo_f.png";
+import ProfileSheet from "@/components/profile-config-sheet";
 import { useContext, useEffect, useState } from "react";
+
 import { useFormState, useFormStatus } from "react-dom";
 import { z } from "zod";
 import { FormSearchSchema } from "@/models/schemas";
@@ -101,7 +108,7 @@ export default function NavigationMenu() {
   const { form } = useQueryParams();
   const pathname = usePathname();
   const [collapse, setCollapse] = useState(false);
-  const { setTheme } = useTheme();
+  //const { setTheme } = useTheme();
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
   const [showProfileSheet, setShowProfileSheet] = useState(false);
@@ -109,6 +116,19 @@ export default function NavigationMenu() {
     useModal(false);
   // const { suppliers, readSuppliers } = useContext(SupplierContext);
   const [formState, formAction] = useFormState(logout, undefined);
+
+
+  const { theme, setTheme } = useTheme();
+
+  // Función para cambiar el tema a "light"
+  const handleLightTheme = () => {
+      setTheme("light");
+  };
+
+  // Función para cambiar el tema a "dark"
+  const handleDarkTheme = () => {
+      setTheme("dark");
+
   const search = form.watch("search");
   // console.log(search);
   const handleSearchInputFocus = () => {
@@ -121,6 +141,7 @@ export default function NavigationMenu() {
         otherInput.focus();
       }, 200);
     }
+
   };
 
   useEffect(() => {
@@ -144,8 +165,9 @@ export default function NavigationMenu() {
 
   return (
     <div>
+
       <aside
-        className={`fixed inset-y-0 duration-300 left-0 z-10 hidden flex-col border-r bg-background sm:flex ${
+        className={`fixed inset-y-0 duration-300 left-0 z-10 hidden flex-col border-r bg-card sm:flex  ${
           collapse ? "w-44 z-50" : "w-14"
         }`}
       >
@@ -186,11 +208,13 @@ export default function NavigationMenu() {
                     }`}
                     href={href}
                   >
+
                     <div className="flex gap-2 items-center justify-start">
                       <Icon className="h-5 w-5" />
                       {collapse && <span>{label}</span>}
                       <span className="sr-only">{label}</span>
                     </div>
+
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent side="right">{label}</TooltipContent>
@@ -198,12 +222,10 @@ export default function NavigationMenu() {
             ))}
           </TooltipProvider>
         </nav>
-        <nav
-          className={`
-          mt-auto flex flex-col items-center gap-4 px-2 sm:py-5
-          `}
-        >
-          <DropdownMenu>
+
+        <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
+          {/* <DropdownMenu>
+
             <DropdownMenuTrigger asChild>
               <Button
                 className={`
@@ -241,7 +263,7 @@ export default function NavigationMenu() {
                 Collapsar
               </DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </nav>
       </aside>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
@@ -297,18 +319,7 @@ export default function NavigationMenu() {
                   <DropdownMenuContent className="ml-5 w-56" align="center">
                     <DropdownMenuLabel>Preferencias</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => setTheme("light")}>
-                      <Sun className="h-4 w-4 mr-1" />
-                      Modo Claro
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("dark")}>
-                      <Moon className="h-4 w-4 mr-1" />
-                      Modo Oscuro
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("system")}>
-                      <PcCase className="h-4 w-4 mr-1" />
-                      Modo del Sistema
-                    </DropdownMenuItem>
+                    
                     <DropdownMenuItem>
                       <ListCollapse className="h-4 w-4 mr-1" />
                       Collapsar
@@ -362,6 +373,8 @@ export default function NavigationMenu() {
               <ModalSearch closeModalSearch={closeModalSearch} />
             </Modal>
           </div>
+          <Switch  onClick={() => theme === "light" ? handleDarkTheme() : handleLightTheme()} />
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
