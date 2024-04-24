@@ -1,5 +1,9 @@
 "use client";
+
 import { Switch } from "@/components/ui/switch"
+import { logout } from "@/services/client/auth";
+import Logo from "@assets/logos/logo.svg";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -18,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { Input } from "@components/ui/input";
+import ProfileSheet from "@/components/profile-config-sheet";
 import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import {
   Tooltip,
@@ -25,36 +30,45 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@components/ui/tooltip";
-import { useTheme } from "next-themes";
 import {
-  HomeIcon,
+  Container,
   LayoutDashboard,
-  Moon,
   LineChartIcon,
   ListCollapse,
   LogOut,
-  Package2Icon,
+  Moon,
   PackageIcon,
   PanelLeftIcon,
+  PcCase,
   SearchIcon,
   SettingsIcon,
   ShoppingCartIcon,
   Sun,
   Users2Icon,
-  PcCase,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+
 import Logo from "@assets/logos/logo_f.png";
 import ProfileSheet from "@/components/profile-config-sheet";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+
 import { useFormState, useFormStatus } from "react-dom";
-import { logout } from "@/services/client/auth";
+import { z } from "zod";
+import { FormSearchSchema } from "@/models/schemas";
+import { Form, FormField } from "../form";
+// import { SupplierContext } from "@/context/SupplierContext";
+import useQueryParams from "@components/hooks/useQuery";
+import useModal from "@/components/hooks/useModal";
+import ModalSearch from "./ModalSearch";
+import Modal from "../modal";
+
 const menuItems = [
   {
     icon: LayoutDashboard,
-    label: "Panel de Control",
+    label: "Overview",
     href: "/dashboard",
   },
   {
@@ -77,6 +91,11 @@ const menuItems = [
     label: "Estadísticas",
     href: "/dashboard/statistics",
   },
+  {
+    icon: Container,
+    label: "Proveedores",
+    href: "/dashboard/supplier",
+  },
 ];
 
 type TBreadcrumb = {
@@ -86,11 +105,18 @@ type TBreadcrumb = {
 
 export default function NavigationMenu() {
   const router = useRouter();
+  const { form } = useQueryParams();
   const pathname = usePathname();
+  const [collapse, setCollapse] = useState(false);
   //const { setTheme } = useTheme();
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
+  const [showProfileSheet, setShowProfileSheet] = useState(false);
+  const [isModalSearchOpen, openModalSearch, closeModalSearch] =
+    useModal(false);
+  // const { suppliers, readSuppliers } = useContext(SupplierContext);
   const [formState, formAction] = useFormState(logout, undefined);
+
 
   const { theme, setTheme } = useTheme();
 
@@ -102,6 +128,20 @@ export default function NavigationMenu() {
   // Función para cambiar el tema a "dark"
   const handleDarkTheme = () => {
       setTheme("dark");
+
+  const search = form.watch("search");
+  // console.log(search);
+  const handleSearchInputFocus = () => {
+    const otherInput = document.querySelector(
+      "#searchModal"
+    ) as HTMLInputElement;
+    // console.log(!otherInput);
+    if (otherInput) {
+      setTimeout(() => {
+        otherInput.focus();
+      }, 200);
+    }
+
   };
 
   useEffect(() => {
@@ -125,16 +165,31 @@ export default function NavigationMenu() {
 
   return (
     <div>
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-card sm:flex">
-        <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
+
+      <aside
+        className={`fixed inset-y-0 duration-300 left-0 z-10 hidden flex-col border-r bg-card sm:flex  ${
+          collapse ? "w-44 z-50" : "w-14"
+        }`}
+      >
+        <nav
+          className="
+          flex flex-col items-center gap-4 px-2 sm:py-5
+          "
+        >
           <TooltipProvider>
-            <Link href="/dashboard">
+            <Link
+              className={`
+              ${collapse ? "md:w-36 pl-2" : "w-14 pl-3"}
+
+              `}
+              href="/dashboard"
+            >
               <img
-                className="transition-all group-hover:scale-110 rounded-lg"
+                className="transition-all group-hover:scale-110 rounded-lg dark:invert"
                 src={Logo.src}
                 alt="FerreMYK"
-                height={50}
-                width={50}
+                height={30}
+                width={30}
               />
               <span className="sr-only">Ferre MYK</span>
             </Link>
@@ -142,17 +197,24 @@ export default function NavigationMenu() {
               <Tooltip key={label}>
                 <TooltipTrigger asChild>
                   <Link
-                    className={`flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 ${
+                    className={`flex h-9 ${
+                      collapse
+                        ? "md:w-36 pl-2 justify-start"
+                        : "w-9 justify-center"
+                    } items-center  rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-9  ${
                       pathname === href
                         ? "bg-accent-foreground dark:hover:text-black dark:text-black text-white rounded-sm hover:text-white"
                         : ""
                     }`}
                     href={href}
                   >
-                    <Icon className="h-5 w-5" />
 
+                    <div className="flex gap-2 items-center justify-start">
+                      <Icon className="h-5 w-5" />
+                      {collapse && <span>{label}</span>}
+                      <span className="sr-only">{label}</span>
+                    </div>
 
-                    <span className="sr-only">{label}</span>
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent side="right">{label}</TooltipContent>
@@ -160,12 +222,21 @@ export default function NavigationMenu() {
             ))}
           </TooltipProvider>
         </nav>
+
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
           {/* <DropdownMenu>
+
             <DropdownMenuTrigger asChild>
-              <Button className="px-2" variant="ghost">
-                <SettingsIcon className="h-5 w-5 text-muted-foreground" />
-                <span className="sr-only">Configuración</span>
+              <Button
+                className={`
+                ${collapse ? "md:w-36 ml-0 pl-2" : " px-2"}`}
+                variant="ghost"
+              >
+                <div className={`flex gap-2 ${collapse ? "pl-2" : "pl-0"}`}>
+                  <SettingsIcon className="h-5 w-5 text-muted-foreground" />
+                  {collapse && <span className="">Configuración</span>}
+                  <span className="sr-only">Configuración</span>
+                </div>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="ml-5" align="center">
@@ -183,7 +254,11 @@ export default function NavigationMenu() {
                 <PcCase className="h-4 w-4 mr-1" />
                 Modo del Sistema
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setCollapse(!collapse);
+                }}
+              >
                 <ListCollapse className="h-4 w-4 mr-1" />
                 Collapsar
               </DropdownMenuItem>
@@ -244,18 +319,7 @@ export default function NavigationMenu() {
                   <DropdownMenuContent className="ml-5 w-56" align="center">
                     <DropdownMenuLabel>Preferencias</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => setTheme("light")}>
-                      <Sun className="h-4 w-4 mr-1" />
-                      Modo Claro
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("dark")}>
-                      <Moon className="h-4 w-4 mr-1" />
-                      Modo Oscuro
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("system")}>
-                      <PcCase className="h-4 w-4 mr-1" />
-                      Modo del Sistema
-                    </DropdownMenuItem>
+                    
                     <DropdownMenuItem>
                       <ListCollapse className="h-4 w-4 mr-1" />
                       Collapsar
@@ -281,7 +345,7 @@ export default function NavigationMenu() {
                       </BreadcrumbLink>
                       {i < breadcrumbs.length - 2 && <BreadcrumbSeparator />}
                     </BreadcrumbItem>
-                  ),
+                  )
               )}
               {breadcrumbs.length > 1 && <BreadcrumbSeparator />}
               <BreadcrumbItem>
@@ -294,10 +358,20 @@ export default function NavigationMenu() {
           <div className="relative ml-auto flex-1 md:grow-0">
             <SearchIcon className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+              onClick={openModalSearch}
+              className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px] focus:outline-transparent focus:border-transparent focus:outline-none"
               placeholder="Buscar..."
+              onFocus={handleSearchInputFocus}
               type="search"
+              readOnly
             />
+            <Modal
+              title="Reciente"
+              isOpen={isModalSearchOpen}
+              handleClose={closeModalSearch}
+            >
+              <ModalSearch closeModalSearch={closeModalSearch} />
+            </Modal>
           </div>
           <Switch  onClick={() => theme === "light" ? handleDarkTheme() : handleLightTheme()} />
 
@@ -324,7 +398,13 @@ export default function NavigationMenu() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Perfil</DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() => {
+                  setShowProfileSheet(true);
+                }}
+              >
+                Perfil
+              </DropdownMenuItem>
               <DropdownMenuItem>Soporte</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -338,6 +418,10 @@ export default function NavigationMenu() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <ProfileSheet
+            open={showProfileSheet}
+            onOpenChange={setShowProfileSheet}
+          />
         </header>
       </div>
     </div>

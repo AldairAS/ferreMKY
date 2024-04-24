@@ -4,7 +4,7 @@ import { StateProductSupplier } from "@models/types/states";
 import {
   updateQuantity,
   getAllQuantitys,
-} from "@/services/server/product_supplier";
+} from "@server/product_supplier";
 //Función para añadir la categoría y validación de campos
 export async function addQuantityClient(
   prevState: StateProductSupplier,

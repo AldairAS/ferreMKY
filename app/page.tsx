@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button } from "@components/ui/button";
 import FeaturesHero from "@assets/images/features-hero-dark.png";
 import FeaturesHeroLight from "@assets/images/features-hero-light.png";
 import GradientHeroDark from "@assets/images/gradient-hero-dark.png";

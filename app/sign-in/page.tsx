@@ -1,6 +1,6 @@
 "use client";
 import styles from "./Sign-in.module.css";
-import { login } from "@/services/client/auth";
+import { login } from "@client/auth";
 import { useFormState } from "react-dom";
 
 export default function page() {

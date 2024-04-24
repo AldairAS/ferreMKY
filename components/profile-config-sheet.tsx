@@ -5,15 +5,17 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@components/ui/sheet";
 
-export default function ProfileSheet() {
+export default function ProfileSheet({
+  onOpenChange,
+  ...props
+}: React.ComponentPropsWithRef<typeof Sheet>) {
   return (
-    <Sheet>
-      <SheetTrigger>Perfil</SheetTrigger>
+    <Sheet onOpenChange={onOpenChange} {...props}>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
+          <SheetTitle>Edit your Profile</SheetTitle>
           <SheetDescription>
             This action cannot be undone. This will permanently delete your
             account and remove your data from our servers.

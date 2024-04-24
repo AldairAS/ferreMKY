@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import {
   updateQuantityClient,
   QuantityItem as QuantityItemType,
-} from "@/services/client/product_supplier";
+} from "@client/product_supplier";
 
 interface QuantityItemProps {
   quantity: QuantityItemType;

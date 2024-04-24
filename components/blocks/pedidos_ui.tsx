@@ -1,6 +1,6 @@
 import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
-import { pedidos } from "@/data";
+import { pedidos } from "@data";
 import {
   Card,
   CardContent,
