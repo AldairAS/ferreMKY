@@ -1,4 +1,4 @@
-import { cn } from "@/libs/utils";
+import { cn } from "@libs";
 import { SyntheticEvent, useEffect } from "react";
 
 const Modal = ({
@@ -20,6 +20,7 @@ const Modal = ({
         handleClose();
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleModalContainerClick = (e: SyntheticEvent) => e.stopPropagation();
@@ -27,15 +28,15 @@ const Modal = ({
   return (
     <div
       className={cn(
-        `fixed overflow-auto z-50 top-0 left-0 w-full min-h-screen justify-center items-center inset-0 bg-black bg-opacity-20 ${
+        `fixed overflow-auto z-50 top-0 left-0 w-full min-h-screen justify-center items-center inset-0 bg-white bg-opacity-50 dark:bg-black dark:bg-opacity-20 ${
           isOpen ? `flex` : `hidden`
         }`,
-        className,
+        className
       )}
       onClick={handleClose}
     >
       <section
-        className={`relative w-full min-w-[320px] max-w-lg p-5 gap-4 rounded-lg overflow-y-auto min-h-[200px] max-h-[80vh] inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:rounded-lg duration-200 border shadow-lg`}
+        className={`relative w-[90%] md:min-w-[320px] max-w-lg p-5 gap-4 rounded-lg overflow-y-auto min-h-[200px] max-h-[80vh] inset-0 z-50 bg-white dark:bg-black data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:rounded-lg duration-200 border shadow-lg`}
         onClick={handleModalContainerClick}
       >
         <div className="flex flex-col space-y-2 text-center sm:text-left">

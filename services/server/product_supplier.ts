@@ -1,7 +1,7 @@
 "use server";
 import { supabase } from "@config/supabase";
 import { revalidatePath } from "next/cache";
-
+import { Movement, ValueCategory, ValueKind } from "@/models/types";
 //Revalidar la ruta
 export async function revalidateQuantity() {
   revalidatePath("/add", "page");
@@ -68,4 +68,36 @@ export async function getAllQuantitys() {
   }
 
   return quantitys || [];
+}
+
+//Función para obtener el valor del inventario
+export async function valueInventory(){
+  const {data: total_value} = await supabase
+    .rpc("value_inventory");
+  console.log(total_value)
+  return total_value || [];
+}
+
+//Función para obtener los últimos 5 movimientos
+export async function recentMovements(){
+  const {data: recentMovements} = await supabase
+    .rpc("recent_movements");
+  console.log(recentMovements)
+  return recentMovements as Movement[];
+}
+
+//Función para obtener las categorías con mayor valor
+export async function categoryValue(){
+  const {data: categoryValue} = await supabase
+    .rpc("category_value");
+  console.log(categoryValue)
+  return categoryValue as ValueCategory[];
+}
+
+//Función para obtener los tipos de producto con mayor valor
+export async function kindValue(){
+  const {data: kindValue} = await supabase
+    .rpc("kind_value");
+  console.log(kindValue)
+  return kindValue as ValueKind[];
 }

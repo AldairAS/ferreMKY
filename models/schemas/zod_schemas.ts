@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export const FormSearchSchema = z.object({
+  search: z.string().trim().min(1, { message: "Escribe algo para buscar" }),
+});
+
 export const FormAuthSchema = z.object({
   email: z
     .string()

@@ -15,24 +15,28 @@ import {
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@components/ui/dialog";
 
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
 import { FormProductSchema } from "@models/schemas";
 import { X } from "lucide-react";
-import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
+import { useFormState } from "react-dom";
+import { addProductClient } from "@/services/client/product";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 export default function AddProductForm({
   formTrigger,
 }: {
   formTrigger: React.ReactNode;
 }) {
+  const [formState, formAction] = useFormState(addProductClient, undefined);
   const form = useForm<z.infer<typeof FormProductSchema>>({
     resolver: zodResolver(FormProductSchema),
     // defaultValues: {
@@ -44,19 +48,18 @@ export default function AddProductForm({
     console.log(values);
   }
   return (
-    <AlertDialog>
-      <AlertDialogTrigger>{formTrigger}</AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-2xl flex justify-between">
+    <Dialog>
+      <DialogTrigger>{formTrigger}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px] md:max-w-[700px]">
+        <DialogHeader>
+          <DialogTitle className="text-2xl flex justify-between">
             Agregar Producto
-            <AlertDialogCancel asChild>
-              <Button variant="ghost" className="px-2">
-                <X className="w-6 h-6 cursor-pointer" />
-              </Button>
-            </AlertDialogCancel>
-          </AlertDialogTitle>
-        </AlertDialogHeader>
+          </DialogTitle>
+          <DialogDescription>
+            Ingresa los detalles del producto a crear y luego haz click en
+            guardar.
+          </DialogDescription>
+        </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="flex justify-between gap-8 items-start">
@@ -200,15 +203,17 @@ export default function AddProductForm({
                 </p>
               </div>
             </div>
-            <div className="flex gap-4 w-full">
-              <Button type="submit">Crear Producto</Button>
-              <Button type="reset" variant="destructive">
-                Limpiar
-              </Button>
-            </div>
           </form>
         </Form>
-      </AlertDialogContent>
-    </AlertDialog>
+        <DialogFooter>
+          <DialogFooter>
+            <Button type="reset" variant="destructive">
+              Limpiar
+            </Button>
+            <Button type="submit">Guardar cambios</Button>
+          </DialogFooter>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

@@ -1,11 +1,11 @@
-import { FormAuthState } from "@/models/types/states";
-import { FormAuthSchema } from "@/models/schemas/zod_schemas";
+import { FormAuthState } from "@models/types";
+import { FormAuthSchema } from "@models/schemas";
 import { redirect } from "next/navigation";
-import { signInWithPassword, signOut } from "../server/auth";
+import { signInWithPassword, signOut } from "@server/auth";
 
 export async function login(
   prevState: FormAuthState,
-  formData: FormData,
+  formData: FormData
 ): Promise<FormAuthState> {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;

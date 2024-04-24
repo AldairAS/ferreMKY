@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import {
   updateProductClient,
   ProductItem as ProductItemType,
-} from "@/services/client/product";
+} from "@client/product";
 
 interface ProductItemProps {
   product: ProductItemType;
