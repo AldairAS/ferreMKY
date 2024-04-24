@@ -1,4 +1,5 @@
 "use client";
+import { Switch } from "@/components/ui/switch"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -45,7 +46,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import Logo from "@assets/logos/logo.svg";
+import Logo from "@assets/logos/logo_f.png";
 import ProfileSheet from "@/components/profile-config-sheet";
 import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -86,10 +87,23 @@ type TBreadcrumb = {
 export default function NavigationMenu() {
   const router = useRouter();
   const pathname = usePathname();
-  const { setTheme } = useTheme();
+  //const { setTheme } = useTheme();
   const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
   const [activePage, setActivePage] = useState("");
   const [formState, formAction] = useFormState(logout, undefined);
+
+  const { theme, setTheme } = useTheme();
+
+  // Función para cambiar el tema a "light"
+  const handleLightTheme = () => {
+      setTheme("light");
+  };
+
+  // Función para cambiar el tema a "dark"
+  const handleDarkTheme = () => {
+      setTheme("dark");
+  };
+
   useEffect(() => {
     if (router) {
       const linkPath = pathname
@@ -111,7 +125,7 @@ export default function NavigationMenu() {
 
   return (
     <div>
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
+      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-card sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <TooltipProvider>
             <Link href="/dashboard">
@@ -136,6 +150,8 @@ export default function NavigationMenu() {
                     href={href}
                   >
                     <Icon className="h-5 w-5" />
+
+
                     <span className="sr-only">{label}</span>
                   </Link>
                 </TooltipTrigger>
@@ -145,7 +161,7 @@ export default function NavigationMenu() {
           </TooltipProvider>
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button className="px-2" variant="ghost">
                 <SettingsIcon className="h-5 w-5 text-muted-foreground" />
@@ -172,7 +188,7 @@ export default function NavigationMenu() {
                 Collapsar
               </DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </nav>
       </aside>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
@@ -283,6 +299,8 @@ export default function NavigationMenu() {
               type="search"
             />
           </div>
+          <Switch  onClick={() => theme === "light" ? handleDarkTheme() : handleLightTheme()} />
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
